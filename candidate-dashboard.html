@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - RightJobs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0066FF;
+            --primary-dark: #0052CC;
+            --primary-light: #E6F0FF;
+            --secondary: #10B981;
+            --dark: #0F172A;
+            --gray-50: #F8FAFC;
+            --gray-100: #F1F5F9;
+            --gray-200: #E2E8F0;
+            --gray-300: #CBD5E1;
+            --gray-400: #94A3B8;
+            --gray-500: #64748B;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --white: #FFFFFF;
+            --sidebar-bg: #0F172A;
+            --sidebar-text: #94A3B8;
+            --sidebar-active: #0066FF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --info: #3B82F6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--gray-50);
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        /* Layout */
+        .dashboard-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-logo-icon svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .sidebar-logo-text {
+            font-size: 20px;
+            font-weight: 800;
+            color: white;
+        }
+
+        .sidebar-logo-text span {
+            color: var(--primary);
+        }
+
+        .sidebar-section {
+            padding: 16px 12px 8px;
+        }
+
+        .sidebar-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gray-500);
+            padding: 0 12px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 10px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .sidebar-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .sidebar-link i {
+            width: 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .sidebar-link .badge {
+            margin-left: auto;
+            background: var(--primary);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 50px;
+        }
+
+        .sidebar-link.active .badge {
+            background: white;
+            color: var(--primary);
+        }
+
+        .sidebar-user {
+            margin-top: auto;
+            padding: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #0066FF 0%, #3B82F6 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 14px;
+        }
+
+        .sidebar-user-name {
+            font-weight: 600;
+            color: white;
+            font-size: 14px;
+        }
+
+        .sidebar-user-role {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .sidebar-user-menu {
+            margin-left: auto;
+            color: var(--gray-500);
+            cursor: pointer;
+        }
+
+        .profile-completion {
+            margin-top: 8px;
+        }
+
+        .profile-completion-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 6px;
+        }
+
+        .profile-completion-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .profile-completion-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0066FF, #3B82F6);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 240px;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--gray-200);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .header-greeting h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .header-greeting p {
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .header-search {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--gray-100);
+            padding: 10px 16px;
+            border-radius: 12px;
+            width: 300px;
+        }
+
+        .header-search i {
+            color: var(--gray-400);
+        }
+
+        .header-search input {
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 14px;
+            width: 100%;
+            color: var(--dark);
+        }
+
+        .header-search kbd {
+            font-size: 11px;
+            background: var(--gray-200);
+            padding: 2px 6px;
+            border-radius: 4px;
+            color: var(--gray-500);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+            background: var(--gray-100);
+            color: var(--gray-600);
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .header-icon-btn:hover {
+            background: var(--gray-200);
+        }
+
+        .header-icon-btn .notification-dot {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 8px;
+            height: 8px;
+            background: var(--danger);
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .btn-upload-resume {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-upload-resume:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 24px 32px;
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+        }
+
+        .main-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .right-section {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            transition: all 0.2s;
+        }
+
+        .stat-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .stat-icon.blue {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .stat-icon.orange {
+            background: #FFF7ED;
+            color: #F97316;
+        }
+
+        .stat-icon.green {
+            background: #ECFDF5;
+            color: var(--success);
+        }
+
+        .stat-icon.yellow {
+            background: #FFFBEB;
+            color: #EAB308;
+        }
+
+        .stat-content h3 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .stat-content p {
+            font-size: 13px;
+            color: var(--gray-500);
+            margin-bottom: 4px;
+        }
+
+        .stat-change {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        .stat-change.neutral {
+            color: var(--gray-500);
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .card-title i {
+            color: var(--primary);
+        }
+
+        .card-subtitle {
+            font-size: 13px;
+            color: var(--gray-500);
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .card-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--gray-500);
+            background: var(--gray-100);
+            border: none;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .card-action-btn:hover {
+            background: var(--gray-200);
+        }
+
+        .view-all-link {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .view-all-link:hover {
+            text-decoration: underline;
+        }
+
+        .badge-new {
+            background: var(--danger);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 50px;
+        }
+
+        /* Jobs Table */
+        .jobs-table {
+            width: 100%;
+        }
+
+        .jobs-table-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 80px 100px;
+            gap: 16px;
+            padding: 12px 24px;
+            background: var(--gray-50);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .job-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 80px 100px;
+            gap: 16px;
+            padding: 16px 24px;
+            align-items: center;
+            border-bottom: 1px solid var(--gray-100);
+            transition: background 0.2s;
+        }
+
+        .job-row:hover {
+            background: var(--gray-50);
+        }
+
+        .job-company {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .job-company-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            object-fit: contain;
+            background: var(--gray-100);
+            padding: 6px;
+        }
+
+        .job-company-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .job-company-info p {
+            font-size: 12px;
+            color: var(--gray-500);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .job-company-info .rating {
+            color: #EAB308;
+        }
+
+        .job-location {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        .job-location i {
+            color: var(--gray-400);
+            font-size: 12px;
+        }
+
+        .job-salary {
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        .match-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .match-badge.high {
+            background: #ECFDF5;
+            color: #059669;
+        }
+
+        .match-badge.medium {
+            background: #FEF3C7;
+            color: #D97706;
+        }
+
+        .job-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-apply {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-apply:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-save {
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--gray-200);
+            background: white;
+            border-radius: 8px;
+            color: var(--gray-400);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-save:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .btn-save.saved {
+            background: #FEF2F2;
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .browse-all-link {
+            text-align: center;
+            padding: 16px;
+            border-top: 1px solid var(--gray-100);
+        }
+
+        .browse-all-link a {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .browse-all-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Messages Card */
+        .message-item {
+            display: flex;
+            gap: 12px;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray-100);
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .message-item:hover {
+            background: var(--gray-50);
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .message-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .message-sender {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: var(--gray-400);
+        }
+
+        .message-preview {
+            font-size: 13px;
+            color: var(--gray-500);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .message-unread {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 6px;
+        }
+
+        .open-inbox-link {
+            text-align: center;
+            padding: 16px;
+        }
+
+        .open-inbox-link a {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Profile Card */
+        .profile-card-content {
+            padding: 20px;
+        }
+
+        .profile-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #0066FF 0%, #3B82F6 100%);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+            font-size: 18px;
+        }
+
+        .profile-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .profile-role {
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+
+        .profile-details {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .profile-detail-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+        }
+
+        .profile-detail-item .label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-500);
+        }
+
+        .profile-detail-item .label i {
+            width: 16px;
+            color: var(--gray-400);
+        }
+
+        .profile-detail-item .value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .profile-detail-item .value.success {
+            color: var(--success);
+        }
+
+        .complete-profile-btn {
+            width: 100%;
+            margin-top: 16px;
+            padding: 12px;
+            background: var(--gray-100);
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-700);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .complete-profile-btn:hover {
+            background: var(--gray-200);
+        }
+
+        /* Applications Card */
+        .application-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .application-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .application-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            object-fit: contain;
+            background: var(--gray-100);
+            padding: 6px;
+        }
+
+        .application-details h4 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .application-details p {
+            font-size: 12px;
+            color: var(--gray-500);
+        }
+
+        .application-status {
+            text-align: right;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .status-badge.shortlisted {
+            background: #FEF3C7;
+            color: #D97706;
+        }
+
+        .status-badge.interview {
+            background: #DBEAFE;
+            color: #2563EB;
+        }
+
+        .status-badge.viewed {
+            background: #ECFDF5;
+            color: #059669;
+        }
+
+        .status-badge.applied {
+            background: var(--gray-100);
+            color: var(--gray-600);
+        }
+
+        .application-date {
+            font-size: 11px;
+            color: var(--gray-400);
+            margin-top: 4px;
+        }
+
+        /* Job Alerts Card */
+        .job-alerts-content {
+            padding: 20px;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .alert-item:last-child {
+            border-bottom: none;
+        }
+
+        .alert-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--gray-600);
+        }
+
+        .alert-label i {
+            width: 20px;
+            color: var(--gray-400);
+        }
+
+        .alert-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray-300);
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        input:checked+.toggle-slider {
+            background-color: var(--success);
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(20px);
+        }
+
+        .manage-alerts-link {
+            text-align: center;
+            padding-top: 12px;
+        }
+
+        .manage-alerts-link a {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 13px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Quick Actions */
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 20px;
+        }
+
+        .quick-action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px 16px;
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--gray-600);
+        }
+
+        .quick-action-btn:hover {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .quick-action-btn i {
+            font-size: 20px;
+        }
+
+        .quick-action-btn span {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* Active Badge */
+        .active-badge {
+            background: var(--success);
+            color: white;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 50px;
+        }
+
+        /* Edit Button */
+        .edit-btn {
+            font-size: 13px;
+            color: var(--primary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .edit-btn:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard-content {
+                grid-template-columns: 1fr;
+            }
+
+            .right-section {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .right-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 16px;
+                align-items: flex-start;
+            }
+
+            .header-search {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="sidebar-logo-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="8" stroke="white" stroke-width="2" fill="none" />
+                    <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+            <span class="sidebar-logo-text">Right<span>Jobs</span></span>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Main Menu</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link active">
+                    <i class="fas fa-th-large"></i>
+                    Dashboard
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-briefcase"></i>
+                    Find Jobs
+                    <span class="badge">500+</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-file-alt"></i>
+                    My Applications
+                    <span class="badge">4</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-comment-dots"></i>
+                    Messages
+                    <span class="badge">2</span>
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-bookmark"></i>
+                    Saved Jobs
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Account</div>
+            <nav class="sidebar-nav">
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-user"></i>
+                    My Profile
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-file-pdf"></i>
+                    My Resume
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-bell"></i>
+                    Job Alerts
+                </a>
+                <a href="#" class="sidebar-link">
+                    <i class="fas fa-cog"></i>
+                    Settings
+                </a>
+            </nav>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="sidebar-user-info">
+                <div class="sidebar-user-avatar">RK</div>
+                <div>
+                    <div class="sidebar-user-name">Rahul Kumar</div>
+                    <div class="sidebar-user-role">Delivery Executive</div>
+                </div>
+                <i class="fas fa-ellipsis-v sidebar-user-menu"></i>
+            </div>
+            <div class="profile-completion">
+                <div class="profile-completion-label">
+                    <span>Profile Completion</span>
+                    <span style="color: var(--primary)">65%</span>
+                </div>
+                <div class="profile-completion-bar">
+                    <div class="profile-completion-fill" style="width: 65%"></div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-greeting">
+                <h1>Good Evening, Rahul!</h1>
+                <p>Here's what's happening with your job search</p>
+            </div>
+            <div class="header-search">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search jobs, companies...">
+                <kbd>Ctrl+K</kbd>
+            </div>
+            <div class="header-actions">
+                <button class="header-icon-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-dot"></span>
+                </button>
+                <button class="header-icon-btn">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <button class="btn-upload-resume">
+                    <i class="fas fa-plus"></i>
+                    Upload Resume
+                </button>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Main Section -->
+            <div class="main-section">
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="fas fa-paper-plane"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>12</h3>
+                            <p>Applications Sent</p>
+                            <span class="stat-change positive">↑ 3 this week</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>8</h3>
+                            <p>Profile Views</p>
+                            <span class="stat-change positive">↑ 25% increase</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>2</h3>
+                            <p>Interviews Scheduled</p>
+                            <span class="stat-change neutral">Next: Tomorrow</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon yellow">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3>15</h3>
+                            <p>Saved Jobs</p>
+                            <span class="stat-change neutral">5 expiring soon</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommended Jobs -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-fire"></i>
+                            <div>
+                                Recommended Jobs
+                                <div class="card-subtitle">Based on your profile and preferences</div>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="card-action-btn">
+                                <i class="fas fa-filter"></i>
+                                Filters
+                            </button>
+                            <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="jobs-table">
+                        <div class="jobs-table-header">
+                            <span>Company & Role</span>
+                            <span>Location</span>
+                            <span>Salary</span>
+                            <span>Match</span>
+                            <span>Action</span>
+                        </div>
+                        <div class="job-row">
+                            <div class="job-company">
+                                <img src="https://www.google.com/s2/favicons?domain=zomato.com&sz=64" alt="Zomato"
+                                    class="job-company-logo">
+                                <div class="job-company-info">
+                                    <h4>Delivery Partner</h4>
+                                    <p>Zomato <span class="rating">★ 4.2</span></p>
+                                </div>
+                            </div>
+                            <div class="job-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Delhi NCR
+                            </div>
+                            <div class="job-salary">18K-28K/month</div>
+                            <span class="match-badge high">● 95%</span>
+                            <div class="job-actions">
+                                <button class="btn-apply">Apply</button>
+                                <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                            </div>
+                        </div>
+                        <div class="job-row">
+                            <div class="job-company">
+                                <img src="https://www.google.com/s2/favicons?domain=amazon.in&sz=64" alt="Amazon"
+                                    class="job-company-logo">
+                                <div class="job-company-info">
+                                    <h4>Warehouse Associate</h4>
+                                    <p>Amazon <span class="rating">★ 4.1</span></p>
+                                </div>
+                            </div>
+                            <div class="job-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Gurgaon
+                            </div>
+                            <div class="job-salary">15K-22K/month</div>
+                            <span class="match-badge high">● 88%</span>
+                            <div class="job-actions">
+                                <button class="btn-apply">Apply</button>
+                                <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                            </div>
+                        </div>
+                        <div class="job-row">
+                            <div class="job-company">
+                                <img src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=64" alt="Swiggy"
+                                    class="job-company-logo">
+                                <div class="job-company-info">
+                                    <h4>Delivery Executive</h4>
+                                    <p>Swiggy <span class="rating">★ 4.0</span></p>
+                                </div>
+                            </div>
+                            <div class="job-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Delhi NCR
+                            </div>
+                            <div class="job-salary">20K-30K/month</div>
+                            <span class="match-badge high">● 85%</span>
+                            <div class="job-actions">
+                                <button class="btn-apply">Apply</button>
+                                <button class="btn-save saved"><i class="fas fa-bookmark"></i></button>
+                            </div>
+                        </div>
+                        <div class="job-row">
+                            <div class="job-company">
+                                <img src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=64" alt="Flipkart"
+                                    class="job-company-logo">
+                                <div class="job-company-info">
+                                    <h4>Packer/Sorter</h4>
+                                    <p>Flipkart <span class="rating">★ 4.3</span></p>
+                                </div>
+                            </div>
+                            <div class="job-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Noida
+                            </div>
+                            <div class="job-salary">12K-18K/month</div>
+                            <span class="match-badge medium">● 78%</span>
+                            <div class="job-actions">
+                                <button class="btn-apply">Apply</button>
+                                <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                            </div>
+                        </div>
+                        <div class="job-row">
+                            <div class="job-company">
+                                <img src="https://www.google.com/s2/favicons?domain=bigbasket.com&sz=64" alt="BigBasket"
+                                    class="job-company-logo">
+                                <div class="job-company-info">
+                                    <h4>Delivery Boy</h4>
+                                    <p>BigBasket <span class="rating">★ 3.9</span></p>
+                                </div>
+                            </div>
+                            <div class="job-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Delhi
+                            </div>
+                            <div class="job-salary">16K-24K/month</div>
+                            <span class="match-badge medium">● 75%</span>
+                            <div class="job-actions">
+                                <button class="btn-apply">Apply</button>
+                                <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="browse-all-link">
+                        <a href="#">Browse All 500+ Jobs <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- My Applications -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-file-alt"></i>
+                            <div>
+                                My Applications
+                                <div class="card-subtitle">Track your job applications</div>
+                            </div>
+                        </div>
+                        <span class="active-badge">4 Active</span>
+                    </div>
+                    <div class="application-item">
+                        <div class="application-info">
+                            <img src="https://www.google.com/s2/favicons?domain=zomato.com&sz=64" alt="Zomato"
+                                class="application-logo">
+                            <div class="application-details">
+                                <h4>Delivery Partner - Zomato</h4>
+                                <p>Delhi NCR • ₹18K-28K/month</p>
+                            </div>
+                        </div>
+                        <div class="application-status">
+                            <span class="status-badge shortlisted">Shortlisted</span>
+                            <div class="application-date">Applied Jan 25</div>
+                        </div>
+                    </div>
+                    <div class="application-item">
+                        <div class="application-info">
+                            <img src="https://www.google.com/s2/favicons?domain=uber.com&sz=64" alt="Uber"
+                                class="application-logo">
+                            <div class="application-details">
+                                <h4>Driver Partner - Uber</h4>
+                                <p>Delhi • ₹25K-40K/month</p>
+                            </div>
+                        </div>
+                        <div class="application-status">
+                            <span class="status-badge interview">Interview</span>
+                            <div class="application-date">Applied Jan 22</div>
+                        </div>
+                    </div>
+                    <div class="application-item">
+                        <div class="application-info">
+                            <img src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=64" alt="Flipkart"
+                                class="application-logo">
+                            <div class="application-details">
+                                <h4>Warehouse Associate - Flipkart</h4>
+                                <p>Gurgaon • ₹15K-20K/month</p>
+                            </div>
+                        </div>
+                        <div class="application-status">
+                            <span class="status-badge viewed">Viewed</span>
+                            <div class="application-date">Applied Jan 20</div>
+                        </div>
+                    </div>
+                    <div class="application-item">
+                        <div class="application-info">
+                            <img src="https://www.google.com/s2/favicons?domain=bigbasket.com&sz=64" alt="BigBasket"
+                                class="application-logo">
+                            <div class="application-details">
+                                <h4>Delivery Executive - BigBasket</h4>
+                                <p>Delhi • ₹16K-24K/month</p>
+                            </div>
+                        </div>
+                        <div class="application-status">
+                            <span class="status-badge applied">Applied</span>
+                            <div class="application-date">Applied Jan 18</div>
+                        </div>
+                    </div>
+                    <div class="browse-all-link">
+                        <a href="#">View All Applications <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Section -->
+            <div class="right-section">
+                <!-- Messages -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-comment-dots"></i>
+                            Messages
+                        </div>
+                        <span class="badge-new">2 New</span>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar" style="background: linear-gradient(135deg, #EF4444, #F87171);">Z
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-sender">Zomato HR</span>
+                                <span class="message-time">2 min ago</span>
+                            </div>
+                            <p class="message-preview">Congratulations! You've been shortlisted ...</p>
+                        </div>
+                        <div class="message-unread"></div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar" style="background: linear-gradient(135deg, #0F172A, #334155);">U
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-sender">Uber Recruitment</span>
+                                <span class="message-time">1 hour ago</span>
+                            </div>
+                            <p class="message-preview">Your interview is scheduled for tomorrow ...</p>
+                        </div>
+                        <div class="message-unread"></div>
+                    </div>
+                    <div class="message-item">
+                        <div class="message-avatar" style="background: linear-gradient(135deg, #3B82F6, #60A5FA);">F
+                        </div>
+                        <div class="message-content">
+                            <div class="message-header">
+                                <span class="message-sender">Flipkart Jobs</span>
+                                <span class="message-time">2 days ago</span>
+                            </div>
+                            <p class="message-preview">Thank you for your application. We are review...</p>
+                        </div>
+                    </div>
+                    <div class="open-inbox-link">
+                        <a href="#">Open Inbox <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- My Profile -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-user-circle"></i>
+                            My Profile
+                        </div>
+                        <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+                    </div>
+                    <div class="profile-card-content">
+                        <div class="profile-info">
+                            <div class="profile-avatar">RK</div>
+                            <div>
+                                <div class="profile-name">Rahul Kumar</div>
+                                <div class="profile-role">Delivery Executive</div>
+                            </div>
+                        </div>
+                        <div class="profile-details">
+                            <div class="profile-detail-item">
+                                <span class="label"><i class="fas fa-map-marker-alt"></i> Location</span>
+                                <span class="value">Delhi NCR</span>
+                            </div>
+                            <div class="profile-detail-item">
+                                <span class="label"><i class="fas fa-briefcase"></i> Experience</span>
+                                <span class="value">1 Year 6 Months</span>
+                            </div>
+                            <div class="profile-detail-item">
+                                <span class="label"><i class="fas fa-rupee-sign"></i> Expected Salary</span>
+                                <span class="value">3-4 LPA</span>
+                            </div>
+                            <div class="profile-detail-item">
+                                <span class="label"><i class="fas fa-file-pdf"></i> Resume</span>
+                                <span class="value success"><i class="fas fa-check-circle"></i> Uploaded</span>
+                            </div>
+                        </div>
+                        <button class="complete-profile-btn">
+                            <i class="fas fa-check-circle"></i>
+                            Complete Profile (65%)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Job Alerts -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-bell"></i>
+                            Job Alerts
+                        </div>
+                    </div>
+                    <div class="job-alerts-content">
+                        <div class="alert-item">
+                            <span class="alert-label"><i class="fas fa-map-marker-alt"></i> Location</span>
+                            <span class="alert-value">Delhi NCR</span>
+                        </div>
+                        <div class="alert-item">
+                            <span class="alert-label"><i class="fas fa-th-large"></i> Category</span>
+                            <span class="alert-value">Delivery & Logistics</span>
+                        </div>
+                        <div class="alert-item">
+                            <span class="alert-label"><i class="fas fa-rupee-sign"></i> Min Salary</span>
+                            <span class="alert-value">₹15,000/month</span>
+                        </div>
+                        <div class="alert-item">
+                            <span class="alert-label"><i class="fab fa-whatsapp"></i> WhatsApp Alerts</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="manage-alerts-link">
+                            <a href="#">Manage Alerts <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <i class="fas fa-bolt"></i>
+                            Quick Actions
+                        </div>
+                    </div>
+                    <div class="quick-actions-grid">
+                        <a href="#" class="quick-action-btn">
+                            <i class="fas fa-file-upload"></i>
+                            <span>Update Resume</span>
+                        </a>
+                        <a href="#" class="quick-action-btn">
+                            <i class="fas fa-search"></i>
+                            <span>Search Jobs</span>
+                        </a>
+                        <a href="#" class="quick-action-btn">
+                            <i class="fas fa-building"></i>
+                            <span>Browse Companies</span>
+                        </a>
+                        <a href="#" class="quick-action-btn">
+                            <i class="fas fa-headset"></i>
+                            <span>Get Support</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Dynamic greeting based on time
+        function updateGreeting() {
+            const hour = new Date().getHours();
+            let greeting = 'Good Evening';
+            if (hour < 12) greeting = 'Good Morning';
+            else if (hour < 17) greeting = 'Good Afternoon';
+            document.querySelector('.header-greeting h1').textContent = `${greeting}, Rahul!`;
+        }
+        updateGreeting();
+
+        // Sidebar active state
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Save job toggle
+        document.querySelectorAll('.btn-save').forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.classList.toggle('saved');
+                const icon = this.querySelector('i');
+                if (this.classList.contains('saved')) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                }
+            });
+        });
+
+        // Apply button click
+        document.querySelectorAll('.btn-apply').forEach(btn => {
+            btn.addEventListener('click', function () {
+                const originalText = this.textContent;
+                this.innerHTML = '<i class="fas fa-check"></i> Applied';
+                this.style.background = '#10B981';
+                this.disabled = true;
+                setTimeout(() => {
+                    this.innerHTML = originalText;
+                    this.style.background = '';
+                    this.disabled = false;
+                }, 2000);
+            });
+        });
+
+        // Search shortcut
+        document.addEventListener('keydown', function (e) {
+            if (e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                document.querySelector('.header-search input').focus();
+            }
+        });
+    </script>
+</body>
+
+</html>

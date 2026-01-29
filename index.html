@@ -138,6 +138,113 @@
       }
     }
 
+    /* Animated Background Shapes */
+    @keyframes floatShape {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      25% {
+        transform: translateY(-20px) rotate(5deg);
+      }
+
+      50% {
+        transform: translateY(-10px) rotate(-3deg);
+      }
+
+      75% {
+        transform: translateY(-25px) rotate(3deg);
+      }
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes scaleUpDown {
+
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 0.6;
+      }
+
+      50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+      }
+    }
+
+    @keyframes slideInFromLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    @keyframes bounceLight {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-8px) scale(1.02);
+      }
+    }
+
+    @keyframes countUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes glowPulse {
+
+      0%,
+      100% {
+        box-shadow: 0 0 20px rgba(0, 102, 255, 0.2);
+      }
+
+      50% {
+        box-shadow: 0 0 40px rgba(0, 102, 255, 0.4);
+      }
+    }
+
     .animate-fade-in-up {
       animation: fadeInUp 0.6s ease forwards;
     }
@@ -357,7 +464,6 @@
     .hero {
       padding: 100px 80px 140px;
       /* Increased bottom padding */
-      /* Background image removed as per user request */
       background: linear-gradient(180deg, #FAFBFF 0%, #FFFFFF 100%);
       position: relative;
       overflow: hidden;
@@ -366,13 +472,33 @@
       align-items: center;
     }
 
-    /* Overlay removed as background is light again */
+    /* Animated Background Shapes */
     .hero::before {
-      display: none;
+      content: '';
+      position: absolute;
+      top: 10%;
+      right: 5%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(0, 102, 255, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: floatShape 8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
     }
 
     .hero::after {
-      display: none;
+      content: '';
+      position: absolute;
+      bottom: 15%;
+      left: 3%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(0, 102, 255, 0.06) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: floatShape 10s ease-in-out infinite reverse;
+      pointer-events: none;
+      z-index: 0;
     }
 
     /* Ensure content is above the overlay */
@@ -910,7 +1036,6 @@
     /* Trusted Section */
     .trusted-section {
       margin-top: 60px;
-      /* Increased margin */
       animation: fadeInUp 0.6s ease forwards;
       animation-delay: 0.5s;
       opacity: 0;
@@ -925,19 +1050,24 @@
       letter-spacing: 0.5px;
     }
 
+    /* Auto-scrolling trusted logos marquee */
+    .trusted-logos-wrapper {
+      overflow: hidden;
+      max-width: 100%;
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
     .trusted-logos {
       display: flex;
       align-items: center;
-      gap: 10px;
-      /* Reduced gap */
-      flex-wrap: nowrap;
-      /* Force single line */
-      overflow-x: auto;
-      /* Scroll if needed */
-      padding-bottom: 5px;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      max-width: 100%;
+      gap: 20px;
+      animation: marquee 20s linear infinite;
+      width: max-content;
+    }
+
+    .trusted-logos:hover {
+      animation-play-state: paused;
     }
 
     .trusted-logos::-webkit-scrollbar {
@@ -1032,23 +1162,32 @@
       padding: 18px 24px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.6);
       z-index: 10;
-      /* Slower up-down animation */
-      animation: float 6s ease-in-out infinite;
+      animation: float 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
       display: flex;
       align-items: center;
       gap: 16px;
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.92);
       border: 1px solid rgba(255, 255, 255, 0.6);
       min-width: 240px;
-      transition: transform 0.3s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .hero-floating-card:hover {
-      transform: scale(1.02) translateY(-5px);
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 25px 60px rgba(79, 70, 229, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8);
+      transform: scale(1.05) translateY(-8px);
+      background: rgba(255, 255, 255, 0.98);
+      box-shadow: 0 30px 70px rgba(0, 102, 255, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.9);
+      animation-play-state: paused;
+    }
+
+    /* Second floating card - top right */
+    .hero-floating-card.card-top {
+      top: 60px;
+      right: 20px;
+      left: auto;
+      bottom: auto;
+      animation-delay: 1s;
     }
 
     .card-detail-text {
@@ -2810,19 +2949,36 @@
 
         <div class="trusted-section">
           <p class="trusted-label">Trusted by leading companies</p>
-          <div class="trusted-logos">
-            <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=amazon.in&sz=64" alt="Amazon">
-              Amazon</div>
-            <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=google.com&sz=64"
-                alt="Google"> Google</div>
-            <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=64"
-                alt="Microsoft"> Microsoft</div>
-            <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=64"
-                alt="Flipkart"> Flipkart</div>
-            <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=64"
-                alt="Swiggy"> Swiggy</div>
-            <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=uber.com&sz=64" alt="Uber">
-              Uber</div>
+          <div class="trusted-logos-wrapper">
+            <div class="trusted-logos">
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=amazon.in&sz=64"
+                  alt="Amazon">
+                Amazon</div>
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=google.com&sz=64"
+                  alt="Google"> Google</div>
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=64"
+                  alt="Microsoft"> Microsoft</div>
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=64"
+                  alt="Flipkart"> Flipkart</div>
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=64"
+                  alt="Swiggy"> Swiggy</div>
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=uber.com&sz=64" alt="Uber">
+                Uber</div>
+              <!-- Duplicated for seamless loop -->
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=amazon.in&sz=64"
+                  alt="Amazon">
+                Amazon</div>
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=google.com&sz=64"
+                  alt="Google"> Google</div>
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=64"
+                  alt="Microsoft"> Microsoft</div>
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=64"
+                  alt="Flipkart"> Flipkart</div>
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=64"
+                  alt="Swiggy"> Swiggy</div>
+              <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=uber.com&sz=64" alt="Uber">
+                Uber</div>
+            </div>
           </div>
         </div>
       </div>
@@ -2833,6 +2989,19 @@
           <img
             src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
             alt="Professional team collaborating in modern workspace">
+
+          <!-- Live Activity Floating Card - Top Right -->
+          <div class="hero-floating-card card-top">
+            <div class="floating-icon" style="background: linear-gradient(135deg, #10B981 0%, #34D399 100%);">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div class="floating-content">
+              <h4>152</h4>
+              <p>Hired today</p>
+              <span class="card-detail-text" style="color: #10B981;"><i class="fas fa-circle"
+                  style="font-size: 6px; margin-right: 4px; animation: pulse 1.5s infinite;"></i> Live</span>
+            </div>
+          </div>
 
           <div class="hero-floating-card card-3">
             <div class="floating-icon" style="background: var(--gradient-primary);">
@@ -3615,27 +3784,93 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Animate elements on scroll
+    // Enhanced animate elements on scroll with staggered timing
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry, index) => {
         if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
+          // Add staggered delay based on element position
+          const delay = (entry.target.dataset.index || 0) * 100;
+          setTimeout(() => {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0) scale(1)';
+          }, delay);
         }
       });
     }, observerOptions);
 
-    document.querySelectorAll('.job-card, .category-card, .company-card, .stat-card').forEach(el => {
+    // Apply staggered animation to cards
+    document.querySelectorAll('.job-card, .category-card, .company-card, .stat-card').forEach((el, index) => {
       el.style.opacity = '0';
-      el.style.transform = 'translateY(30px)';
-      el.style.transition = 'all 0.6s ease';
+      el.style.transform = 'translateY(30px) scale(0.95)';
+      el.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+      el.dataset.index = index % 6; // Stagger within groups of 6
       observer.observe(el);
     });
+
+    // Counter Animation for stats
+    function animateCounter(element, target, duration = 2000) {
+      let start = 0;
+      const increment = target / (duration / 16);
+      const suffix = element.textContent.replace(/[0-9.,]/g, '');
+
+      function updateCounter() {
+        start += increment;
+        if (start < target) {
+          if (target >= 1000) {
+            element.textContent = Math.floor(start).toLocaleString() + suffix;
+          } else {
+            element.textContent = Math.floor(start) + suffix;
+          }
+          requestAnimationFrame(updateCounter);
+        } else {
+          element.textContent = target.toLocaleString() + suffix;
+        }
+      }
+      updateCounter();
+    }
+
+    // Observe stats for counter animation
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.animated) {
+          entry.target.dataset.animated = 'true';
+          const statElements = entry.target.querySelectorAll('.stats-bar h3');
+          statElements.forEach(stat => {
+            const text = stat.textContent;
+            let target = 0;
+            if (text.includes('L+')) {
+              target = parseInt(text) * 100000;
+              animateCounter(stat, target);
+              stat.textContent = '0L+';
+            } else if (text.includes('K+')) {
+              target = parseInt(text) * 1000;
+              animateCounter(stat, target);
+              stat.textContent = '0K+';
+            } else {
+              target = parseInt(text.replace(/[^0-9]/g, ''));
+              if (target) animateCounter(stat, target);
+            }
+          });
+        }
+      });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.stats-bar').forEach(el => statsObserver.observe(el));
+
+    // Live "Hired Today" counter simulation
+    const hiredCounter = document.querySelector('.hero-floating-card.card-top h4');
+    if (hiredCounter) {
+      let currentCount = parseInt(hiredCounter.textContent);
+      setInterval(() => {
+        currentCount += Math.floor(Math.random() * 3);
+        hiredCounter.textContent = currentCount;
+      }, 8000);
+    }
 
     // Add ripple effect to buttons
     document.querySelectorAll('button').forEach(button => {
@@ -3668,6 +3903,15 @@
       });
     });
 
+    // Parallax effect for hero background shapes
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY;
+      const hero = document.querySelector('.hero');
+      if (hero && scrolled < window.innerHeight) {
+        hero.style.setProperty('--parallax-offset', `${scrolled * 0.3}px`);
+      }
+    });
+
     // Add CSS for ripple animation
     const style = document.createElement('style');
     style.textContent = `
@@ -3676,6 +3920,12 @@
           transform: scale(4);
           opacity: 0;
         }
+      }
+      .hero::before {
+        transform: translateY(calc(var(--parallax-offset, 0px) * -0.5));
+      }
+      .hero::after {
+        transform: translateY(calc(var(--parallax-offset, 0px) * 0.3));
       }
     `;
     document.head.appendChild(style);

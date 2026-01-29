@@ -12,12 +12,14 @@
         :root {
             --primary: #0066FF;
             --primary-dark: #0052CC;
+            --primary-light: #E6F0FF;
             --secondary: #10B981;
             /* Green for Employer actions */
             --dark: #0F172A;
             --gray-600: #64748B;
             --gray-200: #E2E8F0;
             --white: #FFFFFF;
+            --gradient-primary: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
         }
 
         * {
@@ -69,7 +71,7 @@
         .nav-logo-icon {
             width: 42px;
             height: 42px;
-            background: var(--dark);
+            background: var(--gradient-primary);
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -86,6 +88,14 @@
             font-size: 24px;
             font-weight: 800;
             color: var(--dark);
+        }
+
+        .nav-logo-right {
+            color: var(--dark);
+        }
+
+        .nav-logo-jobs {
+            color: var(--primary);
         }
 
         .nav-links a {
@@ -410,8 +420,8 @@
                     <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" />
                 </svg></div>
-            <span class="nav-logo-text">RightJobs <span
-                    style="font-weight:400; font-size:18px; color:var(--gray-600)">Recruiter</span></span>
+            <span class="nav-logo-text"><span class="nav-logo-right">Right</span><span class="nav-logo-jobs">Jobs</span>
+                <span style="font-weight:400; font-size:18px; color:var(--gray-600)">Recruiter</span></span>
         </a>
         <div class="nav-links">
             <button class="btn-jobseeker" onclick="window.location.href='index.html'">Looking for a job? <i
@@ -469,18 +479,25 @@
 
     <section class="trusted-section">
         <h2 class="trusted-title">Trusted by 1000+ enterprises and 7 lakhs+ MSMEs</h2>
-        <div class="logos">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Zomato_Logo.svg" alt="Zomato">
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8e/Tata_Consultancy_Services_Logo.svg/1200px-Tata_Consultancy_Services_Logo.svg.png"
-                alt="TCS">
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/1200px-Premier_League_Logo.svg.png"
-                alt="Reliance" style="opacity:0; width:0; margin:0;"> <!-- Placeholder hack -->
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Jio_logo.svg/1200px-Jio_logo.svg.png"
-                alt="Jio">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HDFC_Bank_Logo.svg/1200px-HDFC_Bank_Logo.svg.png"
-                alt="HDFC">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Infosys_logo.svg/1200px-Infosys_logo.svg.png"
-                alt="Infosys">
+        <div class="logos" style="filter: none; opacity: 1;">
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; color: #333;">
+                <img src="https://www.google.com/s2/favicons?domain=zomato.com&sz=64" alt="Zomato"
+                    style="height: 32px;"> Zomato
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; color: #333;">
+                <img src="https://www.google.com/s2/favicons?domain=tcs.com&sz=64" alt="TCS" style="height: 32px;"> TCS
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; color: #333;">
+                <img src="https://www.google.com/s2/favicons?domain=jio.com&sz=64" alt="Jio" style="height: 32px;"> Jio
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; color: #333;">
+                <img src="https://www.google.com/s2/favicons?domain=hdfcbank.com&sz=64" alt="HDFC"
+                    style="height: 32px;"> HDFC
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; color: #333;">
+                <img src="https://www.google.com/s2/favicons?domain=infosys.com&sz=64" alt="Infosys"
+                    style="height: 32px;"> Infosys
+            </div>
         </div>
     </section>
 

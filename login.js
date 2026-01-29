@@ -2,16 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     renderPasswordForm();
 });
 
-let userType = 'candidate';
 let authMethod = 'password';
 
-function switchUserType(type) {
-    userType = type;
-    document.getElementById('tabCandidate').classList.toggle('active', type === 'candidate');
-    document.getElementById('tabEmployer').classList.toggle('active', type === 'employer');
-    if (authMethod === 'otp') switchAuthMethod('password');
-    else renderPasswordForm();
-}
+// User type is always 'candidate' (job seeker) on this page
+const userType = 'candidate';
 
 function switchAuthMethod(method) {
     authMethod = method;

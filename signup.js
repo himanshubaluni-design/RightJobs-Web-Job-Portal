@@ -1,41 +1,41 @@
 // Initialize form
 document.addEventListener('DOMContentLoaded', function () {
-    initProgressSteps();
-    initFormSteps();
-    initOtpHandlers();
-    initStep2Handlers();
-    initStep3Handlers();
+  initProgressSteps();
+  initFormSteps();
+  initOtpHandlers();
+  initStep2Handlers();
+  initStep3Handlers();
 });
 
 let currentStep = 1, phoneNumber = '', skills = [], isExperienced = true, resumeFile = null, profilePicFile = null;
 
 function initProgressSteps() {
-    const container = document.getElementById('progressSteps');
-    container.innerHTML = `
+  const container = document.getElementById('progressSteps');
+  container.innerHTML = `
     <div class="progress-step active" data-step="1"><div class="progress-step-indicator"><div class="progress-step-number">1</div><div class="progress-step-line"></div></div><div class="progress-step-content"><div class="progress-step-title">Primary Identity</div><div class="progress-step-desc">Mobile, Email & Location</div></div></div>
     <div class="progress-step" data-step="2"><div class="progress-step-indicator"><div class="progress-step-number">2</div><div class="progress-step-line"></div></div><div class="progress-step-content"><div class="progress-step-title">Professional Info</div><div class="progress-step-desc">Experience, Skills & Resume</div></div></div>
     <div class="progress-step" data-step="3"><div class="progress-step-indicator"><div class="progress-step-number">3</div><div class="progress-step-line"></div></div><div class="progress-step-content"><div class="progress-step-title">Education & Preferences</div><div class="progress-step-desc">Qualifications & Salary</div></div></div>`;
 }
 
 function initFormSteps() {
-    const form = document.getElementById('signupForm');
-    form.innerHTML = getStep1HTML() + getStep2HTML() + getStep3HTML() + getSuccessHTML();
+  const form = document.getElementById('signupForm');
+  form.innerHTML = getStep1HTML() + getStep2HTML() + getStep3HTML() + getSuccessHTML();
 }
 
 function goToStep(step) {
-    document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
-    document.querySelector(`.form-step[data-step="${step}"]`).classList.add('active');
-    document.querySelectorAll('.progress-step').forEach((ps, i) => {
-        ps.classList.remove('active', 'completed');
-        if (i + 1 < step) ps.classList.add('completed');
-        else if (i + 1 === step) ps.classList.add('active');
-    });
-    currentStep = step;
-    document.querySelector('.signup-right').scrollTop = 0;
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.querySelector(`.form-step[data-step="${step}"]`).classList.add('active');
+  document.querySelectorAll('.progress-step').forEach((ps, i) => {
+    ps.classList.remove('active', 'completed');
+    if (i + 1 < step) ps.classList.add('completed');
+    else if (i + 1 === step) ps.classList.add('active');
+  });
+  currentStep = step;
+  document.querySelector('.signup-right').scrollTop = 0;
 }
 
 function getStep1HTML() {
-    return `<div class="form-step active" data-step="1">
+  return `<div class="form-step active" data-step="1">
     <div class="form-header"><h1>Primary Identity</h1><p>Let's start with your basic information</p></div>
     <div class="form-section" id="mobileSection">
       <div class="form-group"><label>Mobile Number <span class="required">*</span></label>
@@ -73,11 +73,11 @@ function getStep1HTML() {
 }
 
 function getStep2HTML() {
-    return `<div class="form-step" data-step="2">
+  return `<div class="form-step" data-step="2">
     <div class="form-header"><h1>Professional Information</h1><p>Tell us about your work experience and skills</p></div>
     <div class="form-group"><label>Work Status <span class="required">*</span></label><div class="toggle-group"><button type="button" class="toggle-option active" data-value="experienced">Experienced</button><button type="button" class="toggle-option" data-value="fresher">Fresher</button></div></div>
     <div id="experienceSection">
-      <div class="form-row"><div class="form-group"><label>Total Experience <span class="required">*</span></label><div class="form-row" style="margin-top:6px"><div class="input-wrapper select-wrapper no-icon"><select id="expYears"><option value="" disabled selected>Years</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6+</option></select><i class="fas fa-chevron-down select-arrow"></i></div><div class="input-wrapper select-wrapper no-icon"><select id="expMonths"><option value="" disabled selected>Months</option><option value="0">0</option><option value="3">3</option><option value="6">6</option><option value="9">9</option></select><i class="fas fa-chevron-down select-arrow"></i></div></div></div></div>
+      <div class="form-row"><div class="form-group"><label>Total Experience <span class="required">*</span></label><div class="form-row" style="margin-top:6px"><div class="input-wrapper select-wrapper no-icon"><select id="expYears"><option value="" disabled selected>Years</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option><option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option><option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option><option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option><option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option><option value="29">29</option><option value="30">30+</option></select><i class="fas fa-chevron-down select-arrow"></i></div><div class="input-wrapper select-wrapper no-icon"><select id="expMonths"><option value="" disabled selected>Months</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option><option value="11">11</option></select><i class="fas fa-chevron-down select-arrow"></i></div></div></div></div>
       <div class="form-row"><div class="form-group"><label>Job Title <span class="required">*</span></label><div class="input-wrapper"><i class="fas fa-briefcase input-icon"></i><input type="text" id="jobTitle" placeholder="e.g., Sales Executive"></div></div><div class="form-group"><label>Company <span class="required">*</span></label><div class="input-wrapper"><i class="fas fa-building input-icon"></i><input type="text" id="company" placeholder="e.g., Flipkart"></div></div></div>
     </div>
     <div class="form-group"><label>Key Skills <span class="required">*</span> <span class="optional">(5-10 recommended)</span></label><div class="skills-input-container" id="skillsContainer"><div class="skills-tags" id="skillsTags"></div><input type="text" class="skills-input" id="skillsInput" placeholder="Type a skill and press Enter..."></div><p class="skills-counter"><span id="skillsCount">0</span>/10 skills</p><div class="skills-suggestions"><button type="button" class="skill-suggestion" data-skill="Sales">+ Sales</button><button type="button" class="skill-suggestion" data-skill="Customer Service">+ Customer Service</button><button type="button" class="skill-suggestion" data-skill="Communication">+ Communication</button><button type="button" class="skill-suggestion" data-skill="MS Excel">+ MS Excel</button><button type="button" class="skill-suggestion" data-skill="Driving">+ Driving</button></div></div>
@@ -88,7 +88,7 @@ function getStep2HTML() {
 }
 
 function getStep3HTML() {
-    return `<div class="form-step" data-step="3">
+  return `<div class="form-step" data-step="3">
     <div class="form-header"><h1>Education & Preferences</h1><p>Final step - qualifications and job preferences</p></div>
     <div class="form-section-title">Educational Qualifications</div>
     <div class="form-row"><div class="form-group"><label>Highest Qualification <span class="required">*</span></label><div class="input-wrapper select-wrapper"><i class="fas fa-graduation-cap input-icon"></i><select id="qualification" required><option value="" disabled selected>Select</option><option value="10th">10th</option><option value="12th">12th</option><option value="diploma">Diploma</option><option value="graduate">Graduation</option><option value="post-graduate">Post Graduation</option></select><i class="fas fa-chevron-down select-arrow"></i></div></div><div class="form-group"><label>Course/Degree <span class="required">*</span></label><div class="input-wrapper select-wrapper"><i class="fas fa-book input-icon"></i><select id="course" required><option value="" disabled selected>Select</option><option value="btech">B.Tech</option><option value="bcom">B.Com</option><option value="bba">BBA</option><option value="bca">BCA</option><option value="mba">MBA</option><option value="iti">ITI</option><option value="other">Other</option></select><i class="fas fa-chevron-down select-arrow"></i></div></div></div>
@@ -102,87 +102,87 @@ function getStep3HTML() {
 }
 
 function getSuccessHTML() {
-    return `<div class="success-state" id="successState"><div class="success-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><h2>Profile Created Successfully!</h2><p>Your profile is now live. Start exploring jobs.</p><button type="button" class="btn btn-primary" onclick="window.location.href='rightjobs-premium.html'">Browse Jobs <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>`;
+  return `<div class="success-state" id="successState"><div class="success-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></div><h2>Profile Created Successfully!</h2><p>Your profile is now live. Start exploring jobs.</p><button type="button" class="btn btn-primary" onclick="window.location.href='candidate-dashboard.html'">Go to Dashboard <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div>`;
 }
 
 function initOtpHandlers() {
-    const phoneInput = document.getElementById('phoneNumber');
-    const sendOtpBtn = document.getElementById('sendOtpBtn');
-    const verifyOtpBtn = document.getElementById('verifyOtpBtn');
-    const otpInputs = document.querySelectorAll('.otp-input');
+  const phoneInput = document.getElementById('phoneNumber');
+  const sendOtpBtn = document.getElementById('sendOtpBtn');
+  const verifyOtpBtn = document.getElementById('verifyOtpBtn');
+  const otpInputs = document.querySelectorAll('.otp-input');
 
-    phoneInput.addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10); document.getElementById('phoneError').style.display = 'none'; });
+  phoneInput.addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10); document.getElementById('phoneError').style.display = 'none'; });
 
-    sendOtpBtn.addEventListener('click', () => {
-        const phone = phoneInput.value.trim();
-        if (!/^[6-9]\d{9}$/.test(phone)) { document.getElementById('phoneError').style.display = 'flex'; return; }
-        phoneNumber = phone;
-        sendOtpBtn.disabled = true; sendOtpBtn.innerHTML = '<div class="spinner"></div> Sending...';
-        setTimeout(() => {
-            sendOtpBtn.disabled = false; sendOtpBtn.innerHTML = 'Send OTP <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
-            document.getElementById('phoneDisplay').textContent = `+91 ${phone.slice(0, 5)} ${phone.slice(5)}`;
-            document.getElementById('mobileSection').style.display = 'none';
-            document.getElementById('otpSection').style.display = 'block';
-            startResendTimer(); otpInputs[0].focus();
-        }, 1500);
-    });
+  sendOtpBtn.addEventListener('click', () => {
+    const phone = phoneInput.value.trim();
+    if (!/^[6-9]\d{9}$/.test(phone)) { document.getElementById('phoneError').style.display = 'flex'; return; }
+    phoneNumber = phone;
+    sendOtpBtn.disabled = true; sendOtpBtn.innerHTML = '<div class="spinner"></div> Sending...';
+    setTimeout(() => {
+      sendOtpBtn.disabled = false; sendOtpBtn.innerHTML = 'Send OTP <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+      document.getElementById('phoneDisplay').textContent = `+91 ${phone.slice(0, 5)} ${phone.slice(5)}`;
+      document.getElementById('mobileSection').style.display = 'none';
+      document.getElementById('otpSection').style.display = 'block';
+      startResendTimer(); otpInputs[0].focus();
+    }, 1500);
+  });
 
-    otpInputs.forEach((input, i) => {
-        input.addEventListener('input', e => { const v = e.target.value.replace(/\D/g, ''); e.target.value = v; if (v) { e.target.classList.add('filled'); if (i < 5) otpInputs[i + 1].focus(); } else e.target.classList.remove('filled'); document.getElementById('otpError').style.display = 'none'; });
-        input.addEventListener('keydown', e => { if (e.key === 'Backspace' && !e.target.value && i > 0) otpInputs[i - 1].focus(); });
-    });
+  otpInputs.forEach((input, i) => {
+    input.addEventListener('input', e => { const v = e.target.value.replace(/\D/g, ''); e.target.value = v; if (v) { e.target.classList.add('filled'); if (i < 5) otpInputs[i + 1].focus(); } else e.target.classList.remove('filled'); document.getElementById('otpError').style.display = 'none'; });
+    input.addEventListener('keydown', e => { if (e.key === 'Backspace' && !e.target.value && i > 0) otpInputs[i - 1].focus(); });
+  });
 
-    document.getElementById('autoFillOtp').addEventListener('click', () => { '123456'.split('').forEach((c, i) => { otpInputs[i].value = c; otpInputs[i].classList.add('filled'); }); otpInputs[5].focus(); });
+  document.getElementById('autoFillOtp').addEventListener('click', () => { '123456'.split('').forEach((c, i) => { otpInputs[i].value = c; otpInputs[i].classList.add('filled'); }); otpInputs[5].focus(); });
 
-    verifyOtpBtn.addEventListener('click', () => {
-        const otp = Array.from(otpInputs).map(i => i.value).join('');
-        if (otp.length !== 6) { document.getElementById('otpError').style.display = 'flex'; return; }
-        verifyOtpBtn.disabled = true; verifyOtpBtn.innerHTML = '<div class="spinner"></div> Verifying...';
-        setTimeout(() => {
-            verifyOtpBtn.disabled = false; verifyOtpBtn.innerHTML = 'Verify OTP <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
-            if (otp === '000000') { document.getElementById('otpError').style.display = 'flex'; return; }
-            document.getElementById('otpSection').style.display = 'none';
-            document.getElementById('detailsSection').style.display = 'block';
-            document.getElementById('fullName').focus();
-        }, 1500);
-    });
+  verifyOtpBtn.addEventListener('click', () => {
+    const otp = Array.from(otpInputs).map(i => i.value).join('');
+    if (otp.length !== 6) { document.getElementById('otpError').style.display = 'flex'; return; }
+    verifyOtpBtn.disabled = true; verifyOtpBtn.innerHTML = '<div class="spinner"></div> Verifying...';
+    setTimeout(() => {
+      verifyOtpBtn.disabled = false; verifyOtpBtn.innerHTML = 'Verify OTP <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+      if (otp === '000000') { document.getElementById('otpError').style.display = 'flex'; return; }
+      document.getElementById('otpSection').style.display = 'none';
+      document.getElementById('detailsSection').style.display = 'block';
+      document.getElementById('fullName').focus();
+    }, 1500);
+  });
 
-    document.getElementById('resendOtp').addEventListener('click', () => { otpInputs.forEach(i => { i.value = ''; i.classList.remove('filled'); }); otpInputs[0].focus(); startResendTimer(); });
-    document.getElementById('togglePassword').addEventListener('click', () => { const p = document.getElementById('password'); p.type = p.type === 'password' ? 'text' : 'password'; document.querySelector('#togglePassword i').classList.toggle('fa-eye'); document.querySelector('#togglePassword i').classList.toggle('fa-eye-slash'); });
-    document.getElementById('step1NextBtn').addEventListener('click', () => { if (!document.getElementById('fullName').value.trim() || !document.getElementById('email').value.trim() || !document.getElementById('city').value || !document.getElementById('state').value || !document.getElementById('password').value || !document.getElementById('termsCheck').checked) { alert('Please fill all required fields'); return; } goToStep(2); });
+  document.getElementById('resendOtp').addEventListener('click', () => { otpInputs.forEach(i => { i.value = ''; i.classList.remove('filled'); }); otpInputs[0].focus(); startResendTimer(); });
+  document.getElementById('togglePassword').addEventListener('click', () => { const p = document.getElementById('password'); p.type = p.type === 'password' ? 'text' : 'password'; document.querySelector('#togglePassword i').classList.toggle('fa-eye'); document.querySelector('#togglePassword i').classList.toggle('fa-eye-slash'); });
+  document.getElementById('step1NextBtn').addEventListener('click', () => { if (!document.getElementById('fullName').value.trim() || !document.getElementById('email').value.trim() || !document.getElementById('city').value || !document.getElementById('state').value || !document.getElementById('password').value || !document.getElementById('termsCheck').checked) { alert('Please fill all required fields'); return; } goToStep(2); });
 }
 
 let resendTimerInterval;
 function startResendTimer() {
-    let s = 30; const timer = document.getElementById('resendTimer'), btn = document.getElementById('resendOtp'); btn.disabled = true;
-    resendTimerInterval = setInterval(() => { s--; timer.textContent = `(${s}s)`; if (s <= 0) { clearInterval(resendTimerInterval); timer.textContent = ''; btn.disabled = false; } }, 1000);
+  let s = 30; const timer = document.getElementById('resendTimer'), btn = document.getElementById('resendOtp'); btn.disabled = true;
+  resendTimerInterval = setInterval(() => { s--; timer.textContent = `(${s}s)`; if (s <= 0) { clearInterval(resendTimerInterval); timer.textContent = ''; btn.disabled = false; } }, 1000);
 }
 
 function initStep2Handlers() {
-    document.querySelectorAll('.toggle-option').forEach(o => o.addEventListener('click', () => {
-        document.querySelectorAll('.toggle-option').forEach(x => x.classList.remove('active')); o.classList.add('active');
-        isExperienced = o.dataset.value === 'experienced';
-        document.getElementById('experienceSection').style.display = isExperienced ? 'block' : 'none';
-        document.getElementById('salarySection').style.display = isExperienced ? 'grid' : 'none';
-    }));
+  document.querySelectorAll('.toggle-option').forEach(o => o.addEventListener('click', () => {
+    document.querySelectorAll('.toggle-option').forEach(x => x.classList.remove('active')); o.classList.add('active');
+    isExperienced = o.dataset.value === 'experienced';
+    document.getElementById('experienceSection').style.display = isExperienced ? 'block' : 'none';
+    document.getElementById('salarySection').style.display = isExperienced ? 'grid' : 'none';
+  }));
 
-    const skillsInput = document.getElementById('skillsInput');
-    skillsInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addSkill(skillsInput.value); skillsInput.value = ''; } });
-    document.querySelectorAll('.skill-suggestion').forEach(b => b.addEventListener('click', () => addSkill(b.dataset.skill)));
+  const skillsInput = document.getElementById('skillsInput');
+  skillsInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addSkill(skillsInput.value); skillsInput.value = ''; } });
+  document.querySelectorAll('.skill-suggestion').forEach(b => b.addEventListener('click', () => addSkill(b.dataset.skill)));
 
-    const resumeArea = document.getElementById('resumeUploadArea'), resumeInput = document.getElementById('resumeInput');
-    resumeArea.addEventListener('click', () => resumeInput.click());
-    resumeArea.addEventListener('dragover', e => { e.preventDefault(); resumeArea.classList.add('dragover'); });
-    resumeArea.addEventListener('dragleave', () => resumeArea.classList.remove('dragover'));
-    resumeArea.addEventListener('drop', e => { e.preventDefault(); resumeArea.classList.remove('dragover'); handleResume(e.dataTransfer.files[0]); });
-    resumeInput.addEventListener('change', e => handleResume(e.target.files[0]));
-    document.getElementById('removeResume').addEventListener('click', () => { resumeFile = null; resumeArea.classList.remove('has-file'); document.getElementById('uploadedResume').style.display = 'none'; resumeInput.value = ''; });
+  const resumeArea = document.getElementById('resumeUploadArea'), resumeInput = document.getElementById('resumeInput');
+  resumeArea.addEventListener('click', () => resumeInput.click());
+  resumeArea.addEventListener('dragover', e => { e.preventDefault(); resumeArea.classList.add('dragover'); });
+  resumeArea.addEventListener('dragleave', () => resumeArea.classList.remove('dragover'));
+  resumeArea.addEventListener('drop', e => { e.preventDefault(); resumeArea.classList.remove('dragover'); handleResume(e.dataTransfer.files[0]); });
+  resumeInput.addEventListener('change', e => handleResume(e.target.files[0]));
+  document.getElementById('removeResume').addEventListener('click', () => { resumeFile = null; resumeArea.classList.remove('has-file'); document.getElementById('uploadedResume').style.display = 'none'; resumeInput.value = ''; });
 
-    document.getElementById('uploadProfilePicBtn').addEventListener('click', () => document.getElementById('profilePicInput').click());
-    document.getElementById('profilePicInput').addEventListener('change', e => { const f = e.target.files[0]; if (f && f.type.startsWith('image/') && f.size <= 2 * 1024 * 1024) { profilePicFile = f; const r = new FileReader(); r.onload = ev => document.getElementById('profilePicPreview').innerHTML = `<img src="${ev.target.result}" alt="Profile">`; r.readAsDataURL(f); } });
+  document.getElementById('uploadProfilePicBtn').addEventListener('click', () => document.getElementById('profilePicInput').click());
+  document.getElementById('profilePicInput').addEventListener('change', e => { const f = e.target.files[0]; if (f && f.type.startsWith('image/') && f.size <= 2 * 1024 * 1024) { profilePicFile = f; const r = new FileReader(); r.onload = ev => document.getElementById('profilePicPreview').innerHTML = `<img src="${ev.target.result}" alt="Profile">`; r.readAsDataURL(f); } });
 
-    document.getElementById('step2BackBtn').addEventListener('click', () => goToStep(1));
-    document.getElementById('step2NextBtn').addEventListener('click', () => { if (skills.length < 1) { alert('Add at least one skill'); return; } if (!resumeFile) { alert('Upload your resume'); return; } if (isExperienced && (!document.getElementById('jobTitle').value.trim() || !document.getElementById('company').value.trim())) { alert('Fill job details'); return; } goToStep(3); });
+  document.getElementById('step2BackBtn').addEventListener('click', () => goToStep(1));
+  document.getElementById('step2NextBtn').addEventListener('click', () => { if (skills.length < 1) { alert('Add at least one skill'); return; } if (!resumeFile) { alert('Upload your resume'); return; } if (isExperienced && (!document.getElementById('jobTitle').value.trim() || !document.getElementById('company').value.trim())) { alert('Fill job details'); return; } goToStep(3); });
 }
 
 function addSkill(s) { s = s.trim(); if (!s || skills.includes(s) || skills.length >= 10) return; skills.push(s); renderSkills(); }
@@ -191,21 +191,33 @@ function renderSkills() { document.getElementById('skillsTags').innerHTML = skil
 function handleResume(f) { if (!f) return; const valid = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']; if (!valid.includes(f.type) || f.size > 5 * 1024 * 1024) { alert('Invalid file'); return; } resumeFile = f; document.getElementById('resumeUploadArea').classList.add('has-file'); document.getElementById('resumeFileName').textContent = f.name; document.getElementById('resumeFileSize').textContent = (f.size / 1024).toFixed(0) + ' KB'; document.getElementById('uploadedResume').style.display = 'flex'; }
 
 function initStep3Handlers() {
-    ['currentSalary', 'expectedSalary'].forEach(id => document.getElementById(id).addEventListener('input', e => { let v = e.target.value.replace(/\D/g, ''); if (v) v = parseInt(v).toLocaleString('en-IN'); e.target.value = v; }));
+  ['currentSalary', 'expectedSalary'].forEach(id => document.getElementById(id).addEventListener('input', e => { let v = e.target.value.replace(/\D/g, ''); if (v) v = parseInt(v).toLocaleString('en-IN'); e.target.value = v; }));
 
-    document.getElementById('step3BackBtn').addEventListener('click', () => goToStep(2));
-    document.getElementById('signupForm').addEventListener('submit', e => {
-        e.preventDefault();
-        if (!document.getElementById('qualification').value || !document.getElementById('course').value || !document.getElementById('college').value.trim() || !document.getElementById('passingYear').value || !document.getElementById('noticePeriod').value || !document.getElementById('workType').value) { alert('Fill all required fields'); return; }
-        if (isExperienced && (!document.getElementById('currentSalary').value || !document.getElementById('expectedSalary').value)) { alert('Fill salary details'); return; }
-        const btn = document.getElementById('createAccountBtn'); btn.disabled = true; btn.innerHTML = '<div class="spinner"></div> Creating...';
-        setTimeout(() => {
-            btn.disabled = false; btn.innerHTML = 'Create My Profile <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
-            document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.progress-step').forEach(s => s.classList.add('completed'));
-            document.getElementById('successState').classList.add('active');
-        }, 2000);
-    });
+  document.getElementById('step3BackBtn').addEventListener('click', () => goToStep(2));
+
+  // Handle form submission
+  const form = document.getElementById('signupForm');
+  const btn = document.getElementById('createAccountBtn');
+
+  function handleSubmit(e) {
+    if (e) e.preventDefault();
+    if (!document.getElementById('qualification').value || !document.getElementById('course').value || !document.getElementById('college').value.trim() || !document.getElementById('passingYear').value || !document.getElementById('noticePeriod').value || !document.getElementById('workType').value) { alert('Fill all required fields'); return; }
+    if (isExperienced && (!document.getElementById('currentSalary').value || !document.getElementById('expectedSalary').value)) { alert('Fill salary details'); return; }
+    btn.disabled = true; btn.innerHTML = '<div class="spinner"></div> Creating...';
+    setTimeout(() => {
+      btn.disabled = false; btn.innerHTML = 'Create My Profile <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+      document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.progress-step').forEach(s => s.classList.add('completed'));
+      document.getElementById('successState').classList.add('active');
+      // Auto-redirect to dashboard after showing success message
+      setTimeout(() => {
+        window.location.href = 'candidate-dashboard.html';
+      }, 2000);
+    }, 2000);
+  }
+
+  form.addEventListener('submit', handleSubmit);
+  btn.addEventListener('click', handleSubmit);
 }
 
 document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => { document.querySelectorAll('.lang-btn').forEach(x => x.classList.remove('active')); b.classList.add('active'); }));
