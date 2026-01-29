@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Jobs - RightJobs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0066FF;
+            --primary-dark: #0052CC;
+            --primary-light: #E6F0FF;
+            --dark: #000000;
+            --gray-600: #555555;
+            --gray-500: #777777;
+            --gray-400: #999999;
+            --gray-200: #F5F5F5;
+            --gray-100: #FFFFFF;
+            --white: #FFFFFF;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --gradient-primary: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAFAFA;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Nav (Simplified copy) */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 80px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+
+        .nav-logo-text {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 10px;
+            color: var(--gray-600);
+        }
+
+        .nav-links a.active,
+        .nav-links a:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1280px;
+            margin: 100px auto 40px;
+            padding: 0 40px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .filters {
+            width: 300px;
+            flex-shrink: 0;
+            background: white;
+            padding: 24px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .main-content {
+            flex: 1;
+        }
+
+        /* Filters */
+        .filter-group {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .filter-group:last-child {
+            border: none;
+        }
+
+        .filter-title {
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+            color: var(--gray-600);
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .checkbox-item input {
+            accent-color: var(--primary);
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Search Header */
+        .search-header {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+            display: flex;
+            gap: 16px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            font-size: 15px;
+            background: #FAFAFA;
+        }
+
+        .search-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 0 32px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        /* Job Card */
+        .job-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .job-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            border-color: var(--primary-light);
+        }
+
+        .job-header {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            object-fit: contain;
+            padding: 8px;
+            border: 1px solid var(--gray-200);
+        }
+
+        .job-info h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .company-name {
+            color: var(--gray-600);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .rating {
+            color: orange;
+            font-size: 12px;
+        }
+
+        .job-details {
+            display: flex;
+            gap: 24px;
+            margin-bottom: 16px;
+            color: var(--gray-600);
+            font-size: 14px;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .job-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .job-tag {
+            background: var(--gray-200);
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            border: 1px solid transparent;
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+
+        .job-tag.urgent {
+            background: #FEF2F2;
+            color: #DC2626;
+            border-color: #FECACA;
+        }
+
+        .job-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--gray-200);
+            padding-top: 16px;
+        }
+
+        .posted-time {
+            font-size: 13px;
+            color: var(--gray-400);
+        }
+
+        .apply-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 8px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .apply-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+
+        .page-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            background: white;
+            border: 1px solid var(--gray-200);
+            font-weight: 600;
+            color: var(--gray-600);
+        }
+
+        .page-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Button Styles */
+        .btn-login {
+            color: var(--gray-600);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .btn-login:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .btn-signup {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <a href="rightjobs-premium.html" class="nav-logo">
+            <div class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="8" stroke="white" stroke-width="2" fill="none" />
+                    <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg></div>
+            <span class="nav-logo-text"><span class="nav-logo-right">Right</span><span
+                    class="nav-logo-jobs">Jobs</span></span>
+        </a>
+        <div class="nav-links">
+            <a href="rightjobs-premium.html">Home</a>
+            <a href="find-jobs.html" class="active">Find Jobs</a>
+            <a href="companies.html">Companies</a>
+            <a href="resources.html">Resources</a>
+        </div>
+        <div class="nav-actions" style="display:flex; gap:12px; align-items:center;">
+            <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+            <button class="btn-signup" onclick="window.location.href='signup.html'">Sign Up Free</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <aside class="filters">
+            <div class="filter-group">
+                <h3 class="filter-title">Filters <a href="#" style="font-size:12px; color:var(--primary);">Clear all</a>
+                </h3>
+                <p style="font-size:13px; color:var(--gray-400);">Showing 1,240 jobs</p>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-title">Location</div>
+                <label class="checkbox-item"><input type="checkbox"> Bangalore</label>
+                <label class="checkbox-item"><input type="checkbox"> Delhi NCR</label>
+                <label class="checkbox-item"><input type="checkbox"> Mumbai</label>
+                <label class="checkbox-item"><input type="checkbox"> Hyderabad</label>
+                <label class="checkbox-item"><input type="checkbox"> Pune</label>
+                <label class="checkbox-item"><input type="checkbox"> Chennai</label>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-title">Work Mode</div>
+                <label class="checkbox-item"><input type="checkbox" checked> Work from Office</label>
+                <label class="checkbox-item"><input type="checkbox"> Remote</label>
+                <label class="checkbox-item"><input type="checkbox"> Hybrid</label>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-title">Experience</div>
+                <label class="checkbox-item"><input type="checkbox" checked> Fresher</label>
+                <label class="checkbox-item"><input type="checkbox"> 1-3 Years</label>
+                <label class="checkbox-item"><input type="checkbox"> 3-5 Years</label>
+                <label class="checkbox-item"><input type="checkbox"> 5+ Years</label>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-title">Salary (LPA)</div>
+                <label class="checkbox-item"><input type="checkbox"> 0-3 Lakhs</label>
+                <label class="checkbox-item"><input type="checkbox" checked> 3-6 Lakhs</label>
+                <label class="checkbox-item"><input type="checkbox"> 6-10 Lakhs</label>
+                <label class="checkbox-item"><input type="checkbox"> 10+ Lakhs</label>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-title">Department</div>
+                <label class="checkbox-item"><input type="checkbox"> Sales</label>
+                <label class="checkbox-item"><input type="checkbox"> Engineering</label>
+                <label class="checkbox-item"><input type="checkbox"> Marketing</label>
+                <label class="checkbox-item"><input type="checkbox"> Operations</label>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="search-header">
+                <input type="text" class="search-input" placeholder="Search by job title, skill, or company">
+                <input type="text" class="search-input" placeholder="Location">
+                <button class="search-btn">Search</button>
+            </div>
+
+            <!-- Job Card 1 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <img src="https://www.google.com/s2/favicons?domain=amazon.in&sz=64" class="company-logo"
+                        alt="Amazon">
+                    <div class="job-info">
+                        <h3>Senior Front-end Developer</h3>
+                        <div class="company-name">Amazon <span class="rating"><i class="fas fa-star"></i> 4.2</span>
+                        </div>
+                    </div>
+                    <div style="margin-left:auto;"><i class="far fa-bookmark"
+                            style="color:var(--gray-400); cursor:pointer;"></i></div>
+                </div>
+                <div class="job-details">
+                    <div class="detail-item"><i class="fas fa-briefcase"></i> 3-5 Yrs</div>
+                    <div class="detail-item"><i class="fas fa-rupee-sign"></i> 12-18 LPA</div>
+                    <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Bangalore</div>
+                </div>
+                <div class="job-tags">
+                    <span class="job-tag">React.js</span>
+                    <span class="job-tag">TypeScript</span>
+                    <span class="job-tag urgent">Urgent Hiring</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-time">Posted 2 days ago</span>
+                    <button class="apply-btn">Apply Now</button>
+                </div>
+            </div>
+
+            <!-- Job Card 2 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <img src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=64" class="company-logo"
+                        alt="Swiggy">
+                    <div class="job-info">
+                        <h3>Business Development Executive</h3>
+                        <div class="company-name">Swiggy <span class="rating"><i class="fas fa-star"></i> 4.0</span>
+                        </div>
+                    </div>
+                    <div style="margin-left:auto;"><i class="far fa-bookmark"
+                            style="color:var(--gray-400); cursor:pointer;"></i></div>
+                </div>
+                <div class="job-details">
+                    <div class="detail-item"><i class="fas fa-briefcase"></i> 0-2 Yrs</div>
+                    <div class="detail-item"><i class="fas fa-rupee-sign"></i> 4-6 LPA</div>
+                    <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Delhi NCR</div>
+                </div>
+                <div class="job-tags">
+                    <span class="job-tag">Sales</span>
+                    <span class="job-tag">Communication</span>
+                    <span class="job-tag">Field Work</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-time">Posted 5 hours ago</span>
+                    <button class="apply-btn">Apply Now</button>
+                </div>
+            </div>
+
+            <!-- Job Card 3 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <img src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=64" class="company-logo"
+                        alt="Microsoft">
+                    <div class="job-info">
+                        <h3>Data Analyst</h3>
+                        <div class="company-name">Microsoft <span class="rating"><i class="fas fa-star"></i> 4.5</span>
+                        </div>
+                    </div>
+                    <div style="margin-left:auto;"><i class="far fa-bookmark"
+                            style="color:var(--gray-400); cursor:pointer;"></i></div>
+                </div>
+                <div class="job-details">
+                    <div class="detail-item"><i class="fas fa-briefcase"></i> 1-3 Yrs</div>
+                    <div class="detail-item"><i class="fas fa-rupee-sign"></i> 8-12 LPA</div>
+                    <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Hyderabad</div>
+                </div>
+                <div class="job-tags">
+                    <span class="job-tag">SQL</span>
+                    <span class="job-tag">Python</span>
+                    <span class="job-tag">Power BI</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-time">Posted 1 day ago</span>
+                    <button class="apply-btn">Apply Now</button>
+                </div>
+            </div>
+
+            <!-- Job Card 3 -->
+            <div class="job-card">
+                <div class="job-header">
+                    <img src="https://www.google.com/s2/favicons?domain=uber.com&sz=64" class="company-logo" alt="Uber">
+                    <div class="job-info">
+                        <h3>Marketing Manager</h3>
+                        <div class="company-name">Uber <span class="rating"><i class="fas fa-star"></i> 4.3</span></div>
+                    </div>
+                    <div style="margin-left:auto;"><i class="far fa-bookmark"
+                            style="color:var(--gray-400); cursor:pointer;"></i></div>
+                </div>
+                <div class="job-details">
+                    <div class="detail-item"><i class="fas fa-briefcase"></i> 4-7 Yrs</div>
+                    <div class="detail-item"><i class="fas fa-rupee-sign"></i> 15-22 LPA</div>
+                    <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Mumbai</div>
+                </div>
+                <div class="job-tags">
+                    <span class="job-tag">Digital Marketing</span>
+                    <span class="job-tag">Campaigns</span>
+                    <span class="job-tag">Brand</span>
+                </div>
+                <div class="job-footer">
+                    <span class="posted-time">Posted 3 days ago</span>
+                    <button class="apply-btn">Apply Now</button>
+                </div>
+            </div>
+
+            <div class="pagination">
+                <button class="page-btn active">1</button>
+                <button class="page-btn">2</button>
+                <button class="page-btn">3</button>
+                <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+        </main>
+    </div>
+</body>
+
+</html>

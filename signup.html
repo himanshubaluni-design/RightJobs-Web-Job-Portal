@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - RightJobs | Find Your Right Job</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="signup-styles.css">
+</head>
+
+<body>
+    <nav class="nav">
+        <a href="rightjobs-premium.html" class="nav-logo">
+            <div class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="8" stroke="white" stroke-width="2" fill="none" />
+                    <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg></div>
+            <span class="nav-logo-text"><span class="nav-logo-right">Right</span><span
+                    class="nav-logo-jobs">Jobs</span></span>
+        </a>
+        <div class="nav-right">
+            <div class="lang-toggle"><button class="lang-btn active" data-lang="en">English</button><button
+                    class="lang-btn" data-lang="hi">हिंदी</button></div>
+            <p class="login-link">Already have an account? <span
+                    onclick="window.location.href='login.html'">Login</span></p>
+        </div>
+    </nav>
+    <div class="signup-container">
+        <div class="signup-wrapper">
+            <div class="signup-left">
+                <div class="signup-left-content">
+                    <h2>Create Your Profile</h2>
+                    <p>Complete your profile in 3 easy steps and get discovered by top employers.</p>
+                    <div class="progress-steps" id="progressSteps"></div>
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <h3>50L+</h3>
+                            <p>Active Jobs</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>2L+</h3>
+                            <p>Hired</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>10K+</h3>
+                            <p>Companies</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="signup-right">
+                <form class="signup-form" id="signupForm"></form>
+            </div>
+        </div>
+    </div>
+    <script src="signup.js"></script>
+</body>
+
+</html>

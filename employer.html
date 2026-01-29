@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hire Top Talent - RightJobs for Employers</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0066FF;
+            --primary-dark: #0052CC;
+            --secondary: #10B981;
+            /* Green for Employer actions */
+            --dark: #0F172A;
+            --gray-600: #64748B;
+            --gray-200: #E2E8F0;
+            --white: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #F8FAFC;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Nav */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 80px;
+            background: white;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--dark);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+
+        .nav-logo-text {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--dark);
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            padding: 10px 18px;
+            color: var(--gray-600);
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .btn-jobseeker {
+            border: 1px solid var(--dark);
+            color: var(--dark);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 600;
+            background: transparent;
+        }
+
+        .btn-jobseeker:hover {
+            background: var(--dark);
+            color: white;
+        }
+
+        /* Hero */
+        .hero {
+            background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.95)), url('https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 180px 80px 100px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 80vh;
+        }
+
+        .hero-bg-accent {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: radial-gradient(circle at top right, #1E293B 0%, transparent 40%);
+            opacity: 0.6;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #ffffff, #94a3b8);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #94a3b8;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .video-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--secondary);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .video-link i {
+            font-size: 20px;
+        }
+
+        /* Sign Up Card */
+        .auth-card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            width: 450px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            position: relative;
+            z-index: 10;
+        }
+
+        .auth-card h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .auth-card p {
+            color: var(--gray-600);
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 12px 16px;
+            transition: all 0.2s;
+        }
+
+        .input-wrapper:focus-within {
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        .input-wrapper input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
+            color: var(--dark);
+        }
+
+        .btn-continue {
+            width: 100%;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .btn-continue:hover {
+            background: #059669;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--gray-600);
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--gray-200);
+        }
+
+        .ent-login {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .ent-login a {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            background: #0B1120;
+            /* Darker than hero */
+            padding: 40px 80px;
+            display: flex;
+            justify-content: space-around;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item h3 {
+            font-size: 32px;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 4px;
+        }
+
+        .stat-item p {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        /* Trusted By */
+        .trusted-section {
+            padding: 80px 80px;
+            text-align: center;
+        }
+
+        .trusted-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 40px;
+        }
+
+        .logos {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            filter: grayscale(1);
+            opacity: 0.7;
+            align-items: center;
+        }
+
+        .logos img {
+            height: 40px;
+            object-fit: contain;
+        }
+
+        /* Feature Section */
+        .features {
+            padding: 100px 80px;
+            background: white;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .feature-content h2 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .feature-content p {
+            font-size: 18px;
+            color: var(--gray-600);
+            margin-bottom: 30px;
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .feature-list li i {
+            color: var(--secondary);
+            margin-top: 4px;
+        }
+
+        @media (max-width: 1000px) {
+            .hero {
+                flex-direction: column;
+                padding: 120px 20px 60px;
+                text-align: center;
+            }
+
+            .hero-content {
+                margin-bottom: 60px;
+            }
+
+            .auth-card {
+                width: 100%;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 30px;
+                text-align: center;
+            }
+
+            .logos {
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <a href="rightjobs-premium.html" class="nav-logo">
+            <div class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="8" stroke="white" stroke-width="2" fill="none" />
+                    <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg></div>
+            <span class="nav-logo-text">RightJobs <span
+                    style="font-weight:400; font-size:18px; color:var(--gray-600)">Recruiter</span></span>
+        </a>
+        <div class="nav-links">
+            <button class="btn-jobseeker" onclick="window.location.href='rightjobs-premium.html'">Looking for a job? <i
+                    class="fas fa-arrow-right"></i></button>
+        </div>
+    </nav>
+
+    <div class="hero">
+        <div class="hero-bg-accent"></div>
+        <div class="hero-content">
+            <h1>Hire your dream team with RightJobs</h1>
+            <p>Streamline your recruitment with AI-driven precision. The single solution from fresher to experienced
+                hiring.</p>
+            <div class="video-link">
+                <i class="far fa-play-circle"></i> Watch how it works
+            </div>
+        </div>
+
+        <div class="auth-card">
+            <h2>Let's get started</h2>
+            <p>Hire top talent faster with RightJobs</p>
+
+            <div class="input-group">
+                <label>Mobile number</label>
+                <div class="input-wrapper">
+                    <span style="color:var(--gray-600); font-weight:600; margin-right:8px;">+91</span>
+                    <input type="tel" placeholder="Enter 10 digit mobile number">
+                </div>
+            </div>
+
+            <button class="btn-continue">Continue</button>
+
+            <div class="divider">OR</div>
+
+            <div class="ent-login">
+                Already registered? <a href="login.html">Login here</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <h3>6 Crore+</h3>
+            <p>Qualified Candidates</p>
+        </div>
+        <div class="stat-item">
+            <h3>7 Lakh+</h3>
+            <p>Employers use RightJobs</p>
+        </div>
+        <div class="stat-item">
+            <h3>900+</h3>
+            <p>Available Cities</p>
+        </div>
+    </div>
+
+    <section class="trusted-section">
+        <h2 class="trusted-title">Trusted by 1000+ enterprises and 7 lakhs+ MSMEs</h2>
+        <div class="logos">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/bd/Zomato_Logo.svg" alt="Zomato">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/8/8e/Tata_Consultancy_Services_Logo.svg/1200px-Tata_Consultancy_Services_Logo.svg.png"
+                alt="TCS">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/1200px-Premier_League_Logo.svg.png"
+                alt="Reliance" style="opacity:0; width:0; margin:0;"> <!-- Placeholder hack -->
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Jio_logo.svg/1200px-Jio_logo.svg.png"
+                alt="Jio">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/HDFC_Bank_Logo.svg/1200px-HDFC_Bank_Logo.svg.png"
+                alt="HDFC">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Infosys_logo.svg/1200px-Infosys_logo.svg.png"
+                alt="Infosys">
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature-grid">
+            <div class="feature-content">
+                <span
+                    style="color:var(--secondary); font-weight:700; text-transform:uppercase; font-size:12px; letter-spacing:1px; display:block; margin-bottom:10px;">AI
+                    Calling Agent</span>
+                <h2>AI Agent interviews and shortlists candidates 24/7</h2>
+                <p>AI does initial screening & shortlisting of candidates with whom you can do final interview. Save 80%
+                    of your time.</p>
+                <ul class="feature-list">
+                    <li><i class="fas fa-check-circle"></i> Custom screening questions</li>
+                    <li><i class="fas fa-check-circle"></i> Real-time candidate scoring</li>
+                    <li><i class="fas fa-check-circle"></i> Instant interview scheduling</li>
+                </ul>
+                <button class="btn-continue" style="width:auto; padding: 12px 32px;">See AI Agent in Action</button>
+            </div>
+            <div class="feature-img">
+                <!-- Mock UI for feature -->
+                <div
+                    style="background:#F1F5F9; border-radius:20px; padding:30px; box-shadow:0 20px 40px rgba(0,0,0,0.05);">
+                    <div
+                        style="background:white; border-radius:16px; padding:20px; margin-bottom:20px; display:flex; align-items:center; gap:16px;">
+                        <div
+                            style="width:40px; height:40px; background:#DEF7EC; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#10B981;">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div>
+                            <div style="font-weight:700; font-size:14px;">AI Agent</div>
+                            <div style="font-size:12px; color:#64748B;">Calling 3 candidates...</div>
+                        </div>
+                        <div
+                            style="margin-left:auto; font-size:12px; background:#DCFCE7; color:#166534; padding:4px 8px; border-radius:50px;">
+                            Live</div>
+                    </div>
+                    <div style="background:white; border-radius:16px; padding:20px;">
+                        <div style="font-size:13px; font-weight:600; margin-bottom:12px;">Shortlisted Candidates</div>
+                        <div style="display:flex; gap:10px; margin-bottom:10px;">
+                            <div style="width:32px; height:32px; background:#E2E8F0; border-radius:50%;"></div>
+                            <div>
+                                <div style="font-size:13px; font-weight:600;">Rahul Sharma</div>
+                                <div style="font-size:11px; color:#64748B;">Score: 9.2/10</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <div style="width:32px; height:32px; background:#E2E8F0; border-radius:50%;"></div>
+                            <div>
+                                <div style="font-size:13px; font-weight:600;">Priya Singh</div>
+                                <div style="font-size:11px; color:#64748B;">Score: 8.8/10</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

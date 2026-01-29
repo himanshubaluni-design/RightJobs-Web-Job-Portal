@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Resources - RightJobs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0066FF;
+            --primary-dark: #0052CC;
+            --primary-light: #E6F0FF;
+            --dark: #000000;
+            --gray-600: #555555;
+            --gray-500: #777777;
+            --gray-400: #999999;
+            --gray-200: #F5F5F5;
+            --gray-100: #FFFFFF;
+            --white: #FFFFFF;
+            --gradient-primary: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #FAFAFA;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s ease;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Nav (Standard) */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 80px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-logo-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--gradient-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-logo-icon svg {
+            width: 22px;
+            height: 22px;
+            fill: white;
+        }
+
+        .nav-logo-text {
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-links a {
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 10px;
+            color: var(--gray-600);
+        }
+
+        .nav-links a.active,
+        .nav-links a:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        /* Button Styles */
+        .btn-login {
+            color: var(--gray-600);
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 10px;
+            border: none;
+            background: transparent;
+            transition: all 0.2s ease;
+        }
+
+        .btn-login:hover {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .btn-signup {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
+            transition: all 0.2s ease;
+        }
+
+        .btn-signup:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 70, 229, 0.45);
+        }
+
+        /* Resources Specific */
+        .hero-section {
+            background: var(--dark);
+            color: white;
+            padding: 140px 20px 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at top right, #333 0%, transparent 60%);
+            opacity: 0.5;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-title {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--gray-400);
+            margin-bottom: 40px;
+        }
+
+        .resource-grid {
+            max-width: 1280px;
+            margin: -60px auto 100px;
+            /* Overlap hero */
+            padding: 0 40px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .featured-card {
+            grid-column: span 3;
+            background: white;
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            gap: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            align-items: center;
+        }
+
+        .featured-img {
+            flex: 1;
+            height: 300px;
+            background: #eee;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .featured-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .featured-content {
+            flex: 1;
+        }
+
+        .badge {
+            background: #E6F0FF;
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .featured-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .featured-desc {
+            color: var(--gray-600);
+            margin-bottom: 24px;
+            font-size: 16px;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(0, 0, 0, 0.04);
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+        }
+
+        .article-img {
+            height: 200px;
+            background: #f0f0f0;
+            overflow: hidden;
+        }
+
+        .article-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .article-card:hover .article-img img {
+            transform: scale(1.05);
+        }
+
+        .article-content {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .meta {
+            color: var(--gray-400);
+            font-size: 13px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .article-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.4;
+            color: var(--dark);
+        }
+
+        .read-more {
+            margin-top: auto;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .subscribe-section {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            border-radius: 24px;
+            max-width: 1280px;
+            margin: 0 auto 80px;
+        }
+
+        .sub-input-group {
+            display: flex;
+            max-width: 500px;
+            margin: 30px auto 0;
+            background: white;
+            padding: 6px;
+            border-radius: 50px;
+        }
+
+        .sub-input {
+            border: none;
+            flex: 1;
+            padding: 0 20px;
+            outline: none;
+            font-size: 15px;
+            border-radius: 50px;
+        }
+
+        .sub-btn {
+            background: var(--dark);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <a href="rightjobs-premium.html" class="nav-logo">
+            <div class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="8" stroke="white" stroke-width="2" fill="none" />
+                    <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg></div>
+            <span class="nav-logo-text"><span class="nav-logo-right">Right</span><span
+                    class="nav-logo-jobs">Jobs</span></span>
+        </a>
+        <div class="nav-links">
+            <a href="rightjobs-premium.html">Home</a>
+            <a href="find-jobs.html">Find Jobs</a>
+            <a href="companies.html">Companies</a>
+            <a href="resources.html" class="active">Resources</a>
+        </div>
+        <div class="nav-actions" style="display:flex; gap:12px; align-items:center;">
+            <button class="btn-login" onclick="window.location.href='login.html'">Login</button>
+            <button class="btn-signup" onclick="window.location.href='signup.html'">Sign Up Free</button>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Upgrade Your Career</h1>
+            <p class="hero-subtitle">Expert advice, salary insights, and interview tips to help you land your dream job.
+            </p>
+        </div>
+    </section>
+
+    <div class="resource-grid">
+        <!-- Featured -->
+        <div class="featured-card">
+            <div class="featured-img">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                    alt="Interview">
+            </div>
+            <div class="featured-content">
+                <span class="badge">Interview Guide</span>
+                <h2 class="featured-title">Mastering the Behavioral Interview: The STAR Method</h2>
+                <p class="featured-desc">Learn how to structure your answers effectively using the Situation, Task,
+                    Action, and Result framework to impress recruiters.</p>
+                <a href="#" class="read-more" style="font-size: 16px;">Read Full Article <i
+                        class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+
+        <!-- Article 1 -->
+        <div class="article-card">
+            <div class="article-img">
+                <img src="https://images.unsplash.com/photo-1586281380349-632531db7ed4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    alt="Resume">
+            </div>
+            <div class="article-content">
+                <div class="meta">RESUME TIPS • 5 MIN READ</div>
+                <h3 class="article-title">10 Words to Remove from Your Resume Immediately</h3>
+                <div class="read-more">Read Article <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- Article 2 -->
+        <div class="article-card">
+            <div class="article-img">
+                <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    alt="Salary">
+            </div>
+            <div class="article-content">
+                <div class="meta">SALARY • 8 MIN READ</div>
+                <h3 class="article-title">Salary Negotiation: Scripts for Every Scenario</h3>
+                <div class="read-more">Read Article <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- Article 3 -->
+        <div class="article-card">
+            <div class="article-img">
+                <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    alt="Growth">
+            </div>
+            <div class="article-content">
+                <div class="meta">CAREER GROWTH • 6 MIN READ</div>
+                <h3 class="article-title">How to Ask for a Promotion (And Get It)</h3>
+                <div class="read-more">Read Article <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- Article 4 -->
+        <div class="article-card">
+            <div class="article-img">
+                <img src="https://images.unsplash.com/photo-1593642632823-8f7856677741?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    alt="Remote Work">
+            </div>
+            <div class="article-content">
+                <div class="meta">REMOTE WORK • 4 MIN READ</div>
+                <h3 class="article-title">Staying Productive While Working from Home</h3>
+                <div class="read-more">Read Article <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- Article 5 -->
+        <div class="article-card">
+            <div class="article-img">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    alt="Networking">
+            </div>
+            <div class="article-content">
+                <div class="meta">NETWORKING • 7 MIN READ</div>
+                <h3 class="article-title">Networking for Introverts: A Practical Guide</h3>
+                <div class="read-more">Read Article <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+
+        <!-- Article 6 -->
+        <div class="article-card">
+            <div class="article-img">
+                <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80"
+                    alt="Skills">
+            </div>
+            <div class="article-content">
+                <div class="meta">SKILLS • 5 MIN READ</div>
+                <h3 class="article-title">Top 5 Soft Skills Employers Look For in 2026</h3>
+                <div class="read-more">Read Article <i class="fas fa-arrow-right"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="subscribe-section">
+        <h2>Get Career Tips in Your Inbox</h2>
+        <p style="opacity: 0.9; margin-top: 10px;">Join 50,000+ others and never miss out on new tips, tutorials, and
+            more.</p>
+        <div class="sub-input-group">
+            <input type="email" class="sub-input" placeholder="Enter your email address">
+            <button class="sub-btn">Subscribe</button>
+        </div>
+    </div>
+
+</body>
+
+</html>
