@@ -139,6 +139,6 @@ function loginSuccess() {
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
     setTimeout(() => {
-        window.location.href = 'rightjobs-premium.html';
+        window.location.href = 'candidate-dashboard.html';
     }, 1500);
 }
