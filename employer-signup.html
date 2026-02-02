@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employer Sign Up - RightJobs | Hire the Best Talent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="signup-styles.css">
+    <style>
+        /* Employer-specific styles */
+        .otp-input-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .otp-input {
+            width: 50px;
+            height: 56px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            border: 2px solid var(--gray-300);
+            border-radius: 10px;
+            background: var(--white);
+            color: var(--dark);
+            transition: all 0.2s;
+        }
+
+        .otp-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, .1);
+        }
+
+        .otp-input.filled {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .otp-input.error {
+            border-color: var(--danger);
+            background: var(--danger-light);
+        }
+
+        .phone-verify-section {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .phone-verify-section .phone-display {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .phone-verify-section .phone-hint {
+            font-size: 14px;
+            color: var(--gray-500);
+            margin-bottom: 24px;
+        }
+
+        .resend-otp {
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--gray-500);
+        }
+
+        .resend-otp button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 14px;
+        }
+
+        .resend-otp button:disabled {
+            color: var(--gray-400);
+            cursor: not-allowed;
+        }
+
+        .resend-otp button:not(:disabled):hover {
+            text-decoration: underline;
+        }
+
+        .otp-timer {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .send-otp-btn {
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .send-otp-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.3);
+        }
+
+        .send-otp-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .change-number-btn {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 13px;
+            margin-top: 8px;
+            font-family: inherit;
+        }
+
+        .change-number-btn:hover {
+            text-decoration: underline;
+        }
+
+        .otp-success-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--success-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            color: var(--success);
+            font-size: 28px;
+        }
+
+        .feature-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        .feature-item i {
+            color: var(--white);
+            font-size: 16px;
+            width: 32px;
+            height: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feature-item span {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+        }
+
+        .terms-checkbox {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: var(--gray-100);
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .terms-checkbox input {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .terms-checkbox label {
+            font-size: 13px;
+            color: var(--gray-600);
+            line-height: 1.5;
+            cursor: pointer;
+        }
+
+        .terms-checkbox label a {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .terms-checkbox label a:hover {
+            text-decoration: underline;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--success-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--success);
+            font-size: 36px;
+            animation: scaleIn 0.5s ease;
+        }
+
+        @keyframes scaleIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .success-message h2 {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 8px;
+        }
+
+        .success-message p {
+            font-size: 14px;
+            color: var(--gray-500);
+            margin-bottom: 24px;
+        }
+
+        .demo-hint {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 16px;
+            background: #FEF3C7;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .demo-hint i {
+            color: var(--warning);
+            font-size: 16px;
+        }
+
+        .demo-hint span {
+            font-size: 13px;
+            color: #92400E;
+            font-weight: 500;
+        }
+
+        .btn-next {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 14px 28px;
+            background: var(--gradient-primary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+            box-shadow: 0 4px 12px rgba(0, 102, 255, 0.3);
+        }
+
+        .btn-next:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .btn-back {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 20px;
+            background: var(--gray-100);
+            color: var(--gray-700);
+            border: 2px solid var(--gray-300);
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-back:hover {
+            background: var(--gray-200);
+            border-color: var(--gray-400);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <a href="index.html" class="nav-logo">
+            <div class="nav-logo-icon"><svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="8" stroke="white" stroke-width="2" fill="none" />
+                    <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg></div>
+            <span class="nav-logo-text"><span class="nav-logo-right">Right</span><span
+                    class="nav-logo-jobs">Jobs</span></span>
+        </a>
+        <div class="nav-right">
+            <div class="lang-toggle"><button class="lang-btn active" data-lang="en">English</button><button
+                    class="lang-btn" data-lang="hi">हिंदी</button></div>
+            <p class="login-link">Already have an account? <span
+                    onclick="window.location.href='login.html'">Login</span></p>
+        </div>
+    </nav>
+    <div class="signup-container">
+        <div class="signup-wrapper">
+            <div class="signup-left">
+                <div class="signup-left-content">
+                    <h2>Hire Top Talent</h2>
+                    <p>Join 10,000+ companies finding the best candidates with RightJobs.</p>
+                    <div class="progress-steps" id="progressSteps"></div>
+                    <div class="feature-list">
+                        <div class="feature-item">
+                            <i class="fas fa-users"></i>
+                            <span>Access 50 Lakh+ verified candidates</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-bolt"></i>
+                            <span>AI-powered candidate matching</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Verified & background-checked profiles</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="signup-right">
+                <form class="signup-form" id="employerSignupForm"></form>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Employer Signup Multi-Step Form
+        const steps = [
+            {
+                title: 'Phone Verification',
+                description: 'Verify your phone number'
+            },
+            {
+                title: 'Company Details',
+                description: 'Tell us about your company'
+            },
+            {
+                title: 'Contact Person',
+                description: 'Your account details'
+            }
+        ];
+
+        let currentStep = 1;
+        let phoneNumber = '';
+        let otpSent = false;
+        let otpVerified = false;
+        let otpTimer = 0;
+        let timerInterval = null;
+
+        // Form data storage
+        const formData = {
+            phone: '',
+            companyName: '',
+            companySize: '',
+            industry: '',
+            gstNumber: '',
+            contactName: '',
+            email: '',
+            designation: '',
+            password: ''
+        };
+
+        // Industry options
+        const industries = [
+            'Information Technology',
+            'Healthcare',
+            'Finance & Banking',
+            'Retail & E-commerce',
+            'Manufacturing',
+            'Logistics & Transportation',
+            'Hospitality',
+            'Education',
+            'Real Estate',
+            'Telecommunications',
+            'Other'
+        ];
+
+        // Company size options
+        const companySizes = [
+            '1-10 employees',
+            '11-50 employees',
+            '51-200 employees',
+            '201-500 employees',
+            '500+ employees'
+        ];
+
+        // Initialize the form
+        function initForm() {
+            // Check for phone number in URL params (from employer.html)
+            const urlParams = new URLSearchParams(window.location.search);
+            const phoneFromUrl = urlParams.get('phone');
+            const shouldSendOtp = urlParams.get('sendOtp') === 'true';
+
+            if (phoneFromUrl && phoneFromUrl.length === 10) {
+                formData.phone = phoneFromUrl;
+                phoneNumber = phoneFromUrl;
+
+                // Auto-send OTP if coming from employer landing page
+                if (shouldSendOtp) {
+                    otpSent = true;
+                    startOTPTimer();
+                }
+            }
+
+            renderProgressSteps();
+            renderFormStep();
+
+            // Focus OTP input if OTP was auto-sent
+            if (shouldSendOtp && phoneFromUrl) {
+                setTimeout(() => {
+                    document.querySelector('.otp-input')?.focus();
+                }, 100);
+            }
+        }
+
+        // Render progress steps in sidebar
+        function renderProgressSteps() {
+            const container = document.getElementById('progressSteps');
+            container.innerHTML = steps.map((step, index) => {
+                const stepNum = index + 1;
+                let stepClass = '';
+                if (stepNum < currentStep) stepClass = 'completed';
+                else if (stepNum === currentStep) stepClass = 'active';
+
+                return `
+                    <div class="progress-step ${stepClass}">
+                        <div class="progress-step-indicator">
+                            <div class="progress-step-number">
+                                ${stepNum < currentStep ? '<i class="fas fa-check"></i>' : stepNum}
+                            </div>
+                            <div class="progress-step-line"></div>
+                        </div>
+                        <div class="progress-step-content">
+                            <div class="progress-step-title">${step.title}</div>
+                            <div class="progress-step-desc">${step.description}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Render current form step
+        function renderFormStep() {
+            const form = document.getElementById('employerSignupForm');
+            let html = '';
+
+            if (currentStep === 1) {
+                html = renderPhoneStep();
+            } else if (currentStep === 2) {
+                html = renderCompanyDetailsStep();
+            } else if (currentStep === 3) {
+                html = renderContactPersonStep();
+            } else if (currentStep === 4) {
+                html = renderSuccessStep();
+            }
+
+            form.innerHTML = html;
+            attachEventListeners();
+        }
+
+        // Step 1: Phone & OTP
+        function renderPhoneStep() {
+            if (otpSent && !otpVerified) {
+                return `
+                    <div class="form-step active">
+                        <div class="form-header">
+                            <h1>Verify Your Phone</h1>
+                            <p>We've sent a 6-digit OTP to your phone</p>
+                        </div>
+                        <div class="phone-verify-section">
+                            <div class="phone-display">+91 ${phoneNumber}</div>
+                            <button type="button" class="change-number-btn" onclick="changePhoneNumber()">
+                                Change Number
+                            </button>
+                        </div>
+                        <div class="form-group">
+                            <label>Enter OTP <span class="required">*</span></label>
+                            <div class="otp-input-group">
+                                <input type="text" class="otp-input" maxlength="1" data-index="0" inputmode="numeric">
+                                <input type="text" class="otp-input" maxlength="1" data-index="1" inputmode="numeric">
+                                <input type="text" class="otp-input" maxlength="1" data-index="2" inputmode="numeric">
+                                <input type="text" class="otp-input" maxlength="1" data-index="3" inputmode="numeric">
+                                <input type="text" class="otp-input" maxlength="1" data-index="4" inputmode="numeric">
+                                <input type="text" class="otp-input" maxlength="1" data-index="5" inputmode="numeric">
+                            </div>
+                            <div id="otpError" class="error-text" style="color: var(--danger); text-align: center; margin-top: 10px; display: none;"></div>
+                        </div>
+                        <div class="demo-hint">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Demo OTP: 123456</span>
+                        </div>
+                        <div class="resend-otp">
+                            <span id="resendTimer">Resend OTP in <span class="otp-timer">${otpTimer}s</span></span>
+                            <button type="button" id="resendBtn" onclick="resendOTP()" ${otpTimer > 0 ? 'disabled' : ''} style="${otpTimer > 0 ? 'display:none' : ''}">
+                                Resend OTP
+                            </button>
+                        </div>
+                        <div class="form-actions" style="margin-top: 24px;">
+                            <button type="button" class="btn-next" onclick="verifyOTP()">
+                                Verify & Continue <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+
+            return `
+                <div class="form-step active">
+                    <div class="form-header">
+                        <h1>Get Started</h1>
+                        <p>Enter your phone number to create your employer account</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number <span class="required">*</span></label>
+                        <div class="phone-input-group">
+                            <input type="text" class="country-code" value="+91" readonly>
+                            <div class="input-wrapper">
+                                <input type="tel" id="phoneInput" placeholder="Enter 10-digit mobile number" 
+                                    maxlength="10" inputmode="numeric" value="${formData.phone}">
+                            </div>
+                        </div>
+                        <div id="phoneError" class="error-text" style="color: var(--danger); margin-top: 6px; font-size: 13px; display: none;"></div>
+                    </div>
+                    <div class="form-actions" style="margin-top: 24px;">
+                        <button type="button" class="btn-next" onclick="sendOTP()">
+                            Send OTP <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Step 2: Company Details
+        function renderCompanyDetailsStep() {
+            return `
+                <div class="form-step active">
+                    <div class="form-header">
+                        <h1>Company Details</h1>
+                        <p>Tell us about your organization</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Company Name <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-building input-icon"></i>
+                            <input type="text" id="companyName" placeholder="Enter company name" value="${formData.companyName}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Company Size <span class="required">*</span></label>
+                            <div class="input-wrapper select-wrapper">
+                                <i class="fas fa-users input-icon"></i>
+                                <select id="companySize">
+                                    <option value="" disabled ${!formData.companySize ? 'selected' : ''}>Select size</option>
+                                    ${companySizes.map(size => `
+                                        <option value="${size}" ${formData.companySize === size ? 'selected' : ''}>${size}</option>
+                                    `).join('')}
+                                </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Industry <span class="required">*</span></label>
+                            <div class="input-wrapper select-wrapper">
+                                <i class="fas fa-industry input-icon"></i>
+                                <select id="industry">
+                                    <option value="" disabled ${!formData.industry ? 'selected' : ''}>Select industry</option>
+                                    ${industries.map(ind => `
+                                        <option value="${ind}" ${formData.industry === ind ? 'selected' : ''}>${ind}</option>
+                                    `).join('')}
+                                </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>GST Number <span class="optional">(Optional)</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-file-invoice input-icon"></i>
+                            <input type="text" id="gstNumber" placeholder="e.g., 22AAAAA0000A1Z5" 
+                                value="${formData.gstNumber}" maxlength="15" style="text-transform: uppercase;">
+                        </div>
+                    </div>
+                    <div class="form-actions" style="margin-top: 24px; display: flex; gap: 12px;">
+                        <button type="button" class="btn-back" onclick="goToStep(1)">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button type="button" class="btn-next" onclick="validateCompanyDetails()">
+                            Continue <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Step 3: Contact Person Details
+        function renderContactPersonStep() {
+            return `
+                <div class="form-step active">
+                    <div class="form-header">
+                        <h1>Contact Person Details</h1>
+                        <p>Your account information</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Full Name <span class="required">*</span></label>
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="contactName" placeholder="Enter your full name" value="${formData.contactName}">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email Address <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" id="email" placeholder="Enter email" value="${formData.email}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Designation/Role <span class="required">*</span></label>
+                            <div class="input-wrapper">
+                                <i class="fas fa-briefcase input-icon"></i>
+                                <input type="text" id="designation" placeholder="e.g., HR Manager" value="${formData.designation}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Create Password <span class="required">*</span></label>
+                        <div class="input-wrapper password-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="password" placeholder="Create a strong password">
+                            <button type="button" class="password-toggle" onclick="togglePassword()">
+                                <i class="fas fa-eye" id="passwordToggleIcon"></i>
+                            </button>
+                        </div>
+                        <div style="margin-top: 8px; font-size: 12px; color: var(--gray-500);">
+                            Password must be at least 8 characters with uppercase, lowercase, and number
+                        </div>
+                    </div>
+                    <div class="terms-checkbox">
+                        <input type="checkbox" id="termsCheckbox">
+                        <label for="termsCheckbox">
+                            I agree to the <a href="#" onclick="event.preventDefault()">Terms of Service</a> and 
+                            <a href="#" onclick="event.preventDefault()">Privacy Policy</a>. I also consent to 
+                            receive communications from RightJobs.
+                        </label>
+                    </div>
+                    <div id="formError" class="error-text" style="color: var(--danger); margin-top: 10px; font-size: 13px; display: none;"></div>
+                    <div class="form-actions" style="margin-top: 24px; display: flex; gap: 12px;">
+                        <button type="button" class="btn-back" onclick="goToStep(2)">
+                            <i class="fas fa-arrow-left"></i> Back
+                        </button>
+                        <button type="button" class="btn-next" onclick="submitForm()">
+                            Create Account <i class="fas fa-check"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Success Step
+        function renderSuccessStep() {
+            return `
+                <div class="form-step active">
+                    <div class="success-message">
+                        <div class="success-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h2>Welcome to RightJobs!</h2>
+                        <p>Your employer account has been created successfully. You can now start posting jobs and finding the best candidates.</p>
+                        <button type="button" class="btn-next" onclick="window.location.href='rightjobs-employer-portal.html'" style="margin-top: 16px;">
+                            Go to Dashboard <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Event Listeners
+        function attachEventListeners() {
+            // OTP input handling
+            const otpInputs = document.querySelectorAll('.otp-input');
+            otpInputs.forEach((input, index) => {
+                input.addEventListener('input', function (e) {
+                    const value = e.target.value.replace(/\D/g, '');
+                    e.target.value = value;
+
+                    if (value && index < otpInputs.length - 1) {
+                        otpInputs[index + 1].focus();
+                    }
+
+                    if (value) {
+                        e.target.classList.add('filled');
+                    } else {
+                        e.target.classList.remove('filled');
+                    }
+
+                    // Auto-verify when all digits entered
+                    const allFilled = Array.from(otpInputs).every(inp => inp.value);
+                    if (allFilled) {
+                        setTimeout(verifyOTP, 300);
+                    }
+                });
+
+                input.addEventListener('keydown', function (e) {
+                    if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                });
+
+                input.addEventListener('paste', function (e) {
+                    e.preventDefault();
+                    const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+                    pastedData.split('').forEach((char, i) => {
+                        if (otpInputs[i]) {
+                            otpInputs[i].value = char;
+                            otpInputs[i].classList.add('filled');
+                        }
+                    });
+                    if (pastedData.length === 6) {
+                        setTimeout(verifyOTP, 300);
+                    }
+                });
+            });
+
+            // Phone input - only allow numbers
+            const phoneInput = document.getElementById('phoneInput');
+            if (phoneInput) {
+                phoneInput.addEventListener('input', function (e) {
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                });
+            }
+
+            // GST Number - uppercase
+            const gstInput = document.getElementById('gstNumber');
+            if (gstInput) {
+                gstInput.addEventListener('input', function (e) {
+                    e.target.value = e.target.value.toUpperCase();
+                });
+            }
+        }
+
+        // Send OTP
+        function sendOTP() {
+            const phoneInput = document.getElementById('phoneInput');
+            const phoneError = document.getElementById('phoneError');
+            const phone = phoneInput.value.trim();
+
+            phoneError.style.display = 'none';
+
+            if (!phone || phone.length !== 10) {
+                phoneError.textContent = 'Please enter a valid 10-digit mobile number';
+                phoneError.style.display = 'block';
+                phoneInput.focus();
+                return;
+            }
+
+            phoneNumber = phone;
+            formData.phone = phone;
+            otpSent = true;
+            startOTPTimer();
+            renderFormStep();
+
+            // Focus first OTP input
+            setTimeout(() => {
+                document.querySelector('.otp-input')?.focus();
+            }, 100);
+        }
+
+        // Start OTP timer
+        function startOTPTimer() {
+            otpTimer = 30;
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                otpTimer--;
+                const timerEl = document.querySelector('.otp-timer');
+                const resendBtn = document.getElementById('resendBtn');
+                const resendTimer = document.getElementById('resendTimer');
+
+                if (timerEl) timerEl.textContent = `${otpTimer}s`;
+
+                if (otpTimer <= 0) {
+                    clearInterval(timerInterval);
+                    if (resendTimer) resendTimer.style.display = 'none';
+                    if (resendBtn) {
+                        resendBtn.style.display = 'inline';
+                        resendBtn.disabled = false;
+                    }
+                }
+            }, 1000);
+        }
+
+        // Resend OTP
+        function resendOTP() {
+            startOTPTimer();
+            const resendBtn = document.getElementById('resendBtn');
+            const resendTimer = document.getElementById('resendTimer');
+            if (resendBtn) resendBtn.style.display = 'none';
+            if (resendTimer) resendTimer.style.display = 'inline';
+        }
+
+        // Change phone number
+        function changePhoneNumber() {
+            otpSent = false;
+            otpVerified = false;
+            if (timerInterval) clearInterval(timerInterval);
+            renderFormStep();
+        }
+
+        // Verify OTP
+        function verifyOTP() {
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const otpError = document.getElementById('otpError');
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+
+            otpError.style.display = 'none';
+            otpInputs.forEach(input => input.classList.remove('error'));
+
+            if (otp.length !== 6) {
+                otpError.textContent = 'Please enter the complete 6-digit OTP';
+                otpError.style.display = 'block';
+                return;
+            }
+
+            // Demo OTP validation: 123456
+            if (otp === '123456') {
+                otpVerified = true;
+                if (timerInterval) clearInterval(timerInterval);
+                currentStep = 2;
+                renderProgressSteps();
+                renderFormStep();
+            } else {
+                otpError.textContent = 'Invalid OTP. Please try again.';
+                otpError.style.display = 'block';
+                otpInputs.forEach(input => input.classList.add('error'));
+            }
+        }
+
+        // Validate Company Details
+        function validateCompanyDetails() {
+            const companyName = document.getElementById('companyName').value.trim();
+            const companySize = document.getElementById('companySize').value;
+            const industry = document.getElementById('industry').value;
+            const gstNumber = document.getElementById('gstNumber').value.trim();
+
+            if (!companyName) {
+                alert('Please enter your company name');
+                document.getElementById('companyName').focus();
+                return;
+            }
+
+            if (!companySize) {
+                alert('Please select your company size');
+                document.getElementById('companySize').focus();
+                return;
+            }
+
+            if (!industry) {
+                alert('Please select your industry');
+                document.getElementById('industry').focus();
+                return;
+            }
+
+            // Save form data
+            formData.companyName = companyName;
+            formData.companySize = companySize;
+            formData.industry = industry;
+            formData.gstNumber = gstNumber;
+
+            currentStep = 3;
+            renderProgressSteps();
+            renderFormStep();
+        }
+
+        // Go to specific step
+        function goToStep(step) {
+            // Save current form data before navigating
+            if (currentStep === 2) {
+                const companyName = document.getElementById('companyName');
+                const companySize = document.getElementById('companySize');
+                const industry = document.getElementById('industry');
+                const gstNumber = document.getElementById('gstNumber');
+
+                if (companyName) formData.companyName = companyName.value;
+                if (companySize) formData.companySize = companySize.value;
+                if (industry) formData.industry = industry.value;
+                if (gstNumber) formData.gstNumber = gstNumber.value;
+            } else if (currentStep === 3) {
+                const contactName = document.getElementById('contactName');
+                const email = document.getElementById('email');
+                const designation = document.getElementById('designation');
+
+                if (contactName) formData.contactName = contactName.value;
+                if (email) formData.email = email.value;
+                if (designation) formData.designation = designation.value;
+            }
+
+            currentStep = step;
+            renderProgressSteps();
+            renderFormStep();
+        }
+
+        // Toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const toggleIcon = document.getElementById('passwordToggleIcon');
+
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.classList.remove('fa-eye');
+                toggleIcon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.classList.remove('fa-eye-slash');
+                toggleIcon.classList.add('fa-eye');
+            }
+        }
+
+        // Submit form
+        function submitForm() {
+            const contactName = document.getElementById('contactName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const designation = document.getElementById('designation').value.trim();
+            const password = document.getElementById('password').value;
+            const termsCheckbox = document.getElementById('termsCheckbox').checked;
+            const formError = document.getElementById('formError');
+
+            formError.style.display = 'none';
+
+            // Validation
+            if (!contactName) {
+                formError.textContent = 'Please enter your full name';
+                formError.style.display = 'block';
+                document.getElementById('contactName').focus();
+                return;
+            }
+
+            if (!email) {
+                formError.textContent = 'Please enter your email address';
+                formError.style.display = 'block';
+                document.getElementById('email').focus();
+                return;
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                formError.textContent = 'Please enter a valid email address';
+                formError.style.display = 'block';
+                document.getElementById('email').focus();
+                return;
+            }
+
+            if (!designation) {
+                formError.textContent = 'Please enter your designation/role';
+                formError.style.display = 'block';
+                document.getElementById('designation').focus();
+                return;
+            }
+
+            if (!password) {
+                formError.textContent = 'Please create a password';
+                formError.style.display = 'block';
+                document.getElementById('password').focus();
+                return;
+            }
+
+            // Password validation
+            if (password.length < 8) {
+                formError.textContent = 'Password must be at least 8 characters long';
+                formError.style.display = 'block';
+                document.getElementById('password').focus();
+                return;
+            }
+
+            const hasUppercase = /[A-Z]/.test(password);
+            const hasLowercase = /[a-z]/.test(password);
+            const hasNumber = /\d/.test(password);
+
+            if (!hasUppercase || !hasLowercase || !hasNumber) {
+                formError.textContent = 'Password must contain uppercase, lowercase, and a number';
+                formError.style.display = 'block';
+                document.getElementById('password').focus();
+                return;
+            }
+
+            if (!termsCheckbox) {
+                formError.textContent = 'Please agree to the Terms of Service and Privacy Policy';
+                formError.style.display = 'block';
+                return;
+            }
+
+            // Save final data
+            formData.contactName = contactName;
+            formData.email = email;
+            formData.designation = designation;
+            formData.password = password;
+
+            // Show success
+            currentStep = 4;
+            renderProgressSteps();
+            renderFormStep();
+
+            // Log form data (for demo purposes)
+            console.log('Employer Signup Data:', formData);
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initForm);
+    </script>
+</body>
+
+</html>

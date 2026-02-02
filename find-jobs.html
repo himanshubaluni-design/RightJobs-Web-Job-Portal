@@ -417,12 +417,25 @@
 
             <div class="filter-group">
                 <div class="filter-title">Location</div>
-                <label class="checkbox-item"><input type="checkbox"> Bangalore</label>
-                <label class="checkbox-item"><input type="checkbox"> Delhi NCR</label>
-                <label class="checkbox-item"><input type="checkbox"> Mumbai</label>
-                <label class="checkbox-item"><input type="checkbox"> Hyderabad</label>
-                <label class="checkbox-item"><input type="checkbox"> Pune</label>
-                <label class="checkbox-item"><input type="checkbox"> Chennai</label>
+                <div class="location-search" style="margin-bottom: 12px;">
+                    <div style="position: relative;">
+                        <i class="fas fa-search"
+                            style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-400); font-size: 12px;"></i>
+                        <input type="text" id="locationSearch" placeholder="Search location..."
+                            style="width: 100%; padding: 10px 12px 10px 32px; border: 1px solid var(--gray-200); border-radius: 8px; font-size: 13px; background: #FAFAFA; outline: none; transition: all 0.2s;"
+                            onfocus="this.style.borderColor='var(--primary)'; this.style.background='white';"
+                            onblur="this.style.borderColor='var(--gray-200)'; this.style.background='#FAFAFA';"
+                            oninput="filterLocations(this.value)">
+                    </div>
+                </div>
+                <div id="locationCheckboxes">
+                    <label class="checkbox-item"><input type="checkbox"> Bangalore</label>
+                    <label class="checkbox-item"><input type="checkbox"> Delhi NCR</label>
+                    <label class="checkbox-item"><input type="checkbox"> Mumbai</label>
+                    <label class="checkbox-item"><input type="checkbox"> Hyderabad</label>
+                    <label class="checkbox-item"><input type="checkbox"> Pune</label>
+                    <label class="checkbox-item"><input type="checkbox"> Chennai</label>
+                </div>
             </div>
 
             <div class="filter-group">
@@ -450,10 +463,23 @@
 
             <div class="filter-group">
                 <div class="filter-title">Department</div>
-                <label class="checkbox-item"><input type="checkbox"> Sales</label>
-                <label class="checkbox-item"><input type="checkbox"> Engineering</label>
-                <label class="checkbox-item"><input type="checkbox"> Marketing</label>
-                <label class="checkbox-item"><input type="checkbox"> Operations</label>
+                <div class="department-search" style="margin-bottom: 12px;">
+                    <div style="position: relative;">
+                        <i class="fas fa-search"
+                            style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-400); font-size: 12px;"></i>
+                        <input type="text" id="departmentSearch" placeholder="Search department..."
+                            style="width: 100%; padding: 10px 12px 10px 32px; border: 1px solid var(--gray-200); border-radius: 8px; font-size: 13px; background: #FAFAFA; outline: none; transition: all 0.2s;"
+                            onfocus="this.style.borderColor='var(--primary)'; this.style.background='white';"
+                            onblur="this.style.borderColor='var(--gray-200)'; this.style.background='#FAFAFA';"
+                            oninput="filterDepartments(this.value)">
+                    </div>
+                </div>
+                <div id="departmentCheckboxes">
+                    <label class="checkbox-item"><input type="checkbox"> Sales</label>
+                    <label class="checkbox-item"><input type="checkbox"> Engineering</label>
+                    <label class="checkbox-item"><input type="checkbox"> Marketing</label>
+                    <label class="checkbox-item"><input type="checkbox"> Operations</label>
+                </div>
             </div>
         </aside>
 
@@ -489,7 +515,7 @@
                 </div>
                 <div class="job-footer">
                     <span class="posted-time">Posted 2 days ago</span>
-                    <button class="apply-btn">Apply Now</button>
+                    <button class="apply-btn" onclick="window.location.href='signup.html'">Apply Now</button>
                 </div>
             </div>
 
@@ -518,7 +544,7 @@
                 </div>
                 <div class="job-footer">
                     <span class="posted-time">Posted 5 hours ago</span>
-                    <button class="apply-btn">Apply Now</button>
+                    <button class="apply-btn" onclick="window.location.href='signup.html'">Apply Now</button>
                 </div>
             </div>
 
@@ -547,7 +573,7 @@
                 </div>
                 <div class="job-footer">
                     <span class="posted-time">Posted 1 day ago</span>
-                    <button class="apply-btn">Apply Now</button>
+                    <button class="apply-btn" onclick="window.location.href='signup.html'">Apply Now</button>
                 </div>
             </div>
 
@@ -574,7 +600,7 @@
                 </div>
                 <div class="job-footer">
                     <span class="posted-time">Posted 3 days ago</span>
-                    <button class="apply-btn">Apply Now</button>
+                    <button class="apply-btn" onclick="window.location.href='signup.html'">Apply Now</button>
                 </div>
             </div>
 
@@ -587,6 +613,40 @@
 
         </main>
     </div>
+
+    <script>
+        // Filter locations based on search input
+        function filterLocations(searchTerm) {
+            const container = document.getElementById('locationCheckboxes');
+            const labels = container.querySelectorAll('.checkbox-item');
+            const term = searchTerm.toLowerCase().trim();
+
+            labels.forEach(label => {
+                const text = label.textContent.toLowerCase();
+                if (text.includes(term) || term === '') {
+                    label.style.display = 'flex';
+                } else {
+                    label.style.display = 'none';
+                }
+            });
+        }
+
+        // Filter departments based on search input
+        function filterDepartments(searchTerm) {
+            const container = document.getElementById('departmentCheckboxes');
+            const labels = container.querySelectorAll('.checkbox-item');
+            const term = searchTerm.toLowerCase().trim();
+
+            labels.forEach(label => {
+                const text = label.textContent.toLowerCase();
+                if (text.includes(term) || term === '') {
+                    label.style.display = 'flex';
+                } else {
+                    label.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>

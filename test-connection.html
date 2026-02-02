@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RightJobs - Database Connection Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0066FF;
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+        .loading {
+            background: #FFF7ED;
+            color: #D97706;
+            border: 2px solid #FDE68A;
+        }
+        .success {
+            background: #ECFDF5;
+            color: #059669;
+            border: 2px solid #A7F3D0;
+        }
+        .error {
+            background: #FEF2F2;
+            color: #DC2626;
+            border: 2px solid #FECACA;
+        }
+        .jobs-list {
+            margin-top: 20px;
+        }
+        .job-item {
+            padding: 15px;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        .job-title {
+            font-weight: 700;
+            color: #1F2937;
+            margin-bottom: 5px;
+        }
+        .job-company {
+            color: #6B7280;
+            font-size: 14px;
+        }
+        .job-location {
+            color: #9CA3AF;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        pre {
+            background: #F3F4F6;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 RightJobs Database Connection Test</h1>
+        
+        <div id="status" class="status loading">
+            🔄 Testing connection to Supabase...
+        </div>
+
+        <div id="results"></div>
+    </div>
+
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        const SUPABASE_URL = 'https://rjjfjzgvthhqeokfrrwd.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqamZqemd2dGhocWVva2ZycndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgxNjg3MzUsImV4cCI6MjA1Mzc0NDczNX0.pVt20rvsYHWVEIg5EBVuUQ_-NkWkdmr';
+
+        // Initialize Supabase client
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        const statusDiv = document.getElementById('status');
+        const resultsDiv = document.getElementById('results');
+
+        async function testConnection() {
+            try {
+                console.log('🔄 Starting connection test...');
+                
+                // Test 1: Fetch jobs
+                const { data: jobs, error } = await supabase
+                    .from('jobs')
+                    .select('*')
+                    .eq('is_active', true)
+                    .limit(5);
+
+                if (error) {
+                    throw error;
+                }
+
+                // Success!
+                statusDiv.className = 'status success';
+                statusDiv.innerHTML = `✅ Connected successfully! Found ${jobs.length} jobs in database.`;
+
+                console.log('✅ Connection successful!');
+                console.log('📊 Jobs fetched:', jobs);
+
+                // Display jobs
+                let jobsHTML = '<div class="jobs-list"><h3>Sample Jobs from Database:</h3>';
+                
+                jobs.forEach(job => {
+                    jobsHTML += `
+                        <div class="job-item">
+                            <div class="job-title">${job.title}</div>
+                            <div class="job-company">${job.company_name}</div>
+                            <div class="job-location">📍 ${job.city}, ${job.state} • 💰 ${formatSalary(job.salary_min, job.salary_max)}</div>
+                        </div>
+                    `;
+                });
+
+                jobsHTML += '</div>';
+
+                resultsDiv.innerHTML = jobsHTML;
+
+            } catch (error) {
+                console.error('❌ Connection failed:', error);
+                
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = `❌ Connection failed: ${error.message}`;
+
+                resultsDiv.innerHTML = `<pre>${JSON.stringify(error, null, 2)}</pre>`;
+            }
+        }
+
+        function formatSalary(min, max) {
+            if (!min && !max) return 'Not disclosed';
+            if (!max) return `₹${min.toLocaleString('en-IN')}+`;
+            return `₹${min.toLocaleString('en-IN')} - ₹${max.toLocaleString('en-IN')}`;
+        }
+
+        // Run test on page load
+        window.addEventListener('DOMContentLoaded', testConnection);
+    </script>
+</body>
+</html>

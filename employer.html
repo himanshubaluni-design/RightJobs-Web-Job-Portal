@@ -448,19 +448,51 @@
                 <label>Mobile number</label>
                 <div class="input-wrapper">
                     <span style="color:var(--gray-600); font-weight:600; margin-right:8px;">+91</span>
-                    <input type="tel" placeholder="Enter 10 digit mobile number">
+                    <input type="tel" id="employerPhone" placeholder="Enter 10 digit mobile number" maxlength="10"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
             </div>
 
-            <button class="btn-continue">Continue</button>
+            <button class="btn-continue" onclick="sendOTPAndRedirect()">Send OTP</button>
 
             <div class="divider">OR</div>
 
             <div class="ent-login">
                 Already registered? <a href="login.html">Login here</a>
             </div>
+
+            <div
+                style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--gray-200); text-align: center;">
+                <p style="font-size: 13px; color: var(--gray-600); margin-bottom: 0;">
+                    Looking for a job instead?
+                    <a href="signup.html"
+                        style="color: var(--primary); font-weight: 600; text-decoration: underline;">Sign up as Job
+                        Seeker</a>
+                </p>
+            </div>
         </div>
     </div>
+
+    <script>
+        function sendOTPAndRedirect() {
+            const phone = document.getElementById('employerPhone').value.trim();
+            if (phone.length === 10) {
+                // Redirect to employer signup with phone number and trigger OTP
+                window.location.href = 'employer-signup.html?phone=' + phone + '&sendOtp=true';
+            } else if (phone.length === 0) {
+                alert('Please enter your 10-digit mobile number');
+            } else {
+                alert('Please enter a valid 10-digit mobile number');
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('employerPhone').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                sendOTPAndRedirect();
+            }
+        });
+    </script>
 
     <div class="stats-bar">
         <div class="stat-item">

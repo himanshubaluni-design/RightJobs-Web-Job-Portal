@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RightJobs - Database Test v2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f2f5;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 { color: #0066FF; margin-bottom: 20px; }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 600;
+        }
+        .loading { background: #FFF7ED; color: #D97706; }
+        .success { background: #ECFDF5; color: #059669; }
+        .error { background: #FEF2F2; color: #DC2626; }
+        .job { 
+            padding: 15px; 
+            border: 1px solid #e5e7eb; 
+            border-radius: 8px; 
+            margin: 10px 0; 
+        }
+        .job-title { font-weight: 700; color: #1f2937; }
+        .job-meta { color: #6b7280; font-size: 14px; margin-top: 5px; }
+        pre {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 12px;
+        }
+        .debug {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔍 RightJobs Connection Test v2</h1>
+        
+        <div id="status" class="status loading">
+            🔄 Initializing...
+        </div>
+
+        <div id="results"></div>
+        
+        <div class="debug">
+            <strong>Debug Info:</strong>
+            <div id="debug"></div>
+        </div>
+    </div>
+
+    <!-- Supabase JS v2 from unpkg -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <script>
+        const statusEl = document.getElementById('status');
+        const resultsEl = document.getElementById('results');
+        const debugEl = document.getElementById('debug');
+
+        function updateStatus(message, type = 'loading') {
+            statusEl.className = `status ${type}`;
+            statusEl.innerHTML = message;
+        }
+
+        function addDebug(message) {
+            const p = document.createElement('div');
+            p.textContent = message;
+            p.style.margin = '5px 0';
+            debugEl.appendChild(p);
+        }
+
+        async function runTest() {
+            try {
+                addDebug('Step 1: Checking if Supabase library loaded...');
+                
+                if (!window.supabase) {
+                    throw new Error('Supabase library not loaded');
+                }
+                addDebug('✓ Supabase library found');
+
+                addDebug('Step 2: Creating Supabase client...');
+                const SUPABASE_URL = 'https://rjjfjzgvthhqeokfrrwd.supabase.co';
+                const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqamZqemd2dGhocWVva2ZycndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzgxNjg3MzUsImV4cCI6MjA1Mzc0NDczNX0.pVt20rvsYHWVEIg5EBVuUQ_-NkWkdmr';
+                
+                const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                addDebug('✓ Client created');
+
+                updateStatus('🔄 Connecting to database...', 'loading');
+                addDebug('Step 3: Querying jobs table...');
+
+                const { data, error } = await supabaseClient
+                    .from('jobs')
+                    .select('*')
+                    .eq('is_active', true)
+                    .limit(5);
+
+                if (error) {
+                    addDebug('✗ Query failed: ' + error.message);
+                    throw error;
+                }
+
+                addDebug(`✓ Query successful! Found ${data.length} jobs`);
+
+                updateStatus(`✅ Connected! Found ${data.length} jobs`, 'success');
+
+                let html = '<h3>Jobs in Database:</h3>';
+                data.forEach(job => {
+                    html += `
+                        <div class="job">
+                            <div class="job-title">${job.title}</div>
+                            <div class="job-meta">
+                                ${job.company_name} • ${job.city}, ${job.state}<br>
+                                💰 ₹${(job.salary_min || 0).toLocaleString()} - ₹${(job.salary_max || 0).toLocaleString()}
+                            </div>
+                        </div>
+                    `;
+                });
+                resultsEl.innerHTML = html;
+
+                console.log('Full data:', data);
+
+            } catch (error) {
+                addDebug('✗ Error: ' + error.message);
+                updateStatus(`❌ Failed: ${error.message}`, 'error');
+                resultsEl.innerHTML = `<pre>${JSON.stringify(error, null, 2)}</pre>`;
+                console.error('Full error:', error);
+            }
+        }
+
+        // Wait for page load, then wait 1 second for library to load
+        window.addEventListener('DOMContentLoaded', () => {
+            addDebug('Page loaded, waiting for Supabase library...');
+            setTimeout(runTest, 1000);
+        });
+    </script>
+</body>
+</html>

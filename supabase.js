@@ -2,7 +2,7 @@
 // This file connects your website to the Supabase database
 
 const SUPABASE_URL = 'https://rjjfjzgvthhqeokfrrwd.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_pVt20rvsYHWVEIg5EBVuUQ_-NkWkdmr';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqamZqemd2dGhocWVva2ZycndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2Nzk0NzcsImV4cCI6MjA4NTI1NTQ3N30.xWlBJ5_wyI3oaVYDtpjmAF5aY-q1wpa_Uo6mFA45-ao';
 
 // Initialize Supabase client
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -113,13 +113,13 @@ async function getLocations() {
 // UTILITY FUNCTIONS
 // ============================================
 
-// Format salary for display (e.g., 18000 -> "₹18,000")
+// Format salary for display (e.g., 18000 -> "â‚¹18,000")
 function formatSalary(amount) {
     if (!amount) return 'Not disclosed';
-    return '₹' + amount.toLocaleString('en-IN');
+    return 'â‚¹' + amount.toLocaleString('en-IN');
 }
 
-// Format salary range (e.g., "₹18,000 - ₹28,000/month")
+// Format salary range (e.g., "â‚¹18,000 - â‚¹28,000/month")
 function formatSalaryRange(min, max) {
     if (!min && !max) return 'Not disclosed';
     if (!max) return formatSalary(min) + '+/month';

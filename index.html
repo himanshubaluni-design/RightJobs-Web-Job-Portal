@@ -138,113 +138,6 @@
       }
     }
 
-    /* Animated Background Shapes */
-    @keyframes floatShape {
-
-      0%,
-      100% {
-        transform: translateY(0) rotate(0deg);
-      }
-
-      25% {
-        transform: translateY(-20px) rotate(5deg);
-      }
-
-      50% {
-        transform: translateY(-10px) rotate(-3deg);
-      }
-
-      75% {
-        transform: translateY(-25px) rotate(3deg);
-      }
-    }
-
-    @keyframes gradientMove {
-      0% {
-        background-position: 0% 50%;
-      }
-
-      50% {
-        background-position: 100% 50%;
-      }
-
-      100% {
-        background-position: 0% 50%;
-      }
-    }
-
-    @keyframes scaleUpDown {
-
-      0%,
-      100% {
-        transform: scale(1);
-        opacity: 0.6;
-      }
-
-      50% {
-        transform: scale(1.1);
-        opacity: 0.8;
-      }
-    }
-
-    @keyframes slideInFromLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-50px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    @keyframes marquee {
-      0% {
-        transform: translateX(0);
-      }
-
-      100% {
-        transform: translateX(-50%);
-      }
-    }
-
-    @keyframes bounceLight {
-
-      0%,
-      100% {
-        transform: translateY(0) scale(1);
-      }
-
-      50% {
-        transform: translateY(-8px) scale(1.02);
-      }
-    }
-
-    @keyframes countUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes glowPulse {
-
-      0%,
-      100% {
-        box-shadow: 0 0 20px rgba(0, 102, 255, 0.2);
-      }
-
-      50% {
-        box-shadow: 0 0 40px rgba(0, 102, 255, 0.4);
-      }
-    }
-
     .animate-fade-in-up {
       animation: fadeInUp 0.6s ease forwards;
     }
@@ -464,6 +357,7 @@
     .hero {
       padding: 100px 80px 140px;
       /* Increased bottom padding */
+      /* Background image removed as per user request */
       background: linear-gradient(180deg, #FAFBFF 0%, #FFFFFF 100%);
       position: relative;
       overflow: hidden;
@@ -472,33 +366,13 @@
       align-items: center;
     }
 
-    /* Animated Background Shapes */
+    /* Overlay removed as background is light again */
     .hero::before {
-      content: '';
-      position: absolute;
-      top: 10%;
-      right: 5%;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(0, 102, 255, 0.08) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: floatShape 8s ease-in-out infinite;
-      pointer-events: none;
-      z-index: 0;
+      display: none;
     }
 
     .hero::after {
-      content: '';
-      position: absolute;
-      bottom: 15%;
-      left: 3%;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(0, 102, 255, 0.06) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: floatShape 10s ease-in-out infinite reverse;
-      pointer-events: none;
-      z-index: 0;
+      display: none;
     }
 
     /* Ensure content is above the overlay */
@@ -1036,6 +910,7 @@
     /* Trusted Section */
     .trusted-section {
       margin-top: 60px;
+      /* Increased margin */
       animation: fadeInUp 0.6s ease forwards;
       animation-delay: 0.5s;
       opacity: 0;
@@ -1050,24 +925,35 @@
       letter-spacing: 0.5px;
     }
 
-    /* Auto-scrolling trusted logos marquee */
-    .trusted-logos-wrapper {
-      overflow: hidden;
-      max-width: 100%;
-      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
-    }
-
     .trusted-logos {
       display: flex;
       align-items: center;
-      gap: 20px;
-      animation: marquee 20s linear infinite;
-      width: max-content;
+      gap: 10px;
+      flex-wrap: nowrap;
+      overflow: hidden;
+      padding-bottom: 5px;
+      max-width: 100%;
     }
 
-    .trusted-logos:hover {
+    .trusted-logos-track {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      animation: scrollTrustedLogos 20s linear infinite;
+    }
+
+    .trusted-logos-track:hover {
       animation-play-state: paused;
+    }
+
+    @keyframes scrollTrustedLogos {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
     }
 
     .trusted-logos::-webkit-scrollbar {
@@ -1162,32 +1048,23 @@
       padding: 18px 24px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.6);
       z-index: 10;
-      animation: float 4s ease-in-out infinite, glowPulse 3s ease-in-out infinite;
+      /* Slower up-down animation */
+      animation: float 6s ease-in-out infinite;
       display: flex;
       align-items: center;
       gap: 16px;
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
-      background: rgba(255, 255, 255, 0.92);
+      background: rgba(255, 255, 255, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.6);
       min-width: 240px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.3s ease;
     }
 
     .hero-floating-card:hover {
-      transform: scale(1.05) translateY(-8px);
-      background: rgba(255, 255, 255, 0.98);
-      box-shadow: 0 30px 70px rgba(0, 102, 255, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.9);
-      animation-play-state: paused;
-    }
-
-    /* Second floating card - top right */
-    .hero-floating-card.card-top {
-      top: 60px;
-      right: 20px;
-      left: auto;
-      bottom: auto;
-      animation-delay: 1s;
+      transform: scale(1.02) translateY(-5px);
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 25px 60px rgba(79, 70, 229, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8);
     }
 
     .card-detail-text {
@@ -2949,11 +2826,10 @@
 
         <div class="trusted-section">
           <p class="trusted-label">Trusted by leading companies</p>
-          <div class="trusted-logos-wrapper">
-            <div class="trusted-logos">
+          <div class="trusted-logos">
+            <div class="trusted-logos-track">
               <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=amazon.in&sz=64"
-                  alt="Amazon">
-                Amazon</div>
+                  alt="Amazon"> Amazon</div>
               <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=google.com&sz=64"
                   alt="Google"> Google</div>
               <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=64"
@@ -2966,8 +2842,7 @@
                 Uber</div>
               <!-- Duplicated for seamless loop -->
               <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=amazon.in&sz=64"
-                  alt="Amazon">
-                Amazon</div>
+                  alt="Amazon"> Amazon</div>
               <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=google.com&sz=64"
                   alt="Google"> Google</div>
               <div class="trusted-logo"><img src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=64"
@@ -2989,19 +2864,6 @@
           <img
             src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
             alt="Professional team collaborating in modern workspace">
-
-          <!-- Live Activity Floating Card - Top Right -->
-          <div class="hero-floating-card card-top">
-            <div class="floating-icon" style="background: linear-gradient(135deg, #10B981 0%, #34D399 100%);">
-              <i class="fas fa-chart-line"></i>
-            </div>
-            <div class="floating-content">
-              <h4>152</h4>
-              <p>Hired today</p>
-              <span class="card-detail-text" style="color: #10B981;"><i class="fas fa-circle"
-                  style="font-size: 6px; margin-right: 4px; animation: pulse 1.5s infinite;"></i> Live</span>
-            </div>
-          </div>
 
           <div class="hero-floating-card card-3">
             <div class="floating-icon" style="background: var(--gradient-primary);">
@@ -3128,7 +2990,7 @@
           </div>
         </div>
 
-        <div class="trending-job-card active">
+        <div class="trending-job-card">
           <div class="trending-job-icon"
             style="background: linear-gradient(135deg, #EDE9FE 0%, #DDD6FE 100%); color: #7C3AED;">
             <i class="fas fa-microscope"></i>
@@ -3231,7 +3093,7 @@
     </div>
 
     <div class="trending-jobs-controls">
-      <button class="view-all-btn">
+      <button class="view-all-btn" onclick="window.location.href='find-jobs.html'">
         View all <i class="fas fa-arrow-right"></i>
       </button>
     </div>
@@ -3241,7 +3103,7 @@
   <section class="explore-industry-section">
     <div class="explore-industry-header">
       <h2>Explore by Industry</h2>
-      <a href="#" class="view-all-link">View all industries <i class="fas fa-arrow-right"></i></a>
+      <a href="find-jobs.html" class="view-all-link">View all industries <i class="fas fa-arrow-right"></i></a>
     </div>
 
     <div class="industry-grid">
@@ -3323,7 +3185,7 @@
         <h3>Delivery Partner</h3>
         <p class="job-company">Zomato</p>
         <div class="job-detail"><i class="fas fa-map-marker-alt"></i> Mumbai, Bangalore, Delhi</div>
-        <div class="job-detail"><i class="fas fa-rupee-sign"></i> ₹18,000 - ₹28,000/month</div>
+        <div class="job-detail"><i class="fas fa-rupee-sign"></i> â‚¹18,000 - â‚¹28,000/month</div>
         <div class="job-tags">
           <span class="job-tag" style="background: #FEE2E2; color: #DC2626;">Flexible Hours</span>
           <span class="job-tag" style="background: #DBEAFE; color: #2563EB;">Incentives</span>
@@ -3339,7 +3201,7 @@
         <h3>Warehouse Associate</h3>
         <p class="job-company">Flipkart</p>
         <div class="job-detail"><i class="fas fa-map-marker-alt"></i> Bangalore, Hyderabad</div>
-        <div class="job-detail"><i class="fas fa-rupee-sign"></i> ₹15,000 - ₹22,000/month</div>
+        <div class="job-detail"><i class="fas fa-rupee-sign"></i> â‚¹15,000 - â‚¹22,000/month</div>
         <div class="job-tags">
           <span class="job-tag" style="background: #DBEAFE; color: #1D4ED8;">PF + ESI</span>
           <span class="job-tag" style="background: #FEF3C7; color: #D97706;">Growth</span>
@@ -3355,7 +3217,7 @@
         <h3>Telecaller Executive</h3>
         <p class="job-company">Airtel</p>
         <div class="job-detail"><i class="fas fa-map-marker-alt"></i> Gurgaon, Noida</div>
-        <div class="job-detail"><i class="fas fa-rupee-sign"></i> ₹12,000 - ₹20,000/month</div>
+        <div class="job-detail"><i class="fas fa-rupee-sign"></i> â‚¹12,000 - â‚¹20,000/month</div>
         <div class="job-tags">
           <span class="job-tag" style="background: #FEE2E2; color: #DC2626;">Incentives</span>
           <span class="job-tag" style="background: #DBEAFE; color: #2563EB;">Freshers OK</span>
@@ -3365,7 +3227,7 @@
     </div>
 
     <div class="explore-link">
-      <a href="#">Explore All Jobs <i class="fas fa-arrow-right"></i></a>
+      <a href="find-jobs.html">Explore All Jobs <i class="fas fa-arrow-right"></i></a>
     </div>
   </section>
 
@@ -3435,7 +3297,7 @@
       </div>
     </div>
 
-    <button class="btn-view-all">
+    <button class="btn-view-all" onclick="window.location.href='find-jobs.html'">
       View All Categories <i class="fas fa-arrow-right"></i>
     </button>
   </section>
@@ -3747,7 +3609,7 @@
     </div>
 
     <div class="footer-bottom">
-      <p>© 2025 RightJobs. All rights reserved.</p>
+      <p>Â© 2025 RightJobs. All rights reserved.</p>
       <div class="footer-bottom-links">
         <a href="#">Privacy Policy</a>
         <a href="#">Terms of Service</a>
@@ -3784,93 +3646,27 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // Enhanced animate elements on scroll with staggered timing
+    // Animate elements on scroll
     const observerOptions = {
       threshold: 0.1,
       rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
+      entries.forEach(entry => {
         if (entry.isIntersecting) {
-          // Add staggered delay based on element position
-          const delay = (entry.target.dataset.index || 0) * 100;
-          setTimeout(() => {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0) scale(1)';
-          }, delay);
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
         }
       });
     }, observerOptions);
 
-    // Apply staggered animation to cards
-    document.querySelectorAll('.job-card, .category-card, .company-card, .stat-card').forEach((el, index) => {
+    document.querySelectorAll('.job-card, .category-card, .company-card, .stat-card').forEach(el => {
       el.style.opacity = '0';
-      el.style.transform = 'translateY(30px) scale(0.95)';
-      el.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
-      el.dataset.index = index % 6; // Stagger within groups of 6
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'all 0.6s ease';
       observer.observe(el);
     });
-
-    // Counter Animation for stats
-    function animateCounter(element, target, duration = 2000) {
-      let start = 0;
-      const increment = target / (duration / 16);
-      const suffix = element.textContent.replace(/[0-9.,]/g, '');
-
-      function updateCounter() {
-        start += increment;
-        if (start < target) {
-          if (target >= 1000) {
-            element.textContent = Math.floor(start).toLocaleString() + suffix;
-          } else {
-            element.textContent = Math.floor(start) + suffix;
-          }
-          requestAnimationFrame(updateCounter);
-        } else {
-          element.textContent = target.toLocaleString() + suffix;
-        }
-      }
-      updateCounter();
-    }
-
-    // Observe stats for counter animation
-    const statsObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !entry.target.dataset.animated) {
-          entry.target.dataset.animated = 'true';
-          const statElements = entry.target.querySelectorAll('.stats-bar h3');
-          statElements.forEach(stat => {
-            const text = stat.textContent;
-            let target = 0;
-            if (text.includes('L+')) {
-              target = parseInt(text) * 100000;
-              animateCounter(stat, target);
-              stat.textContent = '0L+';
-            } else if (text.includes('K+')) {
-              target = parseInt(text) * 1000;
-              animateCounter(stat, target);
-              stat.textContent = '0K+';
-            } else {
-              target = parseInt(text.replace(/[^0-9]/g, ''));
-              if (target) animateCounter(stat, target);
-            }
-          });
-        }
-      });
-    }, { threshold: 0.3 });
-
-    document.querySelectorAll('.stats-bar').forEach(el => statsObserver.observe(el));
-
-    // Live "Hired Today" counter simulation
-    const hiredCounter = document.querySelector('.hero-floating-card.card-top h4');
-    if (hiredCounter) {
-      let currentCount = parseInt(hiredCounter.textContent);
-      setInterval(() => {
-        currentCount += Math.floor(Math.random() * 3);
-        hiredCounter.textContent = currentCount;
-      }, 8000);
-    }
 
     // Add ripple effect to buttons
     document.querySelectorAll('button').forEach(button => {
@@ -3903,15 +3699,6 @@
       });
     });
 
-    // Parallax effect for hero background shapes
-    window.addEventListener('scroll', () => {
-      const scrolled = window.scrollY;
-      const hero = document.querySelector('.hero');
-      if (hero && scrolled < window.innerHeight) {
-        hero.style.setProperty('--parallax-offset', `${scrolled * 0.3}px`);
-      }
-    });
-
     // Add CSS for ripple animation
     const style = document.createElement('style');
     style.textContent = `
@@ -3921,15 +3708,34 @@
           opacity: 0;
         }
       }
-      .hero::before {
-        transform: translateY(calc(var(--parallax-offset, 0px) * -0.5));
-      }
-      .hero::after {
-        transform: translateY(calc(var(--parallax-offset, 0px) * 0.3));
-      }
     `;
     document.head.appendChild(style);
   </script>
+
+  <!-- Supabase Client Library -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- RightJobs Supabase Configuration -->
+  <script src="supabase.js"></script>
+
+  <!-- Test Connection -->
+  <script>
+    // Test Supabase connection on page load
+    window.addEventListener('DOMContentLoaded', async () => {
+      console.log('🔄 Testing Supabase connection...');
+      const connected = await testConnection();
+      if (connected) {
+        console.log('✅ Database connected! Ready to fetch jobs.');
+
+        // Test: Fetch first 3 jobs
+        const jobs = await getJobs();
+        console.log(`📊 Found ${jobs.length} jobs in database:`, jobs);
+      } else {
+        console.error('❌ Database connection failed. Check credentials.');
+      }
+    });
+  </script>
+
   <div class="floating-bot">
     <i class="fas fa-comment-dots"></i>
     <div class="bot-tooltip">Ask AI Assistant</div>
