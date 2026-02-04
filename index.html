@@ -10,33 +10,39 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     :root {
-      --primary: #0066FF;
-      --primary-dark: #0052CC;
-      --primary-light: #E6F0FF;
+      --primary: #0F62FE;
+      /* IBM Blue-ish, more professional */
+      --primary-dark: #0043CE;
+      --primary-light: #E0E7FF;
       --secondary: #000000;
-      --accent: #0066FF;
-      --accent-light: #F0F7FF;
+      --accent: #2563EB;
+      --accent-light: #EFF6FF;
       --warning: #F59E0B;
       --danger: #EF4444;
-      --dark: #000000;
+      --dark: #0F172A;
+      /* Slate 900 */
       --gray-900: #111111;
-      --gray-800: #1A1A1A;
-      --gray-700: #333333;
-      --gray-600: #555555;
-      --gray-500: #777777;
-      --gray-400: #999999;
-      --gray-300: #E5E5E5;
-      --gray-200: #F5F5F5;
-      --gray-100: #FFFFFF;
+      --gray-800: #1E293B;
+      --gray-700: #334155;
+      --gray-600: #475569;
+      --gray-500: #64748B;
+      --gray-400: #94A3B8;
+      --gray-300: #CBD5E1;
+      --gray-200: #E2E8F0;
+      --gray-100: #F8FAFC;
+      /* Slate 50 */
       --white: #FFFFFF;
       --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
       --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
       --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
       --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
       --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
-      --gradient-primary: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
-      --gradient-secondary: linear-gradient(135deg, #000000 0%, #1A1A1A 100%);
-      --gradient-accent: linear-gradient(135deg, #0066FF 0%, #0052CC 100%);
+      --gradient-primary: linear-gradient(135deg, #0F62FE 0%, #0043CE 100%);
+      --gradient-secondary: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+      --gradient-accent: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+      --glass-bg: rgba(255, 255, 255, 0.7);
+      --glass-border: 1px solid rgba(255, 255, 255, 0.5);
+      --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
     }
 
     * {
@@ -169,7 +175,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 14px 80px;
-      background: rgba(255, 255, 255, 0.95);
+      background: #FFFFFF;
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--gray-200);
@@ -353,17 +359,24 @@
       transition: all 0.3s ease;
     }
 
-    /* Hero Section */
+    /* Hero Section - Premium Redesign */
     .hero {
-      padding: 100px 80px 140px;
-      /* Increased bottom padding */
-      /* Background image removed as per user request */
-      background: linear-gradient(180deg, #FAFBFF 0%, #FFFFFF 100%);
+      padding: 140px 80px 100px;
       position: relative;
       overflow: hidden;
-      min-height: calc(100vh - 70px);
+      min-height: 90vh;
+      /* Taller hero */
       display: flex;
       align-items: center;
+      /* Premium Mesh Gradient */
+      background-color: #FAFAFA;
+      background-image:
+        radial-gradient(at 0% 0%, hsla(253, 16%, 7%, 1) 0, transparent 50%),
+        radial-gradient(at 50% 0%, hsla(225, 39%, 30%, 1) 0, transparent 50%),
+        radial-gradient(at 100% 0%, hsla(339, 49%, 30%, 1) 0, transparent 50%);
+      background: radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 100% 0%, rgba(147, 51, 234, 0.05) 0%, transparent 40%),
+        linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
     }
 
     /* Overlay removed as background is light again */
@@ -457,22 +470,23 @@
       opacity: 0;
     }
 
-    /* Search Box - Modern Design - Full Width */
+    /* Search Box - Glassmorphism */
     .search-box {
       display: flex;
       align-items: center;
-      background: white;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
       border-radius: 20px;
-      padding: 10px;
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.03);
-      margin-bottom: 28px;
+      padding: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.5);
+      margin-bottom: 32px;
       animation: fadeInUp 0.6s ease forwards;
       animation-delay: 0.3s;
       opacity: 0;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       width: 100%;
-      max-width: 100%;
-      border: 1px solid rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.6);
     }
 
     .search-box:focus-within {
@@ -1258,15 +1272,16 @@
       background: white;
       border-radius: 20px;
       padding: 24px;
-      border: 1px solid var(--gray-200);
-      transition: all 0.3s ease;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       position: relative;
       overflow: hidden;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
 
     .job-card:hover {
       transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.1), 0 0 0 1px var(--primary-light);
       border-color: var(--primary);
     }
 
@@ -1420,20 +1435,21 @@
 
     .category-card {
       background: white;
-      border-radius: 16px;
-      padding: 28px 24px;
+      border-radius: 20px;
+      padding: 32px 24px;
       text-align: center;
-      border: 1px solid var(--gray-200);
+      border: 1px solid rgba(0, 0, 0, 0.05);
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
       position: relative;
       overflow: hidden;
+      box-shadow: var(--shadow);
     }
 
     .category-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
-      border-color: var(--primary);
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--primary-light);
     }
 
     .category-card:focus {
@@ -1641,10 +1657,10 @@
       margin: 0;
     }
 
-    /* Stats Bar */
+    /* Stats Bar - Premium Strip */
     .stats-bar {
-      background: linear-gradient(135deg, #312E81 0%, var(--primary) 50%, #7C3AED 100%);
-      padding: 70px 80px;
+      background: var(--dark);
+      padding: 80px 80px;
       position: relative;
       overflow: hidden;
     }
@@ -1656,7 +1672,10 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      background:
+        radial-gradient(circle at 10% 20%, rgba(37, 99, 235, 0.1) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.1) 0%, transparent 40%);
+      opacity: 0.8;
     }
 
     .stats-bar-content {
@@ -1665,27 +1684,36 @@
       text-align: center;
       position: relative;
       z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     .stats-bar-item {
       transition: transform 0.3s ease;
+      flex: 1;
     }
 
     .stats-bar-item:hover {
-      transform: scale(1.1);
+      transform: translateY(-5px);
     }
 
     .stats-bar h3 {
-      font-size: 52px;
+      font-size: 64px;
       font-weight: 800;
-      color: white;
       margin-bottom: 8px;
+      background: linear-gradient(135deg, #FFFFFF 0%, #E2E8F0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -2px;
     }
 
     .stats-bar p {
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 18px;
-      font-weight: 500;
+      color: var(--gray-400);
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
 
     /* Job Alerts */
@@ -2784,14 +2812,14 @@
           <span class="badge-dot"></span>
           <span class="badge-text">India's #1 AI-Powered Job Platform</span>
         </div>
-        <h1>Your job search<br><span>ends here</span></h1>
-        <p class="hero-description">Discover 50 lakh+ career opportunities across India.<br>Connect with verified
-          employers and get hired faster.</p>
+        <h1>Discover Your <br><span>Next Career Move</span></h1>
+        <p class="hero-description">Connect with 50,000+ top employers and start your journey today. <br>Your dream job
+          is just a search away.</p>
 
         <div class="search-box">
           <div class="search-field">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search by job title">
+            <input type="text" placeholder="Search for jobs (e.g. 'Software Engineer')">
           </div>
           <div class="search-divider"></div>
           <div class="search-field search-field-select">
@@ -2883,6 +2911,28 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <section class="stats-bar">
+    <div class="stats-bar-content">
+      <div class="stats-bar-item">
+        <h3>2M+</h3>
+        <p>Active Candidates</p>
+      </div>
+      <div class="stats-bar-item">
+        <h3>50k+</h3>
+        <p>Verified Companies</p>
+      </div>
+      <div class="stats-bar-item">
+        <h3>1L+</h3>
+        <p>Daily Live Jobs</p>
+      </div>
+      <div class="stats-bar-item">
+        <h3>10M+</h3>
+        <p>Applications Sent</p>
       </div>
     </div>
   </section>

@@ -1208,8 +1208,7 @@
                     <i class="fas fa-cog"></i>
                     Settings
                 </a>
-                <a href="login.html" class="sidebar-link" onclick="return confirm('Are you sure you want to logout?');"
-                    style="color: #EF4444;">
+                <a href="#" class="sidebar-link" id="logoutBtn" style="color: #EF4444;">
                     <i class="fas fa-sign-out-alt"></i>
                     Logout
                 </a>
@@ -1732,6 +1731,39 @@
                 e.preventDefault();
                 document.querySelector('.header-search input').focus();
             }
+        });
+    </script>
+    <!-- Supabase Logic -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const { createClient } = supabase;
+        const _sb = createClient('https://rjjfjzgvthhqeokfrrwd.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqamZqemd2dGhocWVva2ZycndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2Nzk0NzcsImV4cCI6MjA4NTI1NTQ3N30.xWlBJ5_wyI3oaVYDtpjmAF5aY-q1wpa_Uo6mFA45-ao');
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data: { user } } = await _sb.auth.getUser();
+            if (!user) return window.location.href = 'login.html';
+
+            const { data } = await _sb.from('candidates').select().eq('user_id', user.id).single();
+            if (data) {
+                const fName = data.full_name || 'User';
+                document.querySelectorAll('.sidebar-user-name, .profile-name').forEach(e => e.textContent = fName);
+                document.querySelector('.sidebar-user-avatar, .profile-avatar').textContent = fName.substring(0, 2).toUpperCase();
+
+                const h1 = document.querySelector('.header-greeting h1');
+                if (h1) h1.textContent = h1.textContent.split(',')[0] + ', ' + fName.split(' ')[0] + '!';
+
+                const locLabel = Array.from(document.querySelectorAll('.label')).find(l => l.innerHTML.includes('Location'));
+                if (locLabel && locLabel.nextElementSibling) locLabel.nextElementSibling.textContent = data.city;
+            }
+
+            // Logout Logic
+            document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    await _sb.auth.signOut();
+                    window.location.href = 'login.html';
+                }
+            });
         });
     </script>
 </body>

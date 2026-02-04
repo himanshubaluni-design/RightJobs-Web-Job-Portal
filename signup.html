@@ -435,24 +435,13 @@
           if (!authData.user) throw new Error('Failed to create account');
 
           const { error: profileError } = await sb
-            .from('users')
+            .from('candidates')
             .insert({
-              id: authData.user.id,
-              phone: phoneNumber,
-              email: email,
+              user_id: authData.user.id,
               full_name: fullName,
-              user_type: 'candidate',
-              city: city,
-              state: state,
-              experience_years: expYears,
-              experience_months: expMonths,
-              current_salary: currentSalary,
-              expected_salary: expectedSalary,
-              notice_period: noticePeriod,
-              work_type: workType,
-              skills: skills,
-              is_active: true,
-              profile_completed: 90
+              email: email,
+              phone: phoneNumber,
+              city: city
             });
 
           if (profileError) throw new Error('Profile save failed: ' + profileError.message);
