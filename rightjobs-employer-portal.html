@@ -27,8 +27,8 @@
             --gray-600: #475569;
             --gray-700: #334155;
             --white: #FFFFFF;
-            --sidebar-bg: #0F172A;
-            --sidebar-text: #94A3B8;
+            --sidebar-bg: #E2E8F0;
+            --sidebar-text: #64748B;
             --success: #10B981;
             --warning: #F59E0B;
             --danger: #EF4444;
@@ -78,7 +78,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--gray-200);
         }
 
         .sidebar-logo-icon {
@@ -100,7 +100,7 @@
         .sidebar-logo-text {
             font-size: 20px;
             font-weight: 800;
-            color: white;
+            color: var(--dark);
         }
 
         .sidebar-logo-text span {
@@ -156,8 +156,8 @@
         }
 
         .sidebar-link:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
+            background: var(--gray-100);
+            color: var(--primary);
         }
 
         .sidebar-link.active {
@@ -189,7 +189,7 @@
         .sidebar-user {
             margin-top: auto;
             padding: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--gray-200);
         }
 
         .sidebar-user-info {
@@ -213,7 +213,7 @@
 
         .sidebar-user-name {
             font-weight: 600;
-            color: white;
+            color: var(--dark);
             font-size: 14px;
         }
 
@@ -353,13 +353,15 @@
             background: white;
             border-radius: 16px;
             padding: 24px;
-            border: 1px solid var(--gray-200);
-            transition: all 0.2s;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .stat-card:hover {
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+            transform: translateY(-4px);
+            border-color: transparent;
         }
 
         .stat-icon {
@@ -431,7 +433,8 @@
         .card {
             background: white;
             border-radius: 16px;
-            border: 1px solid var(--gray-200);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
         }
 
         .card-header {
@@ -479,16 +482,31 @@
         /* Application rows in dashboard */
         .application-row {
             padding: 20px 24px;
-            border-bottom: 1px solid var(--gray-100);
+            margin: 0 24px 8px 24px;
+            /* Added margins */
+            border-radius: 12px;
+            /* Rounded corners */
+            border: 1px solid transparent;
             display: grid;
             grid-template-columns: 2fr 1.5fr 1fr 120px 140px;
             gap: 16px;
             align-items: center;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
+            background: white;
+            /* Ensure bg is white */
+        }
+
+        /* Remove the weird bottom border since we are floating now */
+        .application-row:not(:last-child) {
+            border-bottom: 1px solid var(--gray-50);
         }
 
         .application-row:hover {
             background: var(--gray-50);
+            transform: scale(1.005);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border-color: var(--gray-200);
+            z-index: 10;
         }
 
         .candidate-info {

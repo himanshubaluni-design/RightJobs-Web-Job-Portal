@@ -169,6 +169,7 @@
         </div>
         <div class="form-row" id="salarySection"><div class="form-group"><label>Current Salary (CTC) <span class="required">*</span></label><div class="input-wrapper"><i class="fas fa-rupee-sign input-icon"></i><input type="text" id="currentSalary" placeholder="e.g., 3,00,000"></div><p class="helper-text">Per annum</p></div><div class="form-group"><label>Expected Salary <span class="required">*</span></label><div class="input-wrapper"><i class="fas fa-rupee-sign input-icon"></i><input type="text" id="expectedSalary" placeholder="e.g., 4,50,000"></div></div></div>
         <div class="form-group"><label>Key Skills <span class="required">*</span></label><div class="skills-input-container"><div class="skills-tags" id="skillsTags"></div><input type="text" class="skills-input" id="skillsInput" placeholder="Type a skill and press Enter..."></div><p class="skills-counter"><span id="skillsCount">0</span>/10 skills</p></div>
+        <div class="form-group"><label>About Me <span class="optional-label">(Optional)</span></label><div class="input-wrapper"><i class="fas fa-user-circle input-icon"></i><textarea id="aboutMe" placeholder="Tell employers about yourself, your work style, strengths, and career goals..." rows="4" maxlength="500" style="padding: 12px 12px 12px 40px; border: 1px solid #E5E7EB; border-radius: 8px; font-family: inherit; font-size: 14px; width: 100%; resize: vertical;"></textarea></div><p class="helper-text"><span id="aboutMeCount">0</span>/500 characters</p></div>
         <div class="form-group"><label>Upload Resume <span class="required">*</span></label><div class="file-upload-area" id="resumeUploadArea"><div class="file-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div><p class="file-upload-text">Click or drag PDF/DOCX</p><input type="file" class="file-upload-input" id="resumeInput" accept=".pdf,.doc,.docx"></div><div class="uploaded-file" id="uploadedResume" style="display:none"><div class="uploaded-file-icon"><i class="fas fa-file-pdf"></i></div><div class="uploaded-file-info"><div class="uploaded-file-name" id="resumeFileName">resume.pdf</div><div class="uploaded-file-size" id="resumeFileSize">245 KB</div></div><button type="button" class="uploaded-file-remove" id="removeResume"><i class="fas fa-times"></i></button></div></div>
         <div class="form-actions"><button type="button" class="btn btn-secondary" id="step2BackBtn">Back</button><button type="button" class="btn btn-primary" id="step2NextBtn">Continue</button></div>
       </div>`;
@@ -327,6 +328,13 @@
       const skillsInput = document.getElementById('skillsInput');
       skillsInput.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); addSkill(skillsInput.value); skillsInput.value = ''; } });
 
+      // About Me character counter
+      const aboutMeField = document.getElementById('aboutMe');
+      const aboutMeCounter = document.getElementById('aboutMeCount');
+      aboutMeField.addEventListener('input', () => {
+        aboutMeCounter.textContent = aboutMeField.value.length;
+      });
+
       const resumeArea = document.getElementById('resumeUploadArea'), resumeInput = document.getElementById('resumeInput');
       resumeArea.addEventListener('click', () => resumeInput.click());
       resumeInput.addEventListener('change', e => handleResume(e.target.files[0]));
@@ -409,6 +417,9 @@
           const currentSalary = currentSalaryText ? parseInt(currentSalaryText.replace(/,/g, '')) : null;
           const expectedSalary = expectedSalaryText ? parseInt(expectedSalaryText.replace(/,/g, '')) : null;
 
+          // Get About Me (optional field)
+          const aboutMe = document.getElementById('aboutMe').value.trim() || null;
+
           const qualification = document.getElementById('qualification').value;
           const course = document.getElementById('course').value;
           const college = document.getElementById('college').value.trim();
@@ -434,6 +445,30 @@
           if (authError) throw new Error(authError.message);
           if (!authData.user) throw new Error('Failed to create account');
 
+          // Upload resume to Supabase Storage
+          let resumeUrl = null;
+          if (resumeFile) {
+            console.log('Uploading resume...');
+            const fileExt = resumeFile.name.split('.').pop();
+            const fileName = `${authData.user.id}-${Date.now()}.${fileExt}`;
+            
+            const { data: uploadData, error: uploadError } = await sb.storage
+              .from('resumes')
+              .upload(fileName, resumeFile);
+            
+            if (uploadError) {
+              console.error('Resume upload failed:', uploadError);
+              // Don't fail signup if resume upload fails, just log it
+            } else {
+              // Get public URL for the uploaded resume
+              const { data: urlData } = sb.storage
+                .from('resumes')
+                .getPublicUrl(fileName);
+              resumeUrl = urlData.publicUrl;
+              console.log('Resume uploaded:', resumeUrl);
+            }
+          }
+
           const { error: profileError } = await sb
             .from('candidates')
             .insert({
@@ -441,7 +476,23 @@
               full_name: fullName,
               email: email,
               phone: phoneNumber,
-              city: city
+              city: city,
+              state: state,
+              is_experienced: isExperienced,
+              experience_years: expYears,
+              experience_months: expMonths,
+              skills: skills, // Array of skills
+              current_salary: currentSalary,
+              expected_salary: expectedSalary,
+              about_me: aboutMe,
+              qualification: qualification,
+              course: course,
+              college: college,
+              passing_year: passingYear,
+              notice_period: noticePeriod,
+              work_type: workType,
+              resume_url: resumeUrl
+              // Note: profile_pic_url can be added later
             });
 
           if (profileError) throw new Error('Profile save failed: ' + profileError.message);

@@ -1,11 +1,25 @@
 // RightJobs - Supabase Configuration
 // This file connects your website to the Supabase database
 
-const SUPABASE_URL = 'https://rjjfjzgvthhqeokfrrwd.supabase.co';
+const SUPABASE_URL = 'https://rjjfjzgvthhqeokfrrwd.supabaseClient.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqamZqemd2dGhocWVva2ZycndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2Nzk0NzcsImV4cCI6MjA4NTI1NTQ3N30.xWlBJ5_wyI3oaVYDtpjmAF5aY-q1wpa_Uo6mFA45-ao';
 
-// Initialize Supabase client
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Initialize Supabase client (renamed to avoid conflict with window.supabase library)
+let supabaseClient = null;
+
+// Function to initialize Supabase
+function initSupabase() {
+    if (typeof window.supabase !== 'undefined' && window.supabaseClient.createClient) {
+        supabaseClient = window.supabaseClient.createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log('✅ Supabase initialized successfully');
+        return true;
+    }
+    console.error('❌ Supabase library not loaded');
+    return false;
+}
+
+// Try to initialize immediately
+initSupabase();
 
 // ============================================
 // JOB FUNCTIONS
@@ -13,6 +27,15 @@ const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 // Fetch all jobs (with optional filters)
 async function getJobs(filters = {}) {
+    // Ensure supabase is initialized
+    if (!supabaseClient) {
+        console.error('Supabase not initialized, trying again...');
+        initSupabase();
+        if (!supabaseClient) {
+            throw new Error('Supabase failed to initialize');
+        }
+    }
+
     let query = supabase
         .from('Jobs')
         .select('*')
@@ -113,13 +136,13 @@ async function getLocations() {
 // UTILITY FUNCTIONS
 // ============================================
 
-// Format salary for display (e.g., 18000 -> "â‚¹18,000")
+// Format salary for display (e.g., 18000 -> "Ã¢â€šÂ¹18,000")
 function formatSalary(amount) {
     if (!amount) return 'Not disclosed';
-    return 'â‚¹' + amount.toLocaleString('en-IN');
+    return 'Ã¢â€šÂ¹' + amount.toLocaleString('en-IN');
 }
 
-// Format salary range (e.g., "â‚¹18,000 - â‚¹28,000/month")
+// Format salary range (e.g., "Ã¢â€šÂ¹18,000 - Ã¢â€šÂ¹28,000/month")
 function formatSalaryRange(min, max) {
     if (!min && !max) return 'Not disclosed';
     if (!max) return formatSalary(min) + '+/month';

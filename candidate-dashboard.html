@@ -24,8 +24,8 @@
             --gray-600: #475569;
             --gray-700: #334155;
             --white: #FFFFFF;
-            --sidebar-bg: #0F172A;
-            --sidebar-text: #94A3B8;
+            --sidebar-bg: #E2E8F0;
+            --sidebar-text: #64748B;
             --sidebar-active: #0066FF;
             --success: #10B981;
             --warning: #F59E0B;
@@ -64,6 +64,7 @@
             display: flex;
             flex-direction: column;
             z-index: 100;
+            border-right: 1px solid var(--gray-200);
         }
 
         .sidebar-logo {
@@ -71,7 +72,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid var(--gray-200);
         }
 
         .sidebar-logo-icon {
@@ -92,7 +93,7 @@
         .sidebar-logo-text {
             font-size: 20px;
             font-weight: 800;
-            color: white;
+            color: var(--dark);
         }
 
         .sidebar-logo-text span {
@@ -133,8 +134,8 @@
         }
 
         .sidebar-link:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
+            background: var(--gray-100);
+            color: var(--primary);
         }
 
         .sidebar-link.active {
@@ -166,7 +167,7 @@
         .sidebar-user {
             margin-top: auto;
             padding: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid var(--gray-200);
         }
 
         .sidebar-user-info {
@@ -191,7 +192,7 @@
 
         .sidebar-user-name {
             font-weight: 600;
-            color: white;
+            color: var(--dark);
             font-size: 14px;
         }
 
@@ -219,7 +220,7 @@
 
         .profile-completion-bar {
             height: 6px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--gray-200);
             border-radius: 3px;
             overflow: hidden;
         }
@@ -348,9 +349,35 @@
         /* Dashboard Content */
         .dashboard-content {
             padding: 24px 32px;
+            /* display: grid;  <-- Moved to #view-dashboard */
+            /* grid-template-columns: 1fr 340px; */
+            /* gap: 24px; */
+        }
+
+        #view-dashboard {
+            /* Restoring the grid layout for the dashboard view */
             display: grid;
             grid-template-columns: 1fr 340px;
             gap: 24px;
+            width: 100%;
+        }
+
+        .view-section {
+            display: none;
+            width: 100%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .main-section {
@@ -1163,26 +1190,26 @@
         <div class="sidebar-section">
             <div class="sidebar-section-title">Main Menu</div>
             <nav class="sidebar-nav">
-                <a href="#" class="sidebar-link active">
+                <a href="#" class="sidebar-link active" id="nav-dashboard">
                     <i class="fas fa-th-large"></i>
                     Dashboard
                 </a>
-                <a href="#" class="sidebar-link">
+                <a href="#" class="sidebar-link" id="nav-jobs">
                     <i class="fas fa-briefcase"></i>
                     Find Jobs
                     <span class="badge">500+</span>
                 </a>
-                <a href="#" class="sidebar-link">
+                <a href="#" class="sidebar-link" id="nav-applications">
                     <i class="fas fa-file-alt"></i>
                     My Applications
                     <span class="badge">4</span>
                 </a>
-                <a href="#" class="sidebar-link">
+                <a href="#" class="sidebar-link" id="nav-messages">
                     <i class="fas fa-comment-dots"></i>
                     Messages
                     <span class="badge">2</span>
                 </a>
-                <a href="#" class="sidebar-link">
+                <a href="#" class="sidebar-link" id="nav-saved">
                     <i class="fas fa-bookmark"></i>
                     Saved Jobs
                 </a>
@@ -1192,19 +1219,16 @@
         <div class="sidebar-section">
             <div class="sidebar-section-title">Account</div>
             <nav class="sidebar-nav">
-                <a href="#" class="sidebar-link">
+                <a href="#" class="sidebar-link" id="nav-profile">
                     <i class="fas fa-user"></i>
                     My Profile
                 </a>
-                <a href="#" class="sidebar-link">
-                    <i class="fas fa-file-pdf"></i>
-                    My Resume
-                </a>
-                <a href="#" class="sidebar-link">
+
+                <a href="#" class="sidebar-link" id="nav-alerts">
                     <i class="fas fa-bell"></i>
                     Job Alerts
                 </a>
-                <a href="#" class="sidebar-link">
+                <a href="#" class="sidebar-link" id="nav-settings">
                     <i class="fas fa-cog"></i>
                     Settings
                 </a>
@@ -1266,68 +1290,613 @@
 
         <!-- Dashboard Content -->
         <div class="dashboard-content">
-            <!-- Main Section -->
-            <div class="main-section">
-                <!-- Stats Grid -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-icon blue">
-                            <i class="fas fa-paper-plane"></i>
+            <div id="view-dashboard" class="view-section">
+                <!-- Main Section -->
+                <div class="main-section">
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon blue">
+                                <i class="fas fa-paper-plane"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>12</h3>
+                                <p>Applications Sent</p>
+                                <span class="stat-change positive">↑ 3 this week</span>
+                            </div>
                         </div>
-                        <div class="stat-content">
-                            <h3>12</h3>
-                            <p>Applications Sent</p>
-                            <span class="stat-change positive">↑ 3 this week</span>
+                        <div class="stat-card">
+                            <div class="stat-icon orange">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>8</h3>
+                                <p>Profile Views</p>
+                                <span class="stat-change positive">↑ 25% increase</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon green">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>2</h3>
+                                <p>Interviews Scheduled</p>
+                                <span class="stat-change neutral">Next: Tomorrow</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon yellow">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-content">
+                                <h3>15</h3>
+                                <p>Saved Jobs</p>
+                                <span class="stat-change neutral">5 expiring soon</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon orange">
-                            <i class="fas fa-eye"></i>
+
+                    <!-- Recommended Jobs -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-fire"></i>
+                                <div>
+                                    Recommended Jobs
+                                    <div class="card-subtitle">Based on your profile and preferences</div>
+                                </div>
+                            </div>
+                            <div class="card-actions">
+                                <button class="card-action-btn">
+                                    <i class="fas fa-filter"></i>
+                                    Filters
+                                </button>
+                                <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+                            </div>
                         </div>
-                        <div class="stat-content">
-                            <h3>8</h3>
-                            <p>Profile Views</p>
-                            <span class="stat-change positive">↑ 25% increase</span>
+                        <div class="jobs-table">
+                            <div class="jobs-table-header">
+                                <span>Company & Role</span>
+                                <span>Location</span>
+                                <span>Salary</span>
+                                <span>Match</span>
+                                <span>Action</span>
+                            </div>
+                            <div class="job-row">
+                                <div class="job-company">
+                                    <img src="https://www.google.com/s2/favicons?domain=zomato.com&sz=64" alt="Zomato"
+                                        class="job-company-logo">
+                                    <div class="job-company-info">
+                                        <h4>Delivery Partner</h4>
+                                        <p>Zomato <span class="rating">★ 4.2</span></p>
+                                    </div>
+                                </div>
+                                <div class="job-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Delhi NCR
+                                </div>
+                                <div class="job-salary">18K-28K/month</div>
+                                <span class="match-badge high">● 95%</span>
+                                <div class="job-actions">
+                                    <button class="btn-apply">Apply</button>
+                                    <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                                </div>
+                            </div>
+                            <div class="job-row">
+                                <div class="job-company">
+                                    <img src="https://www.google.com/s2/favicons?domain=amazon.in&sz=64" alt="Amazon"
+                                        class="job-company-logo">
+                                    <div class="job-company-info">
+                                        <h4>Warehouse Associate</h4>
+                                        <p>Amazon <span class="rating">★ 4.1</span></p>
+                                    </div>
+                                </div>
+                                <div class="job-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Gurgaon
+                                </div>
+                                <div class="job-salary">15K-22K/month</div>
+                                <span class="match-badge high">● 88%</span>
+                                <div class="job-actions">
+                                    <button class="btn-apply">Apply</button>
+                                    <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                                </div>
+                            </div>
+                            <div class="job-row">
+                                <div class="job-company">
+                                    <img src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=64" alt="Swiggy"
+                                        class="job-company-logo">
+                                    <div class="job-company-info">
+                                        <h4>Delivery Executive</h4>
+                                        <p>Swiggy <span class="rating">★ 4.0</span></p>
+                                    </div>
+                                </div>
+                                <div class="job-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Delhi NCR
+                                </div>
+                                <div class="job-salary">20K-30K/month</div>
+                                <span class="match-badge high">● 85%</span>
+                                <div class="job-actions">
+                                    <button class="btn-apply">Apply</button>
+                                    <button class="btn-save saved"><i class="fas fa-bookmark"></i></button>
+                                </div>
+                            </div>
+                            <div class="job-row">
+                                <div class="job-company">
+                                    <img src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=64"
+                                        alt="Flipkart" class="job-company-logo">
+                                    <div class="job-company-info">
+                                        <h4>Packer/Sorter</h4>
+                                        <p>Flipkart <span class="rating">★ 4.3</span></p>
+                                    </div>
+                                </div>
+                                <div class="job-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Noida
+                                </div>
+                                <div class="job-salary">12K-18K/month</div>
+                                <span class="match-badge medium">● 78%</span>
+                                <div class="job-actions">
+                                    <button class="btn-apply">Apply</button>
+                                    <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                                </div>
+                            </div>
+                            <div class="job-row">
+                                <div class="job-company">
+                                    <img src="https://www.google.com/s2/favicons?domain=bigbasket.com&sz=64"
+                                        alt="BigBasket" class="job-company-logo">
+                                    <div class="job-company-info">
+                                        <h4>Delivery Boy</h4>
+                                        <p>BigBasket <span class="rating">★ 3.9</span></p>
+                                    </div>
+                                </div>
+                                <div class="job-location">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                    Delhi
+                                </div>
+                                <div class="job-salary">16K-24K/month</div>
+                                <span class="match-badge medium">● 75%</span>
+                                <div class="job-actions">
+                                    <button class="btn-apply">Apply</button>
+                                    <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="browse-all-link">
+                            <a href="#">Browse All 500+ Jobs <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
-                    <div class="stat-card">
-                        <div class="stat-icon green">
-                            <i class="fas fa-calendar-check"></i>
+
+                    <!-- My Applications -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-file-alt"></i>
+                                <div>
+                                    My Applications
+                                    <div class="card-subtitle">Track your job applications</div>
+                                </div>
+                            </div>
+                            <span class="active-badge">4 Active</span>
                         </div>
-                        <div class="stat-content">
-                            <h3>2</h3>
-                            <p>Interviews Scheduled</p>
-                            <span class="stat-change neutral">Next: Tomorrow</span>
+                        <div class="application-item">
+                            <div class="application-info">
+                                <img src="https://www.google.com/s2/favicons?domain=zomato.com&sz=64" alt="Zomato"
+                                    class="application-logo">
+                                <div class="application-details">
+                                    <h4>Delivery Partner - Zomato</h4>
+                                    <p>Delhi NCR • ₹18K-28K/month</p>
+                                </div>
+                            </div>
+                            <div class="application-status">
+                                <span class="status-badge shortlisted">Shortlisted</span>
+                                <div class="application-date">Applied Jan 25</div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon yellow">
-                            <i class="fas fa-star"></i>
+                        <div class="application-item">
+                            <div class="application-info">
+                                <img src="https://www.google.com/s2/favicons?domain=uber.com&sz=64" alt="Uber"
+                                    class="application-logo">
+                                <div class="application-details">
+                                    <h4>Driver Partner - Uber</h4>
+                                    <p>Delhi • ₹25K-40K/month</p>
+                                </div>
+                            </div>
+                            <div class="application-status">
+                                <span class="status-badge interview">Interview</span>
+                                <div class="application-date">Applied Jan 22</div>
+                            </div>
                         </div>
-                        <div class="stat-content">
-                            <h3>15</h3>
-                            <p>Saved Jobs</p>
-                            <span class="stat-change neutral">5 expiring soon</span>
+                        <div class="application-item">
+                            <div class="application-info">
+                                <img src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=64" alt="Flipkart"
+                                    class="application-logo">
+                                <div class="application-details">
+                                    <h4>Warehouse Associate - Flipkart</h4>
+                                    <p>Gurgaon • ₹15K-20K/month</p>
+                                </div>
+                            </div>
+                            <div class="application-status">
+                                <span class="status-badge viewed">Viewed</span>
+                                <div class="application-date">Applied Jan 20</div>
+                            </div>
+                        </div>
+                        <div class="application-item">
+                            <div class="application-info">
+                                <img src="https://www.google.com/s2/favicons?domain=bigbasket.com&sz=64" alt="BigBasket"
+                                    class="application-logo">
+                                <div class="application-details">
+                                    <h4>Delivery Executive - BigBasket</h4>
+                                    <p>Delhi • ₹16K-24K/month</p>
+                                </div>
+                            </div>
+                            <div class="application-status">
+                                <span class="status-badge applied">Applied</span>
+                                <div class="application-date">Applied Jan 18</div>
+                            </div>
+                        </div>
+                        <div class="browse-all-link">
+                            <a href="#">View All Applications <i class="fas fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recommended Jobs -->
+                <!-- Right Section -->
+                <div class="right-section">
+                    <!-- Messages -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-comment-dots"></i>
+                                Messages
+                            </div>
+                            <span class="badge-new">2 New</span>
+                        </div>
+                        <div class="message-item">
+                            <div class="message-avatar" style="background: linear-gradient(135deg, #EF4444, #F87171);">Z
+                            </div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">Zomato HR</span>
+                                    <span class="message-time">2 min ago</span>
+                                </div>
+                                <p class="message-preview">Congratulations! You've been shortlisted ...</p>
+                            </div>
+                            <div class="message-unread"></div>
+                        </div>
+                        <div class="message-item">
+                            <div class="message-avatar" style="background: linear-gradient(135deg, #0F172A, #334155);">U
+                            </div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">Uber Recruitment</span>
+                                    <span class="message-time">1 hour ago</span>
+                                </div>
+                                <p class="message-preview">Your interview is scheduled for tomorrow ...</p>
+                            </div>
+                            <div class="message-unread"></div>
+                        </div>
+                        <div class="message-item">
+                            <div class="message-avatar" style="background: linear-gradient(135deg, #3B82F6, #60A5FA);">F
+                            </div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <span class="message-sender">Flipkart Jobs</span>
+                                    <span class="message-time">2 days ago</span>
+                                </div>
+                                <p class="message-preview">Thank you for your application. We are review...</p>
+                            </div>
+                        </div>
+                        <div class="open-inbox-link">
+                            <a href="#">Open Inbox <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- My Profile -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-user-circle"></i>
+                                My Profile
+                            </div>
+                            <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
+                        </div>
+                        <div class="profile-card-content">
+                            <div class="profile-info">
+                                <div class="profile-avatar">RK</div>
+                                <div>
+                                    <div class="profile-name">Rahul Kumar</div>
+                                    <div class="profile-role">Delivery Executive</div>
+                                </div>
+                            </div>
+                            <div class="profile-details">
+                                <div class="profile-detail-item">
+                                    <span class="label"><i class="fas fa-map-marker-alt"></i> Location</span>
+                                    <span class="value">Delhi NCR</span>
+                                </div>
+                                <div class="profile-detail-item">
+                                    <span class="label"><i class="fas fa-briefcase"></i> Experience</span>
+                                    <span class="value">1 Year 6 Months</span>
+                                </div>
+                                <div class="profile-detail-item">
+                                    <span class="label"><i class="fas fa-rupee-sign"></i> Expected Salary</span>
+                                    <span class="value">3-4 LPA</span>
+                                </div>
+                                <div class="profile-detail-item">
+                                    <span class="label"><i class="fas fa-file-pdf"></i> Resume</span>
+                                    <span class="value success"><i class="fas fa-check-circle"></i> Uploaded</span>
+                                </div>
+                            </div>
+                            <button class="complete-profile-btn">
+                                <i class="fas fa-check-circle"></i>
+                                Complete Profile (65%)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Job Alerts -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-bell"></i>
+                                Job Alerts
+                            </div>
+                        </div>
+                        <div class="job-alerts-content">
+                            <div class="alert-item">
+                                <span class="alert-label"><i class="fas fa-map-marker-alt"></i> Location</span>
+                                <span class="alert-value">Delhi NCR</span>
+                            </div>
+                            <div class="alert-item">
+                                <span class="alert-label"><i class="fas fa-th-large"></i> Category</span>
+                                <span class="alert-value">Delivery & Logistics</span>
+                            </div>
+                            <div class="alert-item">
+                                <span class="alert-label"><i class="fas fa-rupee-sign"></i> Min Salary</span>
+                                <span class="alert-value">₹15,000/month</span>
+                            </div>
+                            <div class="alert-item">
+                                <span class="alert-label"><i class="fab fa-whatsapp"></i> WhatsApp Alerts</span>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="manage-alerts-link">
+                                <a href="#">Manage Alerts <i class="fas fa-arrow-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <i class="fas fa-bolt"></i>
+                                Quick Actions
+                            </div>
+                        </div>
+                        <div class="quick-actions-grid">
+                            <a href="#" class="quick-action-btn">
+                                <i class="fas fa-file-upload"></i>
+                                <span>Update Resume</span>
+                            </a>
+                            <a href="#" class="quick-action-btn">
+                                <i class="fas fa-search"></i>
+                                <span>Search Jobs</span>
+                            </a>
+                            <a href="#" class="quick-action-btn">
+                                <i class="fas fa-building"></i>
+                                <span>Browse Companies</span>
+                            </a>
+                            <a href="#" class="quick-action-btn">
+                                <i class="fas fa-headset"></i>
+                                <span>Get Support</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Find Jobs View -->
+            <div id="view-jobs" class="view-section">
+                <div class="card" style="padding: 40px; text-align: center; max-width: 600px; margin: 40px auto;">
+                    <div style="font-size: 64px; color: var(--primary); margin-bottom: 24px;">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h2 style="font-size: 24px; margin-bottom: 12px;">Find Your Next Job</h2>
+                    <p style="color: var(--gray-500); margin-bottom: 32px;">Browse thousands of active listings matching
+                        your profile to find the perfect fit.</p>
+                    <div style="display: flex; gap: 12px; justify-content: center;">
+                        <button class="btn-post-job" style="background: var(--primary);">Browse All Jobs</button>
+                        <button class="header-icon-btn" style="width: auto; padding: 0 20px;">Saved Jobs</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Applications View -->
+            <div id="view-applications" class="view-section">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title"><i class="fas fa-file-alt"></i> My Applications</div>
+                    </div>
+                    <!-- Cloning Content for Demo -->
+                    <div class="application-item" style="padding: 24px; border-bottom: 1px solid var(--gray-200);">
+                        <div class="application-info">
+                            <img src="https://www.google.com/s2/favicons?domain=zomato.com&sz=64" alt="Zomato"
+                                class="application-logo">
+                            <div class="application-details">
+                                <h4>Delivery Partner - Zomato</h4>
+                                <p>Delhi NCR • ₹18K-28K/month</p>
+                            </div>
+                        </div>
+                        <div class="application-status"><span class="status-badge shortlisted">Shortlisted</span></div>
+                    </div>
+                    <div class="application-item" style="padding: 24px; border-bottom: 1px solid var(--gray-200);">
+                        <div class="application-info">
+                            <img src="https://www.google.com/s2/favicons?domain=uber.com&sz=64" alt="Uber"
+                                class="application-logo">
+                            <div class="application-details">
+                                <h4>Driver Partner - Uber</h4>
+                                <p>Delhi • ₹25K-40K/month</p>
+                            </div>
+                        </div>
+                        <div class="application-status"><span class="status-badge interview">Interview</span></div>
+                    </div>
+                    <div class="browse-all-link" style="padding: 20px;"><a href="#">Load More...</a></div>
+                </div>
+            </div>
+
+            <!-- Messages View -->
+            <div id="view-messages" class="view-section">
+                <div class="card"
+                    style="height: calc(100vh - 140px); display: grid; grid-template-columns: 320px 1fr; overflow: hidden;">
+                    <!-- Chat Sidebar -->
+                    <div style="border-right: 1px solid var(--gray-200); display: flex; flex-direction: column;">
+                        <div style="padding: 20px; border-bottom: 1px solid var(--gray-200);">
+                            <div class="header-search" style="width: 100%;">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Search messages...">
+                            </div>
+                        </div>
+                        <div style="flex: 1; overflow-y: auto;">
+                            <!-- Active Chat Item -->
+                            <div
+                                style="padding: 16px 20px; display: flex; gap: 12px; cursor: pointer; background: var(--primary-light); border-left: 3px solid var(--primary);">
+                                <div
+                                    style="width: 48px; height: 48px; background: linear-gradient(135deg, #EF4444, #F87171); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                                    Z</div>
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                        <h4 style="font-size: 14px; font-weight: 600;">Zomato HR</h4>
+                                        <span style="font-size: 11px; color: var(--gray-500);">2m</span>
+                                    </div>
+                                    <p
+                                        style="font-size: 13px; color: var(--dark); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">
+                                        Congratulations! You've been shortlisted.</p>
+                                </div>
+                            </div>
+                            <!-- Other Items -->
+                            <div
+                                style="padding: 16px 20px; display: flex; gap: 12px; cursor: pointer; border-bottom: 1px solid var(--gray-50);">
+                                <div
+                                    style="width: 48px; height: 48px; background: linear-gradient(135deg, #0F172A, #334155); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                                    U</div>
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                        <h4 style="font-size: 14px; font-weight: 600;">Uber Recruitment</h4>
+                                        <span style="font-size: 11px; color: var(--gray-500);">1h</span>
+                                    </div>
+                                    <p
+                                        style="font-size: 13px; color: var(--gray-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">
+                                        Your interview is scheduled for tomorrow at 10 AM.</p>
+                                </div>
+                            </div>
+                            <div
+                                style="padding: 16px 20px; display: flex; gap: 12px; cursor: pointer; border-bottom: 1px solid var(--gray-50);">
+                                <div
+                                    style="width: 48px; height: 48px; background: linear-gradient(135deg, #3B82F6, #60A5FA); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                                    F</div>
+                                <div style="flex: 1;">
+                                    <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                        <h4 style="font-size: 14px; font-weight: 600;">Flipkart Jobs</h4>
+                                        <span style="font-size: 11px; color: var(--gray-500);">2d</span>
+                                    </div>
+                                    <p
+                                        style="font-size: 13px; color: var(--gray-500); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 180px;">
+                                        Thank you for applying. We are reviewing...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Chat Window -->
+                    <div style="display: flex; flex-direction: column; background: #FAFAFA;">
+                        <!-- Chat Header -->
+                        <div
+                            style="padding: 16px 24px; background: white; border-bottom: 1px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <div
+                                    style="width: 40px; height: 40px; background: linear-gradient(135deg, #EF4444, #F87171); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: 700;">
+                                    Z</div>
+                                <div>
+                                    <h4 style="font-size: 14px; font-weight: 700;">Zomato HR</h4>
+                                    <p
+                                        style="font-size: 12px; color: var(--success); display: flex; align-items: center; gap: 4px;">
+                                        <span
+                                            style="width: 6px; height: 6px; background: var(--success); border-radius: 50%;"></span>
+                                        Online
+                                    </p>
+                                </div>
+                            </div>
+                            <div style="display: flex; gap: 16px; color: var(--gray-400);">
+                                <i class="fas fa-phone cursor-pointer"></i>
+                                <i class="fas fa-video cursor-pointer"></i>
+                                <i class="fas fa-ellipsis-v cursor-pointer"></i>
+                            </div>
+                        </div>
+
+                        <!-- Messages Area -->
+                        <div
+                            style="flex: 1; padding: 24px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px;">
+                            <div style="align-self: flex-start; max-width: 70%;">
+                                <div
+                                    style="background: white; padding: 12px 16px; border-radius: 0 12px 12px 12px; border: 1px solid var(--gray-200); font-size: 14px; color: var(--dark); box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                                    Hello Rahul, your profile looks great!
+                                </div>
+                                <span
+                                    style="font-size: 11px; color: var(--gray-400); margin-top: 4px; display: block;">10:30
+                                    AM</span>
+                            </div>
+                            <div
+                                style="align-self: flex-end; max-width: 70%; display: flex; flex-direction: column; align-items: flex-end;">
+                                <div
+                                    style="background: var(--primary); color: white; padding: 12px 16px; border-radius: 12px 0 12px 12px; font-size: 14px; box-shadow: 0 2px 4px rgba(0,102,255,0.2);">
+                                    Thank you! I am very interested in the Delivery Partner role.
+                                </div>
+                                <span
+                                    style="font-size: 11px; color: var(--gray-400); margin-top: 4px; display: block;">10:32
+                                    AM</span>
+                            </div>
+                            <div style="align-self: flex-start; max-width: 70%;">
+                                <div
+                                    style="background: white; padding: 12px 16px; border-radius: 0 12px 12px 12px; border: 1px solid var(--gray-200); font-size: 14px; color: var(--dark); box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                                    Great. We have shortlisted your application. Are you available for a quick call?
+                                </div>
+                                <span
+                                    style="font-size: 11px; color: var(--gray-400); margin-top: 4px; display: block;">10:35
+                                    AM</span>
+                            </div>
+                        </div>
+
+                        <!-- Chat Input -->
+                        <div style="padding: 16px 24px; background: white; border-top: 1px solid var(--gray-200);">
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                <button
+                                    style="width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--gray-100); color: var(--gray-500); cursor: pointer;"><i
+                                        class="fas fa-paperclip"></i></button>
+                                <div style="flex: 1; position: relative;">
+                                    <input type="text" placeholder="Type a message..."
+                                        style="width: 100%; padding: 12px 16px; border-radius: 24px; border: 1px solid var(--gray-200); outline: none; background: var(--gray-50);">
+                                </div>
+                                <button
+                                    style="width: 40px; height: 40px; border-radius: 50%; border: none; background: var(--primary); color: white; cursor: pointer; box-shadow: 0 2px 6px rgba(0,102,255,0.3);"><i
+                                        class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Jobs View -->
+            <div id="view-saved" class="view-section">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
-                            <i class="fas fa-fire"></i>
-                            <div>
-                                Recommended Jobs
-                                <div class="card-subtitle">Based on your profile and preferences</div>
-                            </div>
-                        </div>
-                        <div class="card-actions">
-                            <button class="card-action-btn">
-                                <i class="fas fa-filter"></i>
-                                Filters
-                            </button>
-                            <a href="#" class="view-all-link">View All <i class="fas fa-arrow-right"></i></a>
+                            <i class="fas fa-bookmark"></i>
+                            Saved Jobs
                         </div>
                     </div>
                     <div class="jobs-table">
@@ -1338,434 +1907,654 @@
                             <span>Match</span>
                             <span>Action</span>
                         </div>
-                        <div class="job-row">
-                            <div class="job-company">
-                                <img src="https://www.google.com/s2/favicons?domain=zomato.com&sz=64" alt="Zomato"
-                                    class="job-company-logo">
-                                <div class="job-company-info">
-                                    <h4>Delivery Partner</h4>
-                                    <p>Zomato <span class="rating">★ 4.2</span></p>
-                                </div>
-                            </div>
-                            <div class="job-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                Delhi NCR
-                            </div>
-                            <div class="job-salary">18K-28K/month</div>
-                            <span class="match-badge high">● 95%</span>
-                            <div class="job-actions">
-                                <button class="btn-apply">Apply</button>
-                                <button class="btn-save"><i class="far fa-bookmark"></i></button>
-                            </div>
-                        </div>
+                        <!-- Job 1 -->
                         <div class="job-row">
                             <div class="job-company">
                                 <img src="https://www.google.com/s2/favicons?domain=amazon.in&sz=64" alt="Amazon"
                                     class="job-company-logo">
                                 <div class="job-company-info">
-                                    <h4>Warehouse Associate</h4>
+                                    <h4>Fulfillment Associate</h4>
                                     <p>Amazon <span class="rating">★ 4.1</span></p>
                                 </div>
                             </div>
                             <div class="job-location">
                                 <i class="fas fa-map-marker-alt"></i>
-                                Gurgaon
+                                Manesar
                             </div>
-                            <div class="job-salary">15K-22K/month</div>
-                            <span class="match-badge high">● 88%</span>
-                            <div class="job-actions">
-                                <button class="btn-apply">Apply</button>
-                                <button class="btn-save"><i class="far fa-bookmark"></i></button>
-                            </div>
-                        </div>
-                        <div class="job-row">
-                            <div class="job-company">
-                                <img src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=64" alt="Swiggy"
-                                    class="job-company-logo">
-                                <div class="job-company-info">
-                                    <h4>Delivery Executive</h4>
-                                    <p>Swiggy <span class="rating">★ 4.0</span></p>
-                                </div>
-                            </div>
-                            <div class="job-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                Delhi NCR
-                            </div>
-                            <div class="job-salary">20K-30K/month</div>
-                            <span class="match-badge high">● 85%</span>
+                            <div class="job-salary">16K-22K/month</div>
+                            <span class="match-badge high">● 92%</span>
                             <div class="job-actions">
                                 <button class="btn-apply">Apply</button>
                                 <button class="btn-save saved"><i class="fas fa-bookmark"></i></button>
                             </div>
                         </div>
+                        <!-- Job 2 -->
                         <div class="job-row">
                             <div class="job-company">
-                                <img src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=64" alt="Flipkart"
-                                    class="job-company-logo">
+                                <img src="https://www.google.com/s2/favicons?domain=urbancompany.com&sz=64"
+                                    alt="Urban Company" class="job-company-logo">
                                 <div class="job-company-info">
-                                    <h4>Packer/Sorter</h4>
-                                    <p>Flipkart <span class="rating">★ 4.3</span></p>
-                                </div>
-                            </div>
-                            <div class="job-location">
-                                <i class="fas fa-map-marker-alt"></i>
-                                Noida
-                            </div>
-                            <div class="job-salary">12K-18K/month</div>
-                            <span class="match-badge medium">● 78%</span>
-                            <div class="job-actions">
-                                <button class="btn-apply">Apply</button>
-                                <button class="btn-save"><i class="far fa-bookmark"></i></button>
-                            </div>
-                        </div>
-                        <div class="job-row">
-                            <div class="job-company">
-                                <img src="https://www.google.com/s2/favicons?domain=bigbasket.com&sz=64" alt="BigBasket"
-                                    class="job-company-logo">
-                                <div class="job-company-info">
-                                    <h4>Delivery Boy</h4>
-                                    <p>BigBasket <span class="rating">★ 3.9</span></p>
+                                    <h4>AC Technician</h4>
+                                    <p>Urban Company <span class="rating">★ 4.3</span></p>
                                 </div>
                             </div>
                             <div class="job-location">
                                 <i class="fas fa-map-marker-alt"></i>
                                 Delhi
                             </div>
-                            <div class="job-salary">16K-24K/month</div>
+                            <div class="job-salary">25K-35K/month</div>
+                            <span class="match-badge high">● 88%</span>
+                            <div class="job-actions">
+                                <button class="btn-apply">Apply</button>
+                                <button class="btn-save saved"><i class="fas fa-bookmark"></i></button>
+                            </div>
+                        </div>
+                        <!-- Job 3 -->
+                        <div class="job-row">
+                            <div class="job-company">
+                                <img src="https://www.google.com/s2/favicons?domain=blinkit.com&sz=64" alt="Blinkit"
+                                    class="job-company-logo">
+                                <div class="job-company-info">
+                                    <h4>Store Picker</h4>
+                                    <p>Blinkit <span class="rating">★ 4.0</span></p>
+                                </div>
+                            </div>
+                            <div class="job-location">
+                                <i class="fas fa-map-marker-alt"></i>
+                                Noida
+                            </div>
+                            <div class="job-salary">15K-20K/month</div>
                             <span class="match-badge medium">● 75%</span>
                             <div class="job-actions">
                                 <button class="btn-apply">Apply</button>
-                                <button class="btn-save"><i class="far fa-bookmark"></i></button>
+                                <button class="btn-save saved"><i class="fas fa-bookmark"></i></button>
                             </div>
                         </div>
                     </div>
-                    <div class="browse-all-link">
-                        <a href="#">Browse All 500+ Jobs <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-
-                <!-- My Applications -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-file-alt"></i>
-                            <div>
-                                My Applications
-                                <div class="card-subtitle">Track your job applications</div>
-                            </div>
-                        </div>
-                        <span class="active-badge">4 Active</span>
-                    </div>
-                    <div class="application-item">
-                        <div class="application-info">
-                            <img src="https://www.google.com/s2/favicons?domain=zomato.com&sz=64" alt="Zomato"
-                                class="application-logo">
-                            <div class="application-details">
-                                <h4>Delivery Partner - Zomato</h4>
-                                <p>Delhi NCR • ₹18K-28K/month</p>
-                            </div>
-                        </div>
-                        <div class="application-status">
-                            <span class="status-badge shortlisted">Shortlisted</span>
-                            <div class="application-date">Applied Jan 25</div>
-                        </div>
-                    </div>
-                    <div class="application-item">
-                        <div class="application-info">
-                            <img src="https://www.google.com/s2/favicons?domain=uber.com&sz=64" alt="Uber"
-                                class="application-logo">
-                            <div class="application-details">
-                                <h4>Driver Partner - Uber</h4>
-                                <p>Delhi • ₹25K-40K/month</p>
-                            </div>
-                        </div>
-                        <div class="application-status">
-                            <span class="status-badge interview">Interview</span>
-                            <div class="application-date">Applied Jan 22</div>
-                        </div>
-                    </div>
-                    <div class="application-item">
-                        <div class="application-info">
-                            <img src="https://www.google.com/s2/favicons?domain=flipkart.com&sz=64" alt="Flipkart"
-                                class="application-logo">
-                            <div class="application-details">
-                                <h4>Warehouse Associate - Flipkart</h4>
-                                <p>Gurgaon • ₹15K-20K/month</p>
-                            </div>
-                        </div>
-                        <div class="application-status">
-                            <span class="status-badge viewed">Viewed</span>
-                            <div class="application-date">Applied Jan 20</div>
-                        </div>
-                    </div>
-                    <div class="application-item">
-                        <div class="application-info">
-                            <img src="https://www.google.com/s2/favicons?domain=bigbasket.com&sz=64" alt="BigBasket"
-                                class="application-logo">
-                            <div class="application-details">
-                                <h4>Delivery Executive - BigBasket</h4>
-                                <p>Delhi • ₹16K-24K/month</p>
-                            </div>
-                        </div>
-                        <div class="application-status">
-                            <span class="status-badge applied">Applied</span>
-                            <div class="application-date">Applied Jan 18</div>
-                        </div>
-                    </div>
-                    <div class="browse-all-link">
-                        <a href="#">View All Applications <i class="fas fa-arrow-right"></i></a>
+                    <div class="browse-all-link" style="padding: 20px;">
+                        <a href="#">View All Saved Jobs <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </div>
             </div>
 
-            <!-- Right Section -->
-            <div class="right-section">
-                <!-- Messages -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-comment-dots"></i>
-                            Messages
-                        </div>
-                        <span class="badge-new">2 New</span>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-avatar" style="background: linear-gradient(135deg, #EF4444, #F87171);">Z
-                        </div>
-                        <div class="message-content">
-                            <div class="message-header">
-                                <span class="message-sender">Zomato HR</span>
-                                <span class="message-time">2 min ago</span>
-                            </div>
-                            <p class="message-preview">Congratulations! You've been shortlisted ...</p>
-                        </div>
-                        <div class="message-unread"></div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-avatar" style="background: linear-gradient(135deg, #0F172A, #334155);">U
-                        </div>
-                        <div class="message-content">
-                            <div class="message-header">
-                                <span class="message-sender">Uber Recruitment</span>
-                                <span class="message-time">1 hour ago</span>
-                            </div>
-                            <p class="message-preview">Your interview is scheduled for tomorrow ...</p>
-                        </div>
-                        <div class="message-unread"></div>
-                    </div>
-                    <div class="message-item">
-                        <div class="message-avatar" style="background: linear-gradient(135deg, #3B82F6, #60A5FA);">F
-                        </div>
-                        <div class="message-content">
-                            <div class="message-header">
-                                <span class="message-sender">Flipkart Jobs</span>
-                                <span class="message-time">2 days ago</span>
-                            </div>
-                            <p class="message-preview">Thank you for your application. We are review...</p>
-                        </div>
-                    </div>
-                    <div class="open-inbox-link">
-                        <a href="#">Open Inbox <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                </div>
-
-                <!-- My Profile -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-user-circle"></i>
-                            My Profile
-                        </div>
-                        <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
-                    </div>
-                    <div class="profile-card-content">
-                        <div class="profile-info">
-                            <div class="profile-avatar">RK</div>
+            <!-- Profile View -->
+            <div id="view-profile" class="view-section">
+                <!-- Header Card -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <div
+                        style="padding: 32px; display: flex; gap: 24px; align-items: flex-start; justify-content: space-between;">
+                        <div style="display: flex; gap: 24px;">
+                            <div class="profile-avatar profile-avatar-lg"
+                                style="width: 100px; height: 100px; font-size: 32px;">RK</div>
                             <div>
-                                <div class="profile-name">Rahul Kumar</div>
-                                <div class="profile-role">Delivery Executive</div>
+                                <h2 class="profile-name" style="font-size: 24px; margin-bottom: 8px;">Rahul Kumar</h2>
+                                <p class="profile-role"
+                                    style="font-size: 16px; margin-bottom: 12px; color: var(--gray-600);">Delivery
+                                    Executive</p>
+                                <div style="display: flex; gap: 16px; color: var(--gray-500); font-size: 14px;">
+                                    <span><i class="fas fa-map-marker-alt"></i> <span class="profile-city">Delhi
+                                            NCR</span></span>
+                                    <span><i class="fas fa-briefcase"></i> 1 Year 6 Months Exp</span>
+                                </div>
                             </div>
                         </div>
-                        <div class="profile-details">
-                            <div class="profile-detail-item">
-                                <span class="label"><i class="fas fa-map-marker-alt"></i> Location</span>
-                                <span class="value">Delhi NCR</span>
-                            </div>
-                            <div class="profile-detail-item">
-                                <span class="label"><i class="fas fa-briefcase"></i> Experience</span>
-                                <span class="value">1 Year 6 Months</span>
-                            </div>
-                            <div class="profile-detail-item">
-                                <span class="label"><i class="fas fa-rupee-sign"></i> Expected Salary</span>
-                                <span class="value">3-4 LPA</span>
-                            </div>
-                            <div class="profile-detail-item">
-                                <span class="label"><i class="fas fa-file-pdf"></i> Resume</span>
-                                <span class="value success"><i class="fas fa-check-circle"></i> Uploaded</span>
-                            </div>
-                        </div>
-                        <button class="complete-profile-btn">
-                            <i class="fas fa-check-circle"></i>
-                            Complete Profile (65%)
-                        </button>
+                        <button class="btn-post-job"><i class="fas fa-pen"></i> Edit Profile</button>
                     </div>
                 </div>
 
-                <!-- Job Alerts -->
-                <div class="card">
-                    <div class="card-header">
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+                    <!-- Left Column -->
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <!-- About -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-user"></i> About Me</div>
+                            </div>
+                            <div style="padding: 24px; color: var(--gray-600); line-height: 1.6;">
+                                Hardworking and reliable Delivery Partner with over 1.5 years of experience in the
+                                logistics and food delivery sector. Proven track record of on-time deliveries and
+                                excellent customer service. Familiar with Delhi NCR routes and traffic patterns. Open to
+                                full-time opportunities in delivery or warehouse operations.
+                            </div>
+                        </div>
+
+                        <!-- Work Experience -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-briefcase"></i> Work Experience</div>
+                                <button
+                                    style="color: var(--primary); background: none; border: none; font-weight: 600;">+
+                                    Add</button>
+                            </div>
+                            <div style="padding: 24px;">
+                                <div style="display: flex; gap: 16px; margin-bottom: 24px;">
+                                    <div
+                                        style="width: 48px; height: 48px; background: #FFF7ED; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #F97316;">
+                                        <i class="fas fa-motorcycle"></i>
+                                    </div>
+                                    <div>
+                                        <h4 style="font-weight: 600; margin-bottom: 4px;">Senior Delivery Partner</h4>
+                                        <p style="color: var(--primary); font-size: 14px; margin-bottom: 4px;">Zomato •
+                                            Full Time</p>
+                                        <p style="color: var(--gray-500); font-size: 12px;">Jan 2023 - Present • 1 yr 1
+                                            mo</p>
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 16px;">
+                                    <div
+                                        style="width: 48px; height: 48px; background: #ECFDF5; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #10B981;">
+                                        <i class="fas fa-box"></i>
+                                    </div>
+                                    <div>
+                                        <h4 style="font-weight: 600; margin-bottom: 4px;">Warehouse Helper</h4>
+                                        <p style="color: var(--primary); font-size: 14px; margin-bottom: 4px;">Amazon
+                                            Logistics • Contract</p>
+                                        <p style="color: var(--gray-500); font-size: 12px;">Jun 2022 - Dec 2022 • 6 mos
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Education -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-graduation-cap"></i> Education</div>
+                                <button
+                                    style="color: var(--primary); background: none; border: none; font-weight: 600;">+
+                                    Add</button>
+                            </div>
+                            <div style="padding: 24px;" id="profile-education-container">
+                                <!-- Dynamic Content -->
+                                <p style="color: var(--gray-500);">No education details provided.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div style="display: flex; flex-direction: column; gap: 24px;">
+                        <!-- Contact Info -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-address-card"></i> Contact Details</div>
+                            </div>
+                            <div style="padding: 24px;">
+                                <div style="margin-bottom: 16px;">
+                                    <label
+                                        style="font-size: 12px; color: var(--gray-500); display: block; margin-bottom: 4px;">Email
+                                        Address</label>
+                                    <div class="profile-email" style="color: var(--dark); font-weight: 500;">
+                                        rahul.kumar@gmail.com</div>
+                                </div>
+                                <div style="margin-bottom: 16px;">
+                                    <label
+                                        style="font-size: 12px; color: var(--gray-500); display: block; margin-bottom: 4px;">Phone
+                                        Number</label>
+                                    <div class="profile-phone" style="color: var(--dark); font-weight: 500;">+91 98765
+                                        43210</div>
+                                </div>
+                                <div>
+                                    <label
+                                        style="font-size: 12px; color: var(--gray-500); display: block; margin-bottom: 4px;">Location</label>
+                                    <div class="profile-city" style="color: var(--dark); font-weight: 500;">Delhi NCR
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Job Preferences -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-sliders-h"></i> Job Preferences</div>
+                                <button
+                                    style="color: var(--primary); background: none; border: none; font-weight: 600;">Edit</button>
+                            </div>
+                            <div style="padding: 24px;">
+                                <div style="margin-bottom: 16px; display: flex; justify-content: space-between;">
+                                    <div>
+                                        <label
+                                            style="font-size: 12px; color: var(--gray-500); display: block; margin-bottom: 4px;">Work
+                                            Type</label>
+                                        <div class="profile-work-type" style="color: var(--dark); font-weight: 500;">-
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label
+                                            style="font-size: 12px; color: var(--gray-500); display: block; margin-bottom: 4px;">Notice
+                                            Period</label>
+                                        <div class="profile-notice-period"
+                                            style="color: var(--dark); font-weight: 500;">-</div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label
+                                        style="font-size: 12px; color: var(--gray-500); display: block; margin-bottom: 4px;">Expected
+                                        Salary</label>
+                                    <div class="profile-expected-salary"
+                                        style="color: var(--success); font-weight: 600;">-</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Skills -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-tools"></i> Skills</div>
+                                <button
+                                    style="color: var(--primary); background: none; border: none; font-weight: 600;">Edit</button>
+                            </div>
+                            <div style="padding: 24px; display: flex; flex-wrap: wrap; gap: 8px;">
+                                <span
+                                    style="background: var(--gray-100); color: var(--gray-600); padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500;">Two
+                                    Wheeler Driving</span>
+                                <span
+                                    style="background: var(--gray-100); color: var(--gray-600); padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500;">Google
+                                    Maps</span>
+                                <span
+                                    style="background: var(--gray-100); color: var(--gray-600); padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500;">Time
+                                    Management</span>
+                                <span
+                                    style="background: var(--gray-100); color: var(--gray-600); padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500;">Hindi</span>
+                                <span
+                                    style="background: var(--gray-100); color: var(--gray-600); padding: 4px 12px; border-radius: 20px; font-size: 13px; font-weight: 500;">Basic
+                                    English</span>
+                            </div>
+                        </div>
+
+                        <!-- Resume -->
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title"><i class="fas fa-file-pdf"></i> Resume</div>
+                            </div>
+                            <div style="padding: 24px;">
+                                <div
+                                    style="display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--gray-200); border-radius: 8px; margin-bottom: 12px;">
+                                    <i class="fas fa-file-pdf" style="color: #EF4444; font-size: 24px;"></i>
+                                    <div style="flex: 1; overflow: hidden;">
+                                        <div
+                                            style="font-weight: 600; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                            Rahul_Kumar_Resume_2024.pdf</div>
+                                        <div style="font-size: 11px; color: var(--gray-500);">PDF • 1.2 MB</div>
+                                    </div>
+                                    <i class="fas fa-download" style="color: var(--gray-400); cursor: pointer;"></i>
+                                </div>
+                                <button
+                                    style="width: 100%; border: 1px dashed var(--primary); background: var(--primary-light); color: var(--primary); padding: 12px; border-radius: 8px; font-weight: 600; font-size: 14px;">
+                                    <i class="fas fa-upload"></i> Update Resume
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Job Alerts View -->
+            <div id="view-alerts" class="view-section">
+                <div class="card" style="max-width: 800px; margin: 0 auto; padding: 32px;">
+                    <div class="card-header" style="margin-bottom: 24px;">
                         <div class="card-title">
                             <i class="fas fa-bell"></i>
                             Job Alerts
                         </div>
+                        <button class="btn-post-job"><i class="fas fa-plus"></i> Create New Alert</button>
                     </div>
-                    <div class="job-alerts-content">
-                        <div class="alert-item">
-                            <span class="alert-label"><i class="fas fa-map-marker-alt"></i> Location</span>
-                            <span class="alert-value">Delhi NCR</span>
-                        </div>
-                        <div class="alert-item">
-                            <span class="alert-label"><i class="fas fa-th-large"></i> Category</span>
-                            <span class="alert-value">Delivery & Logistics</span>
-                        </div>
-                        <div class="alert-item">
-                            <span class="alert-label"><i class="fas fa-rupee-sign"></i> Min Salary</span>
-                            <span class="alert-value">₹15,000/month</span>
-                        </div>
-                        <div class="alert-item">
-                            <span class="alert-label"><i class="fab fa-whatsapp"></i> WhatsApp Alerts</span>
-                            <label class="toggle-switch">
-                                <input type="checkbox" checked>
-                                <span class="toggle-slider"></span>
-                            </label>
-                        </div>
-                        <div class="manage-alerts-link">
-                            <a href="#">Manage Alerts <i class="fas fa-arrow-right"></i></a>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Quick Actions -->
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-title">
-                            <i class="fas fa-bolt"></i>
-                            Quick Actions
+                    <div style="margin-bottom: 32px;">
+                        <h4 style="font-size: 16px; margin-bottom: 16px; color: var(--dark);">Active Alerts</h4>
+
+                        <!-- Alert Item 1 -->
+                        <div
+                            style="display: flex; align-items: center; justify-content: space-between; padding: 20px; border: 1px solid var(--gray-200); border-radius: 12px; margin-bottom: 12px; background: white;">
+                            <div style="display: flex; gap: 16px; align-items: center;">
+                                <div
+                                    style="width: 48px; height: 48px; background: #EEF2FF; border-radius: 50%; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                                    <i class="fas fa-motorcycle"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">Delivery Jobs in
+                                        Delhi NCR</h5>
+                                    <p style="font-size: 13px; color: var(--gray-500);">Filters: Full Time, > ₹15k •
+                                        Daily Digest</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 16px;">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <button
+                                    style="background: none; border: none; color: var(--gray-400); cursor: pointer;"><i
+                                        class="fas fa-trash-alt"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- Alert Item 2 -->
+                        <div
+                            style="display: flex; align-items: center; justify-content: space-between; padding: 20px; border: 1px solid var(--gray-200); border-radius: 12px; margin-bottom: 12px; background: white;">
+                            <div style="display: flex; gap: 16px; align-items: center;">
+                                <div
+                                    style="width: 48px; height: 48px; background: #F0FDF4; border-radius: 50%; color: var(--success); display: flex; align-items: center; justify-content: center; font-size: 20px;">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                                <div>
+                                    <h5 style="font-size: 16px; font-weight: 600; margin-bottom: 4px;">Warehouse Helper
+                                    </h5>
+                                    <p style="font-size: 13px; color: var(--gray-500);">Filters: Any Location • Instant
+                                        Alerts</p>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 16px;">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                                <button
+                                    style="background: none; border: none; color: var(--gray-400); cursor: pointer;"><i
+                                        class="fas fa-trash-alt"></i></button>
+                            </div>
                         </div>
                     </div>
-                    <div class="quick-actions-grid">
-                        <a href="#" class="quick-action-btn">
-                            <i class="fas fa-file-upload"></i>
-                            <span>Update Resume</span>
-                        </a>
-                        <a href="#" class="quick-action-btn">
-                            <i class="fas fa-search"></i>
-                            <span>Search Jobs</span>
-                        </a>
-                        <a href="#" class="quick-action-btn">
-                            <i class="fas fa-building"></i>
-                            <span>Browse Companies</span>
-                        </a>
-                        <a href="#" class="quick-action-btn">
-                            <i class="fas fa-headset"></i>
-                            <span>Get Support</span>
-                        </a>
+
+                    <div>
+                        <h4 style="font-size: 16px; margin-bottom: 16px; color: var(--dark);">Notification Preferences
+                        </h4>
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <div
+                                style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 1px solid var(--gray-100);">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <i class="fas fa-envelope"
+                                        style="color: var(--gray-400); font-size: 20px; width: 24px;"></i>
+                                    <div>
+                                        <div style="font-weight: 500;">Email Notifications</div>
+                                        <div style="font-size: 12px; color: var(--gray-500);">Receive job summaries via
+                                            email</div>
+                                    </div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    <i class="fab fa-whatsapp"
+                                        style="color: #25D366; font-size: 20px; width: 24px;"></i>
+                                    <div>
+                                        <div style="font-weight: 500;">WhatsApp Alerts</div>
+                                        <div style="font-size: 12px; color: var(--gray-500);">Get instant updates on
+                                            WhatsApp</div>
+                                    </div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!-- Settings View -->
+            <div id="view-settings" class="view-section">
+                <div class="card" style="max-width: 800px; margin: 0 auto;">
+                    <div class="card-header" style="padding: 24px 32px; border-bottom: 1px solid var(--gray-200);">
+                        <div class="card-title">
+                            <i class="fas fa-cog"></i>
+                            Settings
+                        </div>
+                    </div>
+
+                    <div style="padding: 32px;">
+                        <!-- Account Settings -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 24px; color: var(--dark);">
+                                Account Settings</h3>
+
+                            <div style="display: grid; gap: 24px;">
+                                <div>
+                                    <label
+                                        style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--gray-600);">Full
+                                        Name</label>
+                                    <input type="text" value="Rahul Kumar"
+                                        style="width: 100%; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: 8px; font-size: 14px; color: var(--dark); outline: none;">
+                                </div>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+                                    <div>
+                                        <label
+                                            style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--gray-600);">Email
+                                            Address</label>
+                                        <input type="email" value="rahul.kumar@gmail.com"
+                                            style="width: 100%; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: 8px; font-size: 14px; color: var(--dark); outline: none;">
+                                    </div>
+                                    <div>
+                                        <label
+                                            style="display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; color: var(--gray-600);">Phone
+                                            Number</label>
+                                        <input type="tel" value="+91 98765 43210"
+                                            style="width: 100%; padding: 12px 16px; border: 1px solid var(--gray-200); border-radius: 8px; font-size: 14px; color: var(--dark); outline: none;">
+                                    </div>
+                                </div>
+                                <button
+                                    style="justify-self: start; background: var(--primary); color: white; border: none; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer;">Save
+                                    Changes</button>
+                            </div>
+                        </div>
+
+                        <!-- Password & Security -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 24px; color: var(--dark);">
+                                Password & Security</h3>
+                            <button
+                                style="display: flex; align-items: center; gap: 12px; width: 100%; padding: 16px; border: 1px solid var(--gray-200); border-radius: 12px; background: white; cursor: pointer; text-align: left;">
+                                <div
+                                    style="width: 40px; height: 40px; background: var(--gray-100); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--dark);">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div style="flex: 1;">
+                                    <div style="font-weight: 600; font-size: 14px;">Change Password</div>
+                                    <div style="font-size: 12px; color: var(--gray-500);">Last changed 3 months ago
+                                    </div>
+                                </div>
+                                <i class="fas fa-chevron-right" style="color: var(--gray-400);"></i>
+                            </button>
+                        </div>
+
+                        <!-- Privacy -->
+                        <div style="margin-bottom: 40px;">
+                            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 24px; color: var(--dark);">
+                                Privacy</h3>
+                            <div
+                                style="display: flex; align-items: center; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--gray-100);">
+                                <div>
+                                    <div style="font-weight: 500; margin-bottom: 4px;">Profile Visibility</div>
+                                    <div style="font-size: 13px; color: var(--gray-500);">Allow recruiters to find
+                                        your profile</div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Danger Zone -->
+                        <div>
+                            <h3 style="font-size: 18px; font-weight: 600; margin-bottom: 24px; color: #EF4444;">
+                                Danger Zone</h3>
+                            <div
+                                style="border: 1px solid #FECACA; background: #FEF2F2; border-radius: 12px; padding: 24px;">
+                                <div style="font-weight: 600; color: #991B1B; margin-bottom: 8px;">Delete Account
+                                </div>
+                                <p style="font-size: 13px; color: #B91C1C; margin-bottom: 16px;">Once you delete
+                                    your account, there is no going back. Please be certain.</p>
+                                <button
+                                    style="background: #EF4444; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer;">Delete
+                                    Account</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </main>
 
-    <script>
-        // Dynamic greeting based on time
-        function updateGreeting() {
-            const hour = new Date().getHours();
-            let greeting = 'Good Evening';
-            if (hour < 12) greeting = 'Good Morning';
-            else if (hour < 17) greeting = 'Good Afternoon';
-            document.querySelector('.header-greeting h1').textContent = `${greeting}, Rahul!`;
-        }
-        updateGreeting();
+        <script>
+            // Dynamic greeting based on time
+            function updateGreeting() {
+                const hour = new Date().getHours();
+                let greeting = 'Good Evening';
+                if (hour < 12) greeting = 'Good Morning';
+                else if (hour < 17) greeting = 'Good Afternoon';
+                document.querySelector('.header-greeting h1').textContent = `${greeting}, Rahul!`;
+            }
+            updateGreeting();
 
-        // Sidebar active state
-        document.querySelectorAll('.sidebar-link').forEach(link => {
-            link.addEventListener('click', function (e) {
-                document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
+            // Sidebar Navigation Logic
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    // Ignore logout button
+                    if (this.id === 'logoutBtn') return;
+
+                    e.preventDefault();
+
+                    // Update active state
+                    document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Switch Views
+                    const navId = this.id;
+                    if (!navId) return;
+
+                    const viewId = navId.replace('nav-', 'view-');
+                    const targetView = document.getElementById(viewId);
+
+                    if (targetView) {
+                        // Hide all views
+                        document.querySelectorAll('.view-section').forEach(view => {
+                            view.style.display = 'none';
+                        });
+
+                        // Show target view
+                        targetView.style.display = (viewId === 'view-dashboard') ? 'grid' : 'block';
+                    }
+                });
             });
-        });
 
-        // Save job toggle
-        document.querySelectorAll('.btn-save').forEach(btn => {
-            btn.addEventListener('click', function () {
-                this.classList.toggle('saved');
-                const icon = this.querySelector('i');
-                if (this.classList.contains('saved')) {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas');
-                } else {
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
+            // Save job toggle
+            document.querySelectorAll('.btn-save').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    this.classList.toggle('saved');
+                    const icon = this.querySelector('i');
+                    if (this.classList.contains('saved')) {
+                        icon.classList.remove('far');
+                        icon.classList.add('fas');
+                    } else {
+                        icon.classList.remove('fas');
+                        icon.classList.add('far');
+                    }
+                });
+            });
+
+            // Apply button click
+            document.querySelectorAll('.btn-apply').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    const originalText = this.textContent;
+                    this.innerHTML = '<i class="fas fa-check"></i> Applied';
+                    this.style.background = '#10B981';
+                    this.disabled = true;
+                    setTimeout(() => {
+                        this.innerHTML = originalText;
+                        this.style.background = '';
+                        this.disabled = false;
+                    }, 2000);
+                });
+            });
+
+            // Search shortcut
+            document.addEventListener('keydown', function (e) {
+                if (e.ctrlKey && e.key === 'k') {
+                    e.preventDefault();
+                    document.querySelector('.header-search input').focus();
                 }
             });
-        });
+        </script>
+        <!-- Supabase Logic -->
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script>
+            const { createClient } = supabase;
+            const _sb = createClient('https://rjjfjzgvthhqeokfrrwd.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqamZqemd2dGhocWVva2ZycndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2Nzk0NzcsImV4cCI6MjA4NTI1NTQ3N30.xWlBJ5_wyI3oaVYDtpjmAF5aY-q1wpa_Uo6mFA45-ao');
 
-        // Apply button click
-        document.querySelectorAll('.btn-apply').forEach(btn => {
-            btn.addEventListener('click', function () {
-                const originalText = this.textContent;
-                this.innerHTML = '<i class="fas fa-check"></i> Applied';
-                this.style.background = '#10B981';
-                this.disabled = true;
-                setTimeout(() => {
-                    this.innerHTML = originalText;
-                    this.style.background = '';
-                    this.disabled = false;
-                }, 2000);
-            });
-        });
+            document.addEventListener('DOMContentLoaded', async () => {
+                const { data: { user } } = await _sb.auth.getUser();
+                if (!user) return window.location.href = 'login.html';
 
-        // Search shortcut
-        document.addEventListener('keydown', function (e) {
-            if (e.ctrlKey && e.key === 'k') {
-                e.preventDefault();
-                document.querySelector('.header-search input').focus();
-            }
-        });
-    </script>
-    <!-- Supabase Logic -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        const { createClient } = supabase;
-        const _sb = createClient('https://rjjfjzgvthhqeokfrrwd.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqamZqemd2dGhocWVva2ZycndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2Nzk0NzcsImV4cCI6MjA4NTI1NTQ3N30.xWlBJ5_wyI3oaVYDtpjmAF5aY-q1wpa_Uo6mFA45-ao');
+                const { data } = await _sb.from('candidates').select().eq('user_id', user.id).single();
+                if (data) {
+                    const fName = data.full_name || 'User';
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            const { data: { user } } = await _sb.auth.getUser();
-            if (!user) return window.location.href = 'login.html';
+                    // Update Name & Avatar
+                    document.querySelectorAll('.sidebar-user-name, .profile-name').forEach(e => e.textContent = fName);
+                    document.querySelectorAll('.sidebar-user-avatar, .profile-avatar').forEach(e => e.textContent = fName.substring(0, 2).toUpperCase());
 
-            const { data } = await _sb.from('candidates').select().eq('user_id', user.id).single();
-            if (data) {
-                const fName = data.full_name || 'User';
-                document.querySelectorAll('.sidebar-user-name, .profile-name').forEach(e => e.textContent = fName);
-                document.querySelector('.sidebar-user-avatar, .profile-avatar').textContent = fName.substring(0, 2).toUpperCase();
+                    const h1 = document.querySelector('.header-greeting h1');
+                    if (h1) h1.textContent = h1.textContent.split(',')[0] + ', ' + fName.split(' ')[0] + '!';
 
-                const h1 = document.querySelector('.header-greeting h1');
-                if (h1) h1.textContent = h1.textContent.split(',')[0] + ', ' + fName.split(' ')[0] + '!';
+                    // Update Location (City, State)
+                    const location = [data.city, data.state].filter(Boolean).join(', ') || 'Not Provided';
+                    document.querySelectorAll('.profile-city').forEach(e => e.textContent = location);
 
-                const locLabel = Array.from(document.querySelectorAll('.label')).find(l => l.innerHTML.includes('Location'));
-                if (locLabel && locLabel.nextElementSibling) locLabel.nextElementSibling.textContent = data.city;
-            }
+                    // Update Contact
+                    document.querySelectorAll('.profile-email').forEach(e => e.textContent = data.email || user.email);
+                    document.querySelectorAll('.profile-phone').forEach(e => e.textContent = data.phone || 'Not Provided');
 
-            // Logout Logic
-            document.getElementById('logoutBtn').addEventListener('click', async (e) => {
-                e.preventDefault();
-                if (confirm('Are you sure you want to logout?')) {
-                    await _sb.auth.signOut();
-                    window.location.href = 'login.html';
+                    // Experience
+                    let expString = 'Fresher';
+                    if (data.is_experienced) {
+                        expString = `${data.experience_years || 0} Years ${data.experience_months || 0} Months Exp`;
+                    }
+                    // Find the experience label in the header (icon is briefcase)
+                    const expIcon = Array.from(document.querySelectorAll('.fas.fa-briefcase')).find(i => i.nextSibling && i.nextSibling.textContent.includes('Exp'));
+                    if (expIcon && expIcon.parentElement) {
+                        expIcon.parentElement.innerHTML = `<i class="fas fa-briefcase"></i> ${expString}`;
+                    }
+
+                    // Education
+                    if (data.qualification) {
+                        const eduHTML = `
+                            <div style="display: flex; gap: 16px;">
+                                <div style="width: 48px; height: 48px; background: #DBEAFE; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #2563EB;">
+                                    <i class="fas fa-university"></i>
+                                </div>
+                                <div>
+                                    <h4 style="font-weight: 600; margin-bottom: 4px;">${data.course || data.qualification}</h4>
+                                    <p style="color: var(--primary); font-size: 14px; margin-bottom: 4px;">${data.college || 'College Name'}</p>
+                                    <p style="color: var(--gray-500); font-size: 12px;">Passing Year: ${data.passing_year || 'N/A'}</p>
+                                </div>
+                            </div>
+                        `;
+                        const eduContainer = document.getElementById('profile-education-container');
+                        if (eduContainer) eduContainer.innerHTML = eduHTML;
+                    }
+
+                    // Preferences
+                    document.querySelectorAll('.profile-work-type').forEach(e => e.textContent = data.work_type || 'Any');
+                    document.querySelectorAll('.profile-notice-period').forEach(e => e.textContent = data.notice_period || 'Immediate');
+
+                    if (data.expected_salary) {
+                        document.querySelectorAll('.profile-expected-salary').forEach(e => e.textContent = `₹${parseInt(data.expected_salary).toLocaleString()}/month`);
+                    }
                 }
+
+                // Logout Logic
+                document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to logout?')) {
+                        await _sb.auth.signOut();
+                        window.location.href = 'login.html';
+                    }
+                });
             });
-        });
-    </script>
+        </script>
 </body>
 
 </html>

@@ -137,6 +137,27 @@
             height: fit-content;
             position: sticky;
             top: 100px;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        /* Custom scrollbar for filters */
+        .filters::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .filters::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .filters::-webkit-scrollbar-thumb {
+            background: #c1c1c1;
+            border-radius: 10px;
+        }
+
+        .filters::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
         }
 
         .main-content {
@@ -410,9 +431,9 @@
     <div class="container">
         <aside class="filters">
             <div class="filter-group">
-                <h3 class="filter-title">Filters <a href="#" style="font-size:12px; color:var(--primary);">Clear all</a>
+                <h3 class="filter-title">Filters <a href="#" onclick="clearAllFilters(); return false;" style="font-size:12px; color:var(--primary);">Clear all</a>
                 </h3>
-                <p style="font-size:13px; color:var(--gray-400);">Showing 1,240 jobs</p>
+                <p id="jobCount" style="font-size:13px; color:var(--gray-400);">Loading...</p>
             </div>
 
             <div class="filter-group">
@@ -429,36 +450,31 @@
                     </div>
                 </div>
                 <div id="locationCheckboxes">
-                    <label class="checkbox-item"><input type="checkbox"> Bangalore</label>
-                    <label class="checkbox-item"><input type="checkbox"> Delhi NCR</label>
-                    <label class="checkbox-item"><input type="checkbox"> Mumbai</label>
-                    <label class="checkbox-item"><input type="checkbox"> Hyderabad</label>
-                    <label class="checkbox-item"><input type="checkbox"> Pune</label>
-                    <label class="checkbox-item"><input type="checkbox"> Chennai</label>
+                    <!-- Locations will be loaded dynamically -->
                 </div>
             </div>
 
             <div class="filter-group">
-                <div class="filter-title">Work Mode</div>
-                <label class="checkbox-item"><input type="checkbox" checked> Work from Office</label>
-                <label class="checkbox-item"><input type="checkbox"> Remote</label>
-                <label class="checkbox-item"><input type="checkbox"> Hybrid</label>
-            </div>
-
-            <div class="filter-group">
                 <div class="filter-title">Experience</div>
-                <label class="checkbox-item"><input type="checkbox" checked> Fresher</label>
-                <label class="checkbox-item"><input type="checkbox"> 1-3 Years</label>
-                <label class="checkbox-item"><input type="checkbox"> 3-5 Years</label>
-                <label class="checkbox-item"><input type="checkbox"> 5+ Years</label>
+                <label class="checkbox-item"><input type="checkbox" data-exp-min="0" data-exp-max="0" onchange="applyFilters()"> Fresher</label>
+                <label class="checkbox-item"><input type="checkbox" data-exp-min="1" data-exp-max="3" onchange="applyFilters()"> 1-3 Years</label>
+                <label class="checkbox-item"><input type="checkbox" data-exp-min="3" data-exp-max="5" onchange="applyFilters()"> 3-5 Years</label>
+                <label class="checkbox-item"><input type="checkbox" data-exp-min="5" data-exp-max="999" onchange="applyFilters()"> 5+ Years</label>
             </div>
 
             <div class="filter-group">
                 <div class="filter-title">Salary (LPA)</div>
-                <label class="checkbox-item"><input type="checkbox"> 0-3 Lakhs</label>
-                <label class="checkbox-item"><input type="checkbox" checked> 3-6 Lakhs</label>
-                <label class="checkbox-item"><input type="checkbox"> 6-10 Lakhs</label>
-                <label class="checkbox-item"><input type="checkbox"> 10+ Lakhs</label>
+                <label class="checkbox-item"><input type="checkbox" data-sal-min="0" data-sal-max="300000" onchange="applyFilters()"> 0-3 LPA</label>
+                <label class="checkbox-item"><input type="checkbox" data-sal-min="300000" data-sal-max="600000" onchange="applyFilters()"> 3-6 LPA</label>
+                <label class="checkbox-item"><input type="checkbox" data-sal-min="600000" data-sal-max="1000000" onchange="applyFilters()"> 6-10 LPA</label>
+                <label class="checkbox-item"><input type="checkbox" data-sal-min="1000000" data-sal-max="9999999" onchange="applyFilters()"> 10+ LPA</label>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-title">Work Mode</div>
+                <label class="checkbox-item"><input type="checkbox" value="Office" onchange="applyFilters()"> Office</label>
+                <label class="checkbox-item"><input type="checkbox" value="Hybrid" onchange="applyFilters()"> Hybrid</label>
+                <label class="checkbox-item"><input type="checkbox" value="Remote" onchange="applyFilters()"> Remote</label>
             </div>
 
             <div class="filter-group">
@@ -475,132 +491,23 @@
                     </div>
                 </div>
                 <div id="departmentCheckboxes">
-                    <label class="checkbox-item"><input type="checkbox"> Sales</label>
-                    <label class="checkbox-item"><input type="checkbox"> Engineering</label>
-                    <label class="checkbox-item"><input type="checkbox"> Marketing</label>
-                    <label class="checkbox-item"><input type="checkbox"> Operations</label>
+                    <!-- Categories will be loaded dynamically -->
                 </div>
             </div>
         </aside>
 
         <main class="main-content">
             <div class="search-header">
-                <input type="text" class="search-input" placeholder="Search by job title, skill, or company">
-                <input type="text" class="search-input" placeholder="Location">
-                <button class="search-btn">Search</button>
+                <input type="text" id="searchInput" class="search-input" placeholder="Search by job title, skill, or company">
+                <input type="text" id="searchLocation" class="search-input" placeholder="Location">
+                <button class="search-btn" onclick="applyFilters()">Search</button>
             </div>
 
-            <!-- Job Card 1 -->
-            <div class="job-card">
-                <div class="job-header">
-                    <img src="https://www.google.com/s2/favicons?domain=amazon.in&sz=64" class="company-logo"
-                        alt="Amazon">
-                    <div class="job-info">
-                        <h3>Senior Front-end Developer</h3>
-                        <div class="company-name">Amazon <span class="rating"><i class="fas fa-star"></i> 4.2</span>
-                        </div>
-                    </div>
-                    <div style="margin-left:auto;"><i class="far fa-bookmark"
-                            style="color:var(--gray-400); cursor:pointer;"></i></div>
-                </div>
-                <div class="job-details">
-                    <div class="detail-item"><i class="fas fa-briefcase"></i> 3-5 Yrs</div>
-                    <div class="detail-item"><i class="fas fa-rupee-sign"></i> 12-18 LPA</div>
-                    <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Bangalore</div>
-                </div>
-                <div class="job-tags">
-                    <span class="job-tag">React.js</span>
-                    <span class="job-tag">TypeScript</span>
-                    <span class="job-tag urgent">Urgent Hiring</span>
-                </div>
-                <div class="job-footer">
-                    <span class="posted-time">Posted 2 days ago</span>
-                    <button class="apply-btn" onclick="window.location.href='signup.html'">Apply Now</button>
-                </div>
-            </div>
-
-            <!-- Job Card 2 -->
-            <div class="job-card">
-                <div class="job-header">
-                    <img src="https://www.google.com/s2/favicons?domain=swiggy.com&sz=64" class="company-logo"
-                        alt="Swiggy">
-                    <div class="job-info">
-                        <h3>Business Development Executive</h3>
-                        <div class="company-name">Swiggy <span class="rating"><i class="fas fa-star"></i> 4.0</span>
-                        </div>
-                    </div>
-                    <div style="margin-left:auto;"><i class="far fa-bookmark"
-                            style="color:var(--gray-400); cursor:pointer;"></i></div>
-                </div>
-                <div class="job-details">
-                    <div class="detail-item"><i class="fas fa-briefcase"></i> 0-2 Yrs</div>
-                    <div class="detail-item"><i class="fas fa-rupee-sign"></i> 4-6 LPA</div>
-                    <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Delhi NCR</div>
-                </div>
-                <div class="job-tags">
-                    <span class="job-tag">Sales</span>
-                    <span class="job-tag">Communication</span>
-                    <span class="job-tag">Field Work</span>
-                </div>
-                <div class="job-footer">
-                    <span class="posted-time">Posted 5 hours ago</span>
-                    <button class="apply-btn" onclick="window.location.href='signup.html'">Apply Now</button>
-                </div>
-            </div>
-
-            <!-- Job Card 3 -->
-            <div class="job-card">
-                <div class="job-header">
-                    <img src="https://www.google.com/s2/favicons?domain=microsoft.com&sz=64" class="company-logo"
-                        alt="Microsoft">
-                    <div class="job-info">
-                        <h3>Data Analyst</h3>
-                        <div class="company-name">Microsoft <span class="rating"><i class="fas fa-star"></i> 4.5</span>
-                        </div>
-                    </div>
-                    <div style="margin-left:auto;"><i class="far fa-bookmark"
-                            style="color:var(--gray-400); cursor:pointer;"></i></div>
-                </div>
-                <div class="job-details">
-                    <div class="detail-item"><i class="fas fa-briefcase"></i> 1-3 Yrs</div>
-                    <div class="detail-item"><i class="fas fa-rupee-sign"></i> 8-12 LPA</div>
-                    <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Hyderabad</div>
-                </div>
-                <div class="job-tags">
-                    <span class="job-tag">SQL</span>
-                    <span class="job-tag">Python</span>
-                    <span class="job-tag">Power BI</span>
-                </div>
-                <div class="job-footer">
-                    <span class="posted-time">Posted 1 day ago</span>
-                    <button class="apply-btn" onclick="window.location.href='signup.html'">Apply Now</button>
-                </div>
-            </div>
-
-            <!-- Job Card 3 -->
-            <div class="job-card">
-                <div class="job-header">
-                    <img src="https://www.google.com/s2/favicons?domain=uber.com&sz=64" class="company-logo" alt="Uber">
-                    <div class="job-info">
-                        <h3>Marketing Manager</h3>
-                        <div class="company-name">Uber <span class="rating"><i class="fas fa-star"></i> 4.3</span></div>
-                    </div>
-                    <div style="margin-left:auto;"><i class="far fa-bookmark"
-                            style="color:var(--gray-400); cursor:pointer;"></i></div>
-                </div>
-                <div class="job-details">
-                    <div class="detail-item"><i class="fas fa-briefcase"></i> 4-7 Yrs</div>
-                    <div class="detail-item"><i class="fas fa-rupee-sign"></i> 15-22 LPA</div>
-                    <div class="detail-item"><i class="fas fa-map-marker-alt"></i> Mumbai</div>
-                </div>
-                <div class="job-tags">
-                    <span class="job-tag">Digital Marketing</span>
-                    <span class="job-tag">Campaigns</span>
-                    <span class="job-tag">Brand</span>
-                </div>
-                <div class="job-footer">
-                    <span class="posted-time">Posted 3 days ago</span>
-                    <button class="apply-btn" onclick="window.location.href='signup.html'">Apply Now</button>
+            <!-- Jobs will be loaded here dynamically -->
+            <div id="jobsContainer">
+                <div style="text-align: center; padding: 60px 0; color: var(--gray-400);">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 32px; margin-bottom: 16px;"></i>
+                    <p>Loading jobs...</p>
                 </div>
             </div>
 
@@ -611,11 +518,346 @@
                 <button class="page-btn"><i class="fas fa-chevron-right"></i></button>
             </div>
 
+
         </main>
     </div>
 
+    <!-- Supabase Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <script>
-        // Filter locations based on search input
+        // Store all jobs and filtered jobs
+        let allJobs = [];
+        let filteredJobs = [];
+        
+        // Global supabase client
+        let supabaseClient = null;
+
+        // Wait for everything to load
+        window.addEventListener('load', function() {
+            console.log('Page loaded, initializing...');
+            
+            // Initialize Supabase
+            if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+                supabaseClient = window.supabase.createClient(
+                    'https://rjjfjzgvthhqeokfrrwd.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqamZqemd2dGhocWVva2ZycndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2Nzk0NzcsImV4cCI6MjA4NTI1NTQ3N30.xWlBJ5_wyI3oaVYDtpjmAF5aY-q1wpa_Uo6mFA45-ao'
+                );
+                console.log('✅ Supabase initialized');
+            } else {
+                console.error('❌ Supabase library not available');
+                return;
+            }
+            
+            // Small delay then load
+            setTimeout(async function() {
+                await loadJobs();
+                await loadFilterOptions();
+            }, 100);
+        });
+
+        // Function to load all jobs from database
+        async function loadJobs() {
+            const container = document.getElementById('jobsContainer');
+            
+            try {
+                console.log('Loading jobs...');
+                
+                // Fetch jobs directly using supabaseClient
+                const { data, error } = await supabaseClient
+                    .from('Jobs')
+                    .select('*')
+                    .eq('is_active', true)
+                    .order('id', { ascending: false });
+                
+                if (error) {
+                    console.error('Database error:', error);
+                    throw error;
+                }
+                
+                console.log('✅ Loaded', data.length, 'jobs');
+                allJobs = data;
+                filteredJobs = data;
+                
+                if (!allJobs || allJobs.length === 0) {
+                    container.innerHTML = `
+                        <div style="text-align: center; padding: 60px 0; color: var(--gray-400);">
+                            <i class="fas fa-briefcase" style="font-size: 48px; margin-bottom: 16px; opacity: 0.3;"></i>
+                            <p style="font-size: 18px; font-weight: 500;">No jobs found</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Display all jobs initially
+                displayJobs(filteredJobs);
+                
+            } catch (error) {
+                console.error('Error loading jobs:', error);
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 60px 0; color: var(--gray-400);">
+                        <i class="fas fa-exclamation-circle" style="font-size: 48px; margin-bottom: 16px; color: #ff4444;"></i>
+                        <p style="font-size: 18px; font-weight: 500;">Failed to load jobs</p>
+                        <p style="font-size: 14px;">Please refresh the page</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load filter options from database
+        async function loadFilterOptions() {
+            try {
+                console.log('Loading filter options...');
+                
+                // Get unique locations from all jobs
+                const locations = [...new Set(allJobs.map(job => job.location))].sort();
+                const locationContainer = document.getElementById('locationCheckboxes');
+                locationContainer.innerHTML = locations.map(loc => 
+                    `<label class="checkbox-item">
+                        <input type="checkbox" value="${loc}" onchange="applyFilters()"> ${loc}
+                    </label>`
+                ).join('');
+
+                // Get unique categories from all jobs
+                const categories = [...new Set(allJobs.map(job => job.category))].sort();
+                const categoryContainer = document.getElementById('departmentCheckboxes');
+                categoryContainer.innerHTML = categories.map(cat => 
+                    `<label class="checkbox-item">
+                        <input type="checkbox" value="${cat}" onchange="applyFilters()"> ${cat}
+                    </label>`
+                ).join('');
+
+                console.log('✅ Filter options loaded');
+            } catch (error) {
+                console.error('Error loading filter options:', error);
+            }
+        }
+
+        // Apply all filters
+        function applyFilters() {
+            // Get search inputs
+            const searchText = document.getElementById('searchInput').value.toLowerCase().trim();
+            const searchLocation = document.getElementById('searchLocation').value.toLowerCase().trim();
+
+            // Get selected locations
+            const selectedLocations = Array.from(
+                document.querySelectorAll('#locationCheckboxes input[type="checkbox"]:checked')
+            ).map(cb => cb.value);
+
+            // Get selected categories
+            const selectedCategories = Array.from(
+                document.querySelectorAll('#departmentCheckboxes input[type="checkbox"]:checked')
+            ).map(cb => cb.value);
+
+            // Get selected experience ranges
+            const selectedExperience = Array.from(
+                document.querySelectorAll('[data-exp-min]:checked')
+            ).map(cb => ({
+                min: parseInt(cb.dataset.expMin),
+                max: parseInt(cb.dataset.expMax)
+            }));
+
+            // Get selected salary ranges
+            const selectedSalary = Array.from(
+                document.querySelectorAll('[data-sal-min]:checked')
+            ).map(cb => ({
+                min: parseInt(cb.dataset.salMin),
+                max: parseInt(cb.dataset.salMax)
+            }));
+
+            // Get selected work modes
+            const workModeCheckboxes = document.querySelectorAll('.filter-group input[type="checkbox"][value="Office"], .filter-group input[type="checkbox"][value="Hybrid"], .filter-group input[type="checkbox"][value="Remote"]');
+            const selectedWorkModes = Array.from(workModeCheckboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
+
+            // Filter jobs
+            filteredJobs = allJobs.filter(job => {
+                // Search filter
+                if (searchText) {
+                    const matchesSearch = 
+                        job.title.toLowerCase().includes(searchText) ||
+                        job.company_name.toLowerCase().includes(searchText) ||
+                        (job.description && job.description.toLowerCase().includes(searchText));
+                    if (!matchesSearch) return false;
+                }
+
+                // Location search filter (from top search bar)
+                if (searchLocation) {
+                    if (!job.location.toLowerCase().includes(searchLocation)) return false;
+                }
+
+                // Location checkbox filter
+                if (selectedLocations.length > 0) {
+                    if (!selectedLocations.includes(job.location)) return false;
+                }
+
+                // Category filter
+                if (selectedCategories.length > 0) {
+                    if (!selectedCategories.includes(job.category)) return false;
+                }
+
+                // Experience filter
+                if (selectedExperience.length > 0) {
+                    const jobExpMax = job.experience_max || 0;
+                    const jobExpMin = parseInt(job.experience_min) || 0;
+                    
+                    const matchesExp = selectedExperience.some(range => {
+                        // Job exp should overlap with selected range
+                        return !(jobExpMax < range.min || jobExpMin > range.max);
+                    });
+                    if (!matchesExp) return false;
+                }
+
+                // Salary filter
+                if (selectedSalary.length > 0) {
+                    const jobSalMax = job.salary_max || 0;
+                    const jobSalMin = job.salary_min || 0;
+                    
+                    const matchesSal = selectedSalary.some(range => {
+                        // Job salary should overlap with selected range (convert monthly to annual)
+                        const annualMin = jobSalMin * 12;
+                        const annualMax = jobSalMax * 12;
+                        return !(annualMax < range.min || annualMin > range.max);
+                    });
+                    if (!matchesSal) return false;
+                }
+
+                // Work mode filter
+                if (selectedWorkModes.length > 0) {
+                    if (!selectedWorkModes.includes(job.work_mode)) return false;
+                }
+
+                return true;
+            });
+
+            // Display filtered jobs
+            displayJobs(filteredJobs);
+        }
+
+        // Display jobs on page
+        function displayJobs(jobs) {
+            const container = document.getElementById('jobsContainer');
+            const countElement = document.getElementById('jobCount');
+            
+            // Update count
+            countElement.textContent = `Showing ${jobs.length} job${jobs.length !== 1 ? 's' : ''}`;
+
+            if (jobs.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 60px 0; color: var(--gray-400);">
+                        <i class="fas fa-search" style="font-size: 48px; margin-bottom: 16px; opacity: 0.3;"></i>
+                        <p style="font-size: 18px; font-weight: 500;">No jobs match your filters</p>
+                        <p style="font-size: 14px;">Try adjusting your search criteria</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Create job cards
+            container.innerHTML = jobs.map(job => createJobCard(job)).join('');
+        }
+
+        // Create a job card HTML
+        // Helper function to format salary range (convert monthly to LPA)
+        function formatSalaryRange(min, max) {
+            if (!min && !max) return 'Not disclosed';
+            
+            const formatAmount = (monthlyAmount) => {
+                // Convert monthly to annual (LPA)
+                const annual = monthlyAmount * 12;
+                const lpa = annual / 100000;
+                
+                if (lpa >= 1) {
+                    return lpa.toFixed(1) + ' LPA';
+                } else {
+                    return (annual / 1000).toFixed(0) + 'K PA';
+                }
+            };
+            
+            if (min && max) {
+                return formatAmount(min) + ' - ' + formatAmount(max);
+            } else if (min) {
+                return formatAmount(min) + '+';
+            } else {
+                return 'Up to ' + formatAmount(max);
+            }
+        }
+
+        // Helper function to format experience
+        function formatExperience(min, max) {
+            if (min === 0 && (!max || max === 0)) {
+                return 'Fresher';
+            } else if (min && max) {
+                return min + '-' + max + ' years';
+            } else if (min) {
+                return min + '+ years';
+            } else if (max) {
+                return 'Up to ' + max + ' years';
+            } else {
+                return 'Any experience';
+            }
+        }
+
+        function createJobCard(job) {
+            const salaryText = formatSalaryRange(job.salary_min, job.salary_max);
+            const expText = formatExperience(parseInt(job.experience_min) || 0, job.experience_max);
+            
+            return `
+                <div class="job-card">
+                    <div class="job-header">
+                        <img src="${job.company_logo || 'https://via.placeholder.com/64'}" 
+                             class="company-logo" 
+                             alt="${job.company_name}"
+                             onerror="this.src='https://via.placeholder.com/64'">
+                        <div class="job-info">
+                            <h3>${job.title}</h3>
+                            <div class="company-name">${job.company_name}</div>
+                        </div>
+                        <div style="margin-left:auto;">
+                            <i class="far fa-bookmark" style="color:var(--gray-400); cursor:pointer;"></i>
+                        </div>
+                    </div>
+                    <div class="job-details">
+                        <div class="detail-item">
+                            <i class="fas fa-briefcase"></i> ${expText}
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-rupee-sign"></i> ${salaryText}
+                        </div>
+                        <div class="detail-item">
+                            <i class="fas fa-map-marker-alt"></i> ${job.location}
+                        </div>
+                    </div>
+                    <div class="job-tags">
+                        <span class="job-tag">${job.category}</span>
+                        <span class="job-tag">${job.job_type}</span>
+                    </div>
+                    <div class="job-footer">
+                        <span class="posted-time">Active</span>
+                        <button class="apply-btn" onclick="applyToJob('${job.id}', '${job.title.replace(/'/g, "\\'")}', '${job.company_name.replace(/'/g, "\\'")}')">Apply Now</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Clear all filters
+        function clearAllFilters() {
+            // Clear search inputs
+            document.getElementById('searchInput').value = '';
+            document.getElementById('searchLocation').value = '';
+
+            // Uncheck all checkboxes
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+
+            // Reset to all jobs
+            filteredJobs = allJobs;
+            displayJobs(filteredJobs);
+        }
+
+        // Filter location checkboxes based on search
         function filterLocations(searchTerm) {
             const container = document.getElementById('locationCheckboxes');
             const labels = container.querySelectorAll('.checkbox-item');
@@ -631,7 +873,7 @@
             });
         }
 
-        // Filter departments based on search input
+        // Filter department checkboxes based on search
         function filterDepartments(searchTerm) {
             const container = document.getElementById('departmentCheckboxes');
             const labels = container.querySelectorAll('.checkbox-item');
@@ -645,6 +887,73 @@
                     label.style.display = 'none';
                 }
             });
+        }
+
+        // Apply to job function
+        async function applyToJob(jobId, jobTitle, company) {
+            try {
+                // Check if user is logged in
+                const { data: { user } } = await supabaseClient.auth.getUser();
+                if (!user) {
+                    if (confirm('Please login to apply for jobs. Go to login page?')) {
+                        window.location.href = 'login.html';
+                    }
+                    return;
+                }
+                
+                // Get candidate ID
+                const { data: candidate, error: candidateError } = await supabaseClient
+                    .from('candidates')
+                    .select('id')
+                    .eq('user_id', user.id)
+                    .single();
+                
+                if (candidateError || !candidate) {
+                    alert('Profile not found. Please complete your profile.');
+                    return;
+                }
+                
+                // Check if already applied
+                const { data: existing } = await supabaseClient
+                    .from('applications')
+                    .select('id')
+                    .eq('candidate_id', candidate.id)
+                    .eq('job_id', jobId)
+                    .maybeSingle();
+                
+                if (existing) {
+                    alert('You have already applied to this job!');
+                    return;
+                }
+                
+                // Create application
+                const { error: applyError } = await supabaseClient
+                    .from('applications')
+                    .insert({
+                        candidate_id: candidate.id,
+                        job_id: jobId,
+                        status: 'applied'
+                    });
+                
+                if (applyError) throw applyError;
+                
+                alert(`Successfully applied to ${jobTitle} at ${company}!`);
+                
+                // Update button - find the button that was clicked
+                const buttons = document.querySelectorAll('.apply-btn');
+                buttons.forEach(btn => {
+                    if (btn.onclick && btn.onclick.toString().includes(jobId)) {
+                        btn.innerHTML = '✓ Applied';
+                        btn.disabled = true;
+                        btn.style.background = 'var(--success)';
+                        btn.style.cursor = 'not-allowed';
+                    }
+                });
+                
+            } catch (error) {
+                console.error('Error applying:', error);
+                alert('Failed to apply. Please try again.');
+            }
         }
     </script>
 </body>

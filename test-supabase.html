@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supabase Test</title>
+</head>
+<body>
+    <h1>Supabase Connection Test</h1>
+    <div id="result">Testing...</div>
+
+    <!-- Load Supabase library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <script>
+        const resultDiv = document.getElementById('result');
+        
+        // Wait for library to load
+        window.addEventListener('load', async function() {
+            try {
+                resultDiv.innerHTML = 'Step 1: Checking if Supabase library loaded...<br>';
+                
+                if (typeof window.supabase === 'undefined') {
+                    resultDiv.innerHTML += '❌ ERROR: Supabase library not loaded<br>';
+                    return;
+                }
+                resultDiv.innerHTML += '✅ Supabase library loaded<br><br>';
+                
+                resultDiv.innerHTML += 'Step 2: Creating Supabase client...<br>';
+                const supabaseClient = window.supabase.createClient(
+                    'https://rjjfjzgvthhqeokfrrwd.supabase.co',
+                    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJqamZqemd2dGhocWVva2ZycndkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk2Nzk0NzcsImV4cCI6MjA4NTI1NTQ3N30.xWlBJ5_wyI3oaVYDtpjmAF5aY-q1wpa_Uo6mFA45-ao'
+                );
+                resultDiv.innerHTML += '✅ Client created<br><br>';
+                
+                resultDiv.innerHTML += 'Step 3: Fetching jobs from database...<br>';
+                const { data, error } = await supabaseClient
+                    .from('Jobs')
+                    .select('*')
+                    .limit(5);
+                
+                if (error) {
+                    resultDiv.innerHTML += '❌ ERROR fetching jobs: ' + error.message + '<br>';
+                    console.error('Supabase error:', error);
+                    return;
+                }
+                
+                resultDiv.innerHTML += '✅ Successfully fetched ' + data.length + ' jobs!<br><br>';
+                resultDiv.innerHTML += '<h2>Jobs Found:</h2>';
+                data.forEach(job => {
+                    resultDiv.innerHTML += `<div style="margin: 10px; padding: 10px; border: 1px solid #ccc;">
+                        <strong>${job.title}</strong> at ${job.company_name}<br>
+                        Location: ${job.location}<br>
+                        Salary: ₹${job.salary_min} - ₹${job.salary_max}
+                    </div>`;
+                });
+                
+            } catch (err) {
+                resultDiv.innerHTML += '❌ EXCEPTION: ' + err.message + '<br>';
+                console.error('Exception:', err);
+            }
+        });
+    </script>
+</body>
+</html>
